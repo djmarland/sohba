@@ -1,0 +1,42 @@
+<?php
+declare(strict_types=1);
+use App\Controller;
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Route;
+$collection = new RouteCollection();
+
+// home
+$collection->add('home', new Route('/home', [
+    '_controller' => Controller\Home\HomeAction::class,
+]));
+
+$collection->add('schedule_today', new Route('/schedules', [
+    '_controller' => Controller\Schedules\TodayAction::class,
+]));
+
+$collection->add('schedule_date', new Route('/schedules/{year}-{month}-{day}', [
+    '_controller' => Controller\Schedules\DateAction::class,
+    // todo - reqs for year, month, day
+]));
+
+$collection->add('schedule_day', new Route('/schedules/{day}', [
+    '_controller' => Controller\Schedules\DayAction::class,
+], [
+    'day' => '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)'
+]));
+
+$collection->add('programmes_list', new Route('/programmes', [
+    '_controller' => Controller\Programmes\ListAction::class,
+]));
+
+$collection->add('programmes_show', new Route('/programmes/{showId}', [
+    '_controller' => Controller\Programmes\ShowAction::class,
+    // todo - uuid
+]));
+
+
+$collection->add('page', new Route('/{page}', [
+    '_controller' => Controller\Page\ShowAction::class,
+]));
+
+return $collection;
