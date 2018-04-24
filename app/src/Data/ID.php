@@ -1,0 +1,50 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Data;
+
+use App\Data\Database\Entity\Programme;
+use InvalidArgumentException;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+
+class ID
+{
+    private const ENTITY_MAPPINGS = [
+        Programme::class => 'edfa',
+    ];
+
+    private const NAMESPACE = '00000000-0000-0000-0000-000000000000';
+
+    public static function makeNewID(string $entityClass): UuidInterface
+    {
+        if (!isset(self::ENTITY_MAPPINGS[$entityClass])) {
+            throw new InvalidArgumentException($entityClass . ' not in the list of entity mappings');
+        }
+
+        return self::markUuid(Uuid::uuid4(), $entityClass);
+    }
+
+    public static function makeIDFromKey(string $entityClass, string $key): UuidInterface
+    {
+        $uuid = Uuid::uuid5(self::NAMESPACE, sha1($key));
+        return self::markUuid($uuid, $entityClass);
+    }
+
+    public static function getIDType(UuidInterface $id)
+    {
+        $part = (string)substr((string)$id, 9, 4);
+        $map = array_flip(self::ENTITY_MAPPINGS);
+        if ($map[$part]) {
+            return $map[$part];
+        }
+        throw new InvalidArgumentException('Id not recognised');
+    }
+
+    private static function markUuid(UuidInterface $uuid, string $entityClass)
+    {
+        $str = (string)$uuid;
+        $str = substr_replace($str, self::ENTITY_MAPPINGS[$entityClass], 9, 4);
+        return Uuid::fromString($str);
+    }
+}

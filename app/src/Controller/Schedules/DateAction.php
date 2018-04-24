@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DateAction extends AbstractController
 {
-    public function handleRequest(
+    public function __invoke(
         Request $request
     ): Response {
         // todo - inject the current time and calculate today
@@ -17,8 +17,11 @@ class DateAction extends AbstractController
         $month = $request->get('month');
         $day = $request->get('day');
 
-        return $this->render('schedules/show.html.twig', [
-            'date' => 'DATE ' . $year . '-' . $month . '-' . $day,
-        ]);
+        return $this->renderMainSite(
+            'schedules/show.html.twig',
+            [
+                'date' => 'DATE ' . $year . '-' . $month . '-' . $day,
+            ]
+        );
     }
 }

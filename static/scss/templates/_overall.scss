@@ -1,0 +1,33 @@
+.t-overall {
+  $nav-width: 240px;
+
+  &__now-on {
+    background: $color-primary-dark;
+    color: $color-white;
+    padding: $grid-unit;
+  }
+  &__main {
+    padding: $grid-unit;
+  }
+  &__nav {
+
+  }
+
+  @media (min-width:48rem) {
+    display: grid;
+    grid-template-columns: [nav] $nav-width [main] 1fr [edge-right];
+    grid-template-rows: [top] auto [content-start] 1fr [end];
+    &__now-on {
+      grid-column: main / edge-right;
+      grid-row: top / content-start;
+    }
+    &__main {
+      grid-column: main / edge-right;
+      grid-row: content-start / end;
+    }
+    &__nav {
+      grid-column: nav / main;
+      grid-row: top / end;
+    }
+  }
+}

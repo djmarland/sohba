@@ -1,0 +1,50 @@
+// Colours
+$color-black: #121212;
+
+$color-info: hsla(200, 50%, 52%, 1);
+$color-ok: hsla(131, 50%, 52%, 1);
+$color-important: hsla(10, 50%, 52%, 1);
+$color-warning: hsla(50, 50%, 52%, 1);
+
+$color-grey-darkest: #444148;
+$color-grey-dark: #777;
+$color-grey-mid: #999;
+$color-grey-light: #bbb;
+$color-grey-lightest: #ddd;
+$color-white: #fafafa;
+
+$color-primary-dark: #182938;
+$color-primary-mid: #305370;
+$color-primary-light: #4f8fc3;
+
+$color-text: #424248;
+$color-body: #d0e6f3;
+$color-page: #fdfdfd;
+$color-link: #3C4C9C;
+
+$color-keyline: #93939c;
+
+$color-panel: #a5c5c9;
+
+$color-masthead-background: $color-primary-mid;
+$color-masthead-text: $color-white;
+
+// Sizes
+$max-content-width: 980px;
+$grid-unit: 16px;
+
+// Fonts
+$font-body: -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  "Roboto",
+  "Oxygen",
+  "Ubuntu",
+  "Cantarell",
+  "Fira Sans",
+  "Droid Sans",
+  "Helvetica Neue",
+  sans-serif-light,
+  sans-serif;
+
+$font-heading: inherit;

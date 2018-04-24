@@ -2,5 +2,9 @@
 
 {% block body %}
     <h1>LIST OF SHOWS</h1>
-    <p>todo - alphabet list, with a jump down</p>
+    <ul>
+        {% for programme in programmes %}
+            <li>{{ programme.title }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -2,12 +2,40 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Southampton Hospital Radio{% endblock %}</title>
+        <link rel="stylesheet" href="/static/{{ baseAssetManifest['app.css'] }}" />
     </head>
     <body>
-        <h1>SOHBA</h1>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="page-wrap">
+            <header class="masthead">
+                <span class="masthead__text">Southampton Hospital Radio</span>
+                <a href="#nav" class="masthead__menu-link" title="Show navigation">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                    </svg>
+                </a>
+            </header>
+            <main class="t-overall">
+                <div class="t-overall__now-on">Now on: blah blah blah</div>
+                <div class="t-overall__main">
+                    {% block body %}{% endblock %}
+                </div>
+                <nav id="nav" class="t-overall__nav">
+                    <ul>
+                        <li><a href="/">Home page</a></li>
+                        {% for group in baseNavPresenter.groups %}
+                            <li>
+                                <span class="nav__groupt-title">{{ group.title }}</span>
+                                <ul>
+                                    {% for page in group.pages %}
+                                        <li><a href="/{{ page.legacyId }}">{{ page.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </main>
+        </div>
     </body>
 </html>

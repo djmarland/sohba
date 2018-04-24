@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Project Test Suite" tests="1" assertions="8" errors="0" failures="0" skipped="0" time="0.083315">
+    <testsuite name="Tests\App\Presenter\NavigationPresenterTest" file="/var/www/html/app/tests/Presenter/NavigationPresenterTest.php" tests="1" assertions="8" errors="0" failures="0" skipped="0" time="0.083315">
+      <testcase name="testGroupsBrokenOut" class="Tests\App\Presenter\NavigationPresenterTest" classname="Tests.App.Presenter.NavigationPresenterTest" file="/var/www/html/app/tests/Presenter/NavigationPresenterTest.php" line="13" assertions="8" time="0.083315"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

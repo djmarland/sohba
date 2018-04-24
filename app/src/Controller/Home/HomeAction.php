@@ -9,11 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeAction extends AbstractController
 {
-    public function handleRequest(
+    public function __invoke(
         Request $request
     ): Response {
-        return $this->render('home/home.html.twig', [
-            'name' => 'rase',
-        ]);
+        return $this->renderMainSite(
+            'home/home.html.twig',
+            [
+                'name' => 'rase',
+            ]
+        );
     }
 }

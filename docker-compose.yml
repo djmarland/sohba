@@ -14,11 +14,18 @@ services:
     restart: always
     image: mysql:5.6
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sohbaorg_sohba
     ports:
       - "3306:3306"
     volumes:
       - sohbamysql-data:/var/lib/sohbamysql
+
+  sohba-node:
+    image: kkarczmarczyk/node-yarn:latest
+    volumes:
+      - .:/var/www
+    working_dir: /var/www/static
 
 volumes:
   sohbamysql-data:

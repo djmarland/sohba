@@ -1,0 +1,20 @@
+.masthead {
+  background: $color-masthead-background;
+  color: $color-masthead-text;
+  display: flex;
+  align-items: center;
+
+  &__text {
+    @extend .d;
+    flex: 1;
+    padding: $grid-unit;
+  }
+
+  &__menu-link {
+    display: block;
+    width: $grid-unit * 2;
+    height: $grid-unit * 2;
+    fill: $color-masthead-text;
+    margin: $grid-unit;
+  }
+}

@@ -9,13 +9,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TodayAction extends AbstractController
 {
-    public function handleRequest(
+    public function __invoke(
         Request $request
     ): Response {
         // todo - inject the current time and calculate today
 
-        return $this->render('schedules/show.html.twig', [
-            'date' => (new \DateTimeImmutable())->format('c'),
-        ]);
+        return $this->renderMainSite(
+            'schedules/show.html.twig',
+            [
+                'date' => (new \DateTimeImmutable())->format('c'),
+            ]
+        );
     }
 }

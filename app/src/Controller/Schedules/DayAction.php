@@ -9,14 +9,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DayAction extends AbstractController
 {
-    public function handleRequest(
+    public function __invoke(
         Request $request
     ): Response {
         // todo - inject the current time and calculate today
         $day = $request->get('day');
 
-        return $this->render('schedules/show.html.twig', [
-            'date' => 'DAY ' . $day,
-        ]);
+        return $this->renderMainSite(
+            'schedules/show.html.twig',
+            [
+                'date' => 'DAY ' . $day,
+            ]
+        );
     }
 }

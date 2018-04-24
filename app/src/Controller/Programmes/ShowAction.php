@@ -9,15 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShowAction extends AbstractController
 {
-    public function handleRequest(
+    public function __invoke(
         Request $request
     ): Response {
         $showId = $request->get('showId');
 
         // todo - check it exists
 
-        return $this->render('programmes/show.html.twig', [
-            'showId' => $showId,
-        ]);
+        return $this->renderMainSite(
+            'programmes/show.html.twig',
+            [
+                'showId' => $showId,
+            ]
+        );
     }
 }

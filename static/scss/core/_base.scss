@@ -1,0 +1,27 @@
+body {
+  background: $color-body;
+  color: $color-text;
+  font-family: $font-body;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  font-weight: inherit;
+  color: $color-link;
+  text-decoration: inherit;
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.page-wrap {
+  width: 100%;
+  background: $color-page;
+  max-width: $max-content-width;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
