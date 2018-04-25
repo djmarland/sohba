@@ -1,0 +1,31 @@
+.nav {
+  @extend .list--unstyled;
+
+  &__sub {
+    @extend .list--unstyled;
+  }
+
+  &__item {
+    display: block;
+    padding: $grid-unit / 2;
+    color: $color-nav-link;
+    background: $color-nav-link-background;
+    font-weight: bold;
+  }
+
+  &__group-title {
+    display: block;
+    background: $color-primary-mid;
+    margin-bottom: 2px;
+    border-radius: 4px;
+  }
+
+  a {
+    color: $color-nav-link;
+
+    &:hover, &:focus {
+      color: $color-nav-link-hover;
+      background: $color-nav-link-hover-background;
+    }
+  }
+}

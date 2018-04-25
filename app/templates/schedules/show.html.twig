@@ -1,5 +1,32 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h1>SCHEDULES {{ date }}</h1>
+    <div class="text--prose">
+        <h1>SCHEDULES {{ date }}</h1>
+        <p>This is the intro</p>
+    </div>
+
+    <ul class="schedule-days">
+        <li><a href="/schedules/monday">Monday</a></li>
+        <li><a href="/schedules/tuesday">Tuesday</a></li>
+        <li><a href="/schedules/wednesday">Wednesday</a></li>
+        <li><a href="/schedules/thursday">Thursday</a></li>
+        <li><a href="/schedules/friday">Friday</a></li>
+        <li><a href="/schedules/saturday">Saturday</a></li>
+        <li><a href="/schedules/sunday">Sunday</a></li>
+    </ul>
+
+    <ol class="schedule-list">
+        {% for show in shows %}
+        <li class="schedule-list__item">
+            <a class="schedule-list__link" href="/viewShow.php?showID={{ show.id }}">
+                <h2 class="c schedule-list__time">{{ show.time }}</h2>
+                <div class="schedule-list__programme">
+                    <h3 class="d schedule-list__programme-title">{{ show.title }}</h3>
+                    <p class="schedule-list__programme-synopsis">{{ show.synopsis }}</p>
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ol>
 {% endblock %}

@@ -1,0 +1,40 @@
+.schedule-list {
+  $root: &;
+
+  @extend .list--unstyled;
+  &__item {
+    display: block;
+    border-bottom: solid 1px $color-grey-lightest;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  &__link {
+    display: flex;
+    align-items: start;
+    padding: $grid-unit 0;
+    &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+  &__time {
+    width: 72px;
+    font-weight: lighter;
+    margin-right: $grid-unit;
+    line-height: 1;
+    color: $color-text;
+  }
+  &__programme {
+    flex: 1;
+  }
+  &__programme-title {
+    line-height: 1;
+    margin-bottom: $grid-unit / 2;
+    #{$root}__link:hover &, #{$root}__link:active & {
+      text-decoration: underline;
+    }
+  }
+  &__programme-synopsis {
+    color: $color-text;
+  }
+}

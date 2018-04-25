@@ -15,20 +15,30 @@
                     </svg>
                 </a>
             </header>
+            <div class="now-on">Now on: blah blah blah</div>
             <main class="t-overall">
-                <div class="t-overall__now-on">Now on: blah blah blah</div>
                 <div class="t-overall__main">
                     {% block body %}{% endblock %}
+                    <div class="t-overall__donate">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="SALKECKZ6E3GE">
+                            <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
+                            <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+                    </div>
                 </div>
                 <nav id="nav" class="t-overall__nav">
-                    <ul>
-                        <li><a href="/">Home page</a></li>
+                    <ul class="nav">
+                        <li>
+                            <span class="nav__group-title"><a href="/" class="nav__item">Home Page</a></span>
+                        </li>
                         {% for group in baseNavPresenter.groups %}
                             <li>
-                                <span class="nav__groupt-title">{{ group.title }}</span>
-                                <ul>
+                                <span class="nav__group-title nav__item">{{ group.title }}</span>
+                                <ul class="nav__sub">
                                     {% for page in group.pages %}
-                                        <li><a href="/{{ page.legacyId }}">{{ page.title }}</a></li>
+                                        <li><a class="nav__item" href="/{{ page.legacyId }}">{{ page.title }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>
@@ -36,6 +46,9 @@
                     </ul>
                 </nav>
             </main>
+            <footer>
+                FOOTER
+            </footer>
         </div>
     </body>
 </html>

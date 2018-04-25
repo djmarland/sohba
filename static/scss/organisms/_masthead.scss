@@ -1,5 +1,5 @@
 .masthead {
-  background: $color-masthead-background;
+  background: $color-masthead-background; // todo - url('banner.png') top right no-repeat;
   color: $color-masthead-text;
   display: flex;
   align-items: center;
@@ -16,5 +16,9 @@
     height: $grid-unit * 2;
     fill: $color-masthead-text;
     margin: $grid-unit;
+
+    @media (min-width: 48rem) {
+      display: none;
+    }
   }
 }

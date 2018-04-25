@@ -14,6 +14,7 @@ a {
   &:active,
   &:focus {
     text-decoration: underline;
+    color: $color-hover;
   }
 }
 

@@ -21,6 +21,7 @@ $color-text: #424248;
 $color-body: #d0e6f3;
 $color-page: #fdfdfd;
 $color-link: #3C4C9C;
+$color-hover: #efb223;
 
 $color-keyline: #93939c;
 
@@ -28,6 +29,11 @@ $color-panel: #a5c5c9;
 
 $color-masthead-background: $color-primary-mid;
 $color-masthead-text: $color-white;
+
+$color-nav-link: $color-white;
+$color-nav-link-background: transparent;
+$color-nav-link-hover: $color-black;
+$color-nav-link-hover-background: $color-hover;
 
 // Sizes
 $max-content-width: 980px;
