@@ -1,0 +1,31 @@
+<div class="calendar">
+    <table class="calendar__table">
+        <caption>{{ calendar.monthTitle }}</caption>
+        <thead>
+        <tr>
+            <th><abbr title="Monday">M</abbr></th>
+            <th><abbr title="Tuesday">T</abbr></th>
+            <th><abbr title="Wednesday">W</abbr></th>
+            <th><abbr title="Thursday">T</abbr></th>
+            <th><abbr title="Friday">F</abbr></th>
+            <th><abbr title="Saturday">S</abbr></th>
+            <th><abbr title="Sunday">S</abbr></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for week in calendar.weeks %}
+            <tr>
+                {% for day in week %}
+                    <td>
+                        {% if day %}
+                            <a href="{{ day.link }}"
+                               {% if day.isSpecial %}class="calendar__day--highlight"{% endif %}
+                            >{{ day.dateNumber }}</a>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

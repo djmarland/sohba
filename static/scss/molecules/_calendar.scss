@@ -1,0 +1,37 @@
+.calendar {
+
+  display: inline-block;
+  width: 240px;
+  text-align: center;
+  margin: $grid-unit $grid-unit 0 0;
+  vertical-align: top;
+
+  &__table {
+    width: 100%;
+
+    caption {
+      padding: $grid-unit/2;
+      background: $color-grey-lightest;
+      margin-bottom: $grid-unit;
+    }
+
+    th, a {
+      padding: $grid-unit/4;
+    }
+    abbr {
+      text-decoration: none;
+    }
+    a {
+      display: block;
+      &:hover, &:active {
+        background: $color-hover;
+        color: $color-text;
+      }
+    }
+  }
+
+  &__day--highlight {
+    background: $color-grey-lightest;
+    font-weight: bold;
+  }
+}

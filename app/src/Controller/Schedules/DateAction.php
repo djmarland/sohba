@@ -3,25 +3,28 @@ declare(strict_types=1);
 
 namespace App\Controller\Schedules;
 
-use App\Controller\AbstractController;
+use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DateAction extends AbstractController
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class DateAction extends AbstractSchedulesAction
 {
     public function __invoke(
         Request $request
     ): Response {
-        // todo - inject the current time and calculate today
-        $year = $request->get('year');
-        $month = $request->get('month');
-        $day = $request->get('day');
+        $year = (int) $request->get('year');
+        $month = (int) $request->get('month');
+        $day = (int) $request->get('day');
 
-        return $this->renderMainSite(
-            'schedules/show.html.twig',
-            [
-                'date' => 'DATE ' . $year . '-' . $month . '-' . $day,
-            ]
-        );
+        if (!checkdate($month, $day, $year)) {
+            throw new NotFoundHttpException('No such date');
+        }
+
+        $date = new DateTimeImmutable();
+        $date = $date->setDate($year, $month, $day);
+
+        return $this->renderDate($date);
     }
 }

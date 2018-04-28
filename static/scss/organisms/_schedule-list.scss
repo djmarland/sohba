@@ -15,6 +15,12 @@
     padding: $grid-unit 0;
     &:hover, &:active {
       text-decoration: none;
+      background: $color-grey-lightest;
+      padding: $grid-unit;
+      margin: (-1px) (-$grid-unit);
+      border-top: solid 1px $color-grey-lightest;
+      border-bottom: solid 1px $color-grey-lightest;
+      color: $color-link;
     }
   }
   &__time {
@@ -34,7 +40,11 @@
       text-decoration: underline;
     }
   }
-  &__programme-synopsis {
+  &__programme-tagline {
     color: $color-text;
+  }
+  &__programme-image {
+    width: 80px;
+    margin-right: $grid-unit;
   }
 }

@@ -20,7 +20,10 @@ class ProgrammeMapper implements MapperInterface
     {
         return new Programme(
             $item['id'],
+            $item['pkid'],
             $item['title'],
+            !empty($item['tagline']) ? $item['tagline'] : null,
+            !empty($item['description']) ? $item['description'] : null,
             $this->mapImage($item)
         );
     }
@@ -29,7 +32,7 @@ class ProgrammeMapper implements MapperInterface
     {
         if (array_key_exists('image', $item)) {
             if (isset($item['image'])) {
-                $this->imageMapper->map($item['image']);
+                return $this->imageMapper->map($item['image']);
             }
             return new NullImage();
         }

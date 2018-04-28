@@ -35,5 +35,6 @@ abstract class AbstractEntity
         UuidInterface $id
     ) {
         $this->id = $id;
+        $this->uuid = (string)$this->id;
     }
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Data\Database\Entity;
 
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 

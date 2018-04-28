@@ -1,0 +1,33 @@
+.t-schedules {
+  $nav-width: 240px;
+
+  &__jump {
+    margin-bottom: $grid-unit;
+  }
+
+  &__listings {
+    margin-bottom: $grid-unit;
+  }
+
+  &__heading {
+    margin-bottom: $grid-unit;
+    line-height: 1;
+  }
+
+  @media (min-width: 64rem) {
+    display: flex;
+
+    &__jump {
+      display: none;
+    }
+
+    &__listings {
+      flex: 1;
+    }
+
+    &__navigation {
+      width: $nav-width;
+      margin-left: $grid-unit * 2;
+    }
+  }
+}

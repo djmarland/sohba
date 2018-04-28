@@ -1,0 +1,8 @@
+.link--inverse {
+  color: $color-body;
+  background: $color-link;
+  &:hover, &:active {
+    background: $color-hover;
+    color: $color-text;
+  }
+}

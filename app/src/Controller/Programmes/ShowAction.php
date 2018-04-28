@@ -20,6 +20,9 @@ class ShowAction extends AbstractController
             'programmes/show.html.twig',
             [
                 'showId' => $showId,
+                'programme' => [
+                    'title' => $showId,
+                ]
             ]
         );
     }

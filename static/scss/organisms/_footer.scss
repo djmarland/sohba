@@ -1,0 +1,7 @@
+.footer {
+  @extend .text--center;
+  padding: $grid-unit;
+  border-top: solid 1px $color-grey-darkest;
+  background: $color-footer-background;
+  color: $color-footer-text;
+}

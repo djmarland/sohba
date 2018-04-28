@@ -32,11 +32,14 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "files": [
+            "src/Functions/DateTimes.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Tests\\App\\": "tests/"
         }
     },
     "replace": {

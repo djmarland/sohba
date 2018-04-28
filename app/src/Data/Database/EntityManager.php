@@ -29,9 +29,7 @@ class EntityManager extends EntityManagerDecorator
 
     public function persist($entity)
     {
-        /**
- * @var AbstractEntity $entity
-*/
+        /** @var AbstractEntity $entity */
 
         // interject to update the created_at/updated_at fields (for audit purposes)
         $entity->updatedAt = $this->currentTime;
@@ -44,9 +42,7 @@ class EntityManager extends EntityManagerDecorator
     public function getRepository($entityName)
     {
         if (!isset($this->classCache[$entityName])) {
-            /**
- * @var AbstractEntityRepository $repo
-*/
+            /** @var AbstractEntityRepository $repo */
             $repo = parent::getRepository($entityName);
 
             // set dependencies (which could not be injected via construct)
@@ -75,7 +71,17 @@ class EntityManager extends EntityManagerDecorator
             $entityFiles
         );
 
-        return array_filter($results);
+        return \array_filter($results);
+    }
+
+    public function getKeyValueRepo(): EntityRepository\KeyValueRepository
+    {
+        return $this->getRepository(Entity\KeyValue::class);
+    }
+
+    public function getNormalListingRepo(): EntityRepository\NormalListingRepository
+    {
+        return $this->getRepository(Entity\NormalListing::class);
     }
 
     public function getPageRepo(): EntityRepository\PageRepository
@@ -86,5 +92,15 @@ class EntityManager extends EntityManagerDecorator
     public function getProgrammeRepo(): EntityRepository\ProgrammeRepository
     {
         return $this->getRepository(Entity\Programme::class);
+    }
+
+    public function getSpecialDayRepo(): EntityRepository\SpecialDayRepository
+    {
+        return $this->getRepository(Entity\SpecialDay::class);
+    }
+
+    public function getSpecialListingRepo(): EntityRepository\SpecialListingRepository
+    {
+        return $this->getRepository(Entity\SpecialListing::class);
     }
 }

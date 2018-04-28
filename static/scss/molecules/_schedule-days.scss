@@ -1,0 +1,24 @@
+.schedule-days {
+  @extend .list--unstyled;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: $grid-unit;
+
+  > li {
+    display: inline-block;
+    margin: 0 0 $grid-unit/2;
+    @media (min-width: 64rem) {
+      width: 100%;
+    }
+
+    > a {
+      @extend .link--inverse;
+      display: block;
+      text-align: center;
+      padding: $grid-unit/2 $grid-unit;
+      border-radius: 4px;
+    }
+  }
+
+}

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data;
 
+use App\Data\Database\Entity\KeyValue;
 use App\Data\Database\Entity\Programme;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
@@ -12,6 +13,7 @@ class ID
 {
     private const ENTITY_MAPPINGS = [
         Programme::class => 'edfa',
+        KeyValue::class => 'c0c0',
     ];
 
     private const NAMESPACE = '00000000-0000-0000-0000-000000000000';

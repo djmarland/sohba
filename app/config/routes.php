@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
+
 use App\Controller;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
+
 $collection = new RouteCollection();
 
 // home
@@ -16,8 +18,12 @@ $collection->add('schedule_today', new Route('/schedules', [
 
 $collection->add('schedule_date', new Route('/schedules/{year}-{month}-{day}', [
     '_controller' => Controller\Schedules\DateAction::class,
-    // todo - reqs for year, month, day
-]));
+], [
+        'year' => '20[0-9][0-9]',
+        'month' => '[01][0-9]',
+        'day' => '[0123][0-9]',
+    ]
+));
 
 $collection->add('schedule_day', new Route('/schedules/{day}', [
     '_controller' => Controller\Schedules\DayAction::class,

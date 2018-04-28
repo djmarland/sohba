@@ -3,23 +3,23 @@ declare(strict_types=1);
 
 namespace App\Controller\Schedules;
 
-use App\Controller\AbstractController;
+use function App\Functions\DateTimes\weekdayFromDayNum;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DayAction extends AbstractController
+class DayAction extends AbstractSchedulesAction
 {
     public function __invoke(
         Request $request
     ): Response {
-        // todo - inject the current time and calculate today
         $day = $request->get('day');
 
-        return $this->renderMainSite(
-            'schedules/show.html.twig',
-            [
-                'date' => 'DAY ' . $day,
-            ]
+        // convert day name to day number
+        $dayNum = (int) date('w', strtotime($day));
+
+        return $this->renderDay(
+            $dayNum,
+            weekdayFromDayNum($dayNum)
         );
     }
 }
