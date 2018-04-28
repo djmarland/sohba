@@ -41,6 +41,24 @@ class Time
         return $this->pad((string) $this->hours) . ':' . $this->pad((string) $this->minutes);
     }
 
+    public function isBeforeOrAt(self $compare)
+    {
+        if ($this->hours < $compare->getHours()) {
+            return true;
+        }
+        if ($this->hours > $compare->getHours()) {
+            return false;
+        }
+
+        // same hour
+        return ($this->minutes <= $compare->getMinutes());
+    }
+
+    public function __toString()
+    {
+        return $this->getFormatted();
+    }
+
     private function pad(string $str): string
     {
         return \str_pad($str, 2, '0', STR_PAD_LEFT);

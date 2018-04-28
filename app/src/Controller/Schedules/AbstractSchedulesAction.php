@@ -26,7 +26,7 @@ abstract class AbstractSchedulesAction extends AbstractController
         SchedulesService $schedulesService,
         DateTimeImmutable $now
     ) {
-        parent::__construct($pageService, $configurableContentService);
+        parent::__construct($pageService, $schedulesService, $configurableContentService, $now);
         $this->schedulesService = $schedulesService;
         $this->now = $now;
     }

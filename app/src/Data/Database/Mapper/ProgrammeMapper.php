@@ -22,6 +22,7 @@ class ProgrammeMapper implements MapperInterface
             $item['id'],
             $item['pkid'],
             $item['title'],
+            $item['type'],
             !empty($item['tagline']) ? $item['tagline'] : null,
             !empty($item['description']) ? $item['description'] : null,
             $this->mapImage($item)

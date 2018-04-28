@@ -19,6 +19,7 @@ class Programme extends Entity implements \JsonSerializable
         UuidInterface $id,
         int $legacyId,
         string $title,
+        int $programmeType,
         ?string $tagLine,
         ?string $detail,
         ?Image $image = null

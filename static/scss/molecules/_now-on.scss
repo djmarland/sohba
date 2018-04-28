@@ -4,4 +4,11 @@
   color: $color-white;
   padding: $grid-unit / 2 $grid-unit;
   text-align: right;
+
+  a {
+    color: $color-primary-light;
+    &:hover, &:active {
+      color: $color-hover;
+    }
+  }
 }

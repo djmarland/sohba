@@ -40,6 +40,22 @@ $collection->add('programmes_show', new Route('/programmes/{showId}', [
     // todo - uuid
 ]));
 
+$collection->add('page_requests', new Route('/people', [
+    '_controller' => Controller\Page\PeopleAction::class,
+]));
+
+$collection->add('page_requests', new Route('/requests', [
+    '_controller' => Controller\Page\RequestsAction::class,
+]));
+
+$collection->add('page_sports', new Route('/sports', [
+    '_controller' => Controller\Page\SportsAction::class,
+]));
+
+$collection->add('page_outside_broadcasts', new Route('/outside-broadcasts', [
+    '_controller' => Controller\Page\OutsideBroadcastsAction::class,
+]));
+
 
 $collection->add('page', new Route('/{page}', [
     '_controller' => Controller\Page\ShowAction::class,

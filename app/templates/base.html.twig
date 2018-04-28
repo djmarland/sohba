@@ -16,7 +16,9 @@
                     </svg>
                 </a>
             </header>
-            <div class="now-on">Now on: blah blah blah</div>
+            <div class="now-on">
+                {% include '_partials/now-next.html.twig' with {'nowNext' : baseNowAndNext} %}
+            </div>
             <main class="t-overall">
                 <div class="t-overall__main">
                     {% block body %}{% endblock %}
@@ -32,6 +34,17 @@
                     <ul class="nav">
                         <li>
                             <span class="nav__group-title"><a href="/" class="nav__item">Home Page</a></span>
+                            <ul class="nav__sub">
+                                <li><a class="nav__item" href="/requests">Requests</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="nav__group-title nav__item">What's on</span>
+                            <ul class="nav__sub">
+                                <li><a class="nav__item" href="/schedules">Programme Listings</a></li>
+                                <li><a class="nav__item" href="/sports">Sports</a></li>
+                                <li><a class="nav__item" href="/outside-broadcasts">Outside Broadcasts</a></li>
+                            </ul>
                         </li>
                         {% for group in baseNavPresenter.groups %}
                             <li>
