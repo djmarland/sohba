@@ -5,6 +5,8 @@ namespace App\Domain\Entity;
 
 use App\Domain\Exception\DataNotFetchedException;
 use App\Domain\ValueObject\Time;
+use function App\Functions\DateTimes\formatShortDateForDisplay;
+use DateTimeImmutable;
 use Ramsey\Uuid\UuidInterface;
 
 class Broadcast extends Entity implements \JsonSerializable
@@ -13,12 +15,14 @@ class Broadcast extends Entity implements \JsonSerializable
     private $time;
     private $publicNote;
     private $internalNote;
+    private $date;
 
     public function __construct(
         UuidInterface $id,
         Time $time,
         ?string $publicNote,
         ?string $internalNote,
+        ?DateTimeImmutable $date = null,
         Programme $programme = null
     ) {
         parent::__construct($id);
@@ -26,6 +30,7 @@ class Broadcast extends Entity implements \JsonSerializable
         $this->time = $time;
         $this->publicNote = $publicNote;
         $this->internalNote = $internalNote;
+        $this->date = $date;
     }
 
     public function jsonSerialize()
@@ -43,6 +48,21 @@ class Broadcast extends Entity implements \JsonSerializable
             );
         }
         return $this->programme;
+    }
+
+    public function getDate(): DateTimeImmutable
+    {
+        if ($this->date === null) {
+            throw new \InvalidArgumentException(
+                'This broadcast does not have a date'
+            );
+        }
+        return $this->date;
+    }
+
+    public function getDateFormatted(): string
+    {
+        return formatShortDateForDisplay($this->getDate());
     }
 
     public function getTime(): Time

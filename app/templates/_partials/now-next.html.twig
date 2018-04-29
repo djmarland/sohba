@@ -1,9 +1,12 @@
 {% if nowNext[0] %}
-    <strong>On Air Now: {{ nowNext[0].time }}</strong>
-    <a href="/viewShow.php?showID={{ nowNext[0].programme.legacyId }}">{{ nowNext[0].programme.title }}</a>
+    <span class="now-on__broadcast">
+        <strong>On Air Now: {{ nowNext[0].time }}</strong>
+        <a href="{{ nowNext[0].programme.url }}">{{ nowNext[0].programme.title }}</a>
+    </span>
 {% endif %}
 {% if nowNext[1] %}
-    {% if nowNext[0] %} | {% endif %}
-    <strong>Next: {{ nowNext[1].time }}</strong>
-    <a href="/viewShow.php?showID={{ nowNext[1].programme.legacyId }}">{{ nowNext[1].programme.title }}</a>
+    <span class="now-on__broadcast">
+        <strong>Next: {{ nowNext[1].time }}</strong>
+        <a href="{{ nowNext[1].programme.url }}">{{ nowNext[1].programme.title }}</a>
+    </span>
 {% endif %}

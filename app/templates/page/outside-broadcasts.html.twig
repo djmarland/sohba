@@ -7,8 +7,7 @@
         <h1>Outside Broadcasts</h1>
         [[CONTENT TO COME FROM KEY/VALUE STORE]
     </div>
-
-    <div>
-        [[LIST OF UPCOMING OUTSIDE BROADCASTS]]
-    </div>
+    
+    <h2>Upcoming Broadcasts</h2>
+    {% include '_partials/events-list.html.twig' with {'broadcasts': broadcasts} %}
 {% endblock %}

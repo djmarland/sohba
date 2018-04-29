@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Domain\Entity\Broadcast;
+use App\Domain\Entity\Programme;
 use App\Domain\Entity\SpecialDay;
 use App\Domain\ValueObject\Time;
+use function App\Functions\DateTimes\weekdayFromDayNum;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -33,6 +35,22 @@ class SchedulesService extends AbstractService
         return array_map(
             function ($result) {
                 return $this->specialBroadcastMapper->map($result);
+            },
+            $results
+        );
+    }
+
+    public function getListingsForProgramme(Programme $programme): array
+    {
+        $results = $this->entityManager->getNormalListingRepo()
+            ->findAllForLegacyProgrammeId($programme->getLegacyId());
+
+        return array_map(
+            function ($result) {
+                return [
+                    'day' => weekdayFromDayNum($result['day']),
+                    'time' => $this->timeIntMapper->map($result['timeInt']),
+                ];
             },
             $results
         );
@@ -96,5 +114,42 @@ class SchedulesService extends AbstractService
         }
 
         return [$now, $next];
+    }
+
+    public function findUpcomingSports(DateTimeImmutable $now)
+    {
+        $results = $this->entityManager->getSpecialListingRepo()
+            ->findListingsOfTypesAfter(Programme::PROGRAMME_SPORTS_TYPES, $now);
+
+        return array_map(
+            function ($result) {
+                return $this->specialBroadcastMapper->map($result);
+            },
+            $results
+        );
+    }
+
+    public function findUpcomingOutsideBroadcasts($now)
+    {
+        $results = $this->entityManager->getSpecialListingRepo()
+            ->findListingsOfTypesAfter(Programme::PROGRAMME_OUTSIDE_BROADCASTS_TYPES, $now);
+
+        return array_map(
+            function ($result) {
+                return $this->specialBroadcastMapper->map($result);
+            },
+            $results
+        );
+    }
+
+    public function findNextForProgramme(Programme $programme, DateTimeImmutable $now): ?Broadcast
+    {
+        $result = $this->entityManager->getSpecialListingRepo()
+            ->findNextForLegacyProgrammeId($programme->getLegacyId(), $now);
+
+        if ($result) {
+            return $this->specialBroadcastMapper->map($result);
+        }
+        return null;
     }
 }

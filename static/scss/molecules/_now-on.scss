@@ -5,6 +5,11 @@
   padding: $grid-unit / 2 $grid-unit;
   text-align: right;
 
+  &__broadcast {
+    margin-left: $grid-unit;
+    display: inline-block;
+  }
+
   a {
     color: $color-primary-light;
     &:hover, &:active {

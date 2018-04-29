@@ -21,4 +21,18 @@ class NormalListingRepository extends AbstractEntityRepository
 
         return $qb->getQuery()->getResult($resultType);
     }
+
+    public function findAllForLegacyProgrammeId(
+        int $programmeId,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl')
+            ->where('IDENTITY(tbl.programme) = :id')
+            ->orderBy('tbl.day', 'ASC')
+            ->addOrderBy('tbl.timeInt', 'ASC')
+            ->setParameter('id', $programmeId);
+
+        return $qb->getQuery()->getResult($resultType);
+    }
 }

@@ -10,7 +10,7 @@ use App\Data\Database\Mapper\PageMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
 use App\Data\Database\Mapper\SpecialDayMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
-use DateTimeImmutable;
+use App\Data\Database\Mapper\TimeIntMapper;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractService
@@ -22,7 +22,6 @@ abstract class AbstractService
 
     protected $entityManager;
     protected $tokenHandler;
-    protected $currentTime;
     protected $logger;
     protected $programmeMapper;
     protected $imageMapper;
@@ -30,6 +29,7 @@ abstract class AbstractService
     protected $specialDayMapper;
     protected $specialBroadcastMapper;
     protected $normalBroadcastMapper;
+    protected $timeIntMapper;
 
     public function __construct(
         EntityManager $entityManager,
@@ -38,12 +38,11 @@ abstract class AbstractService
         SpecialDayMapper $specialDayMapper,
         SpecialListingMapper $specialBroadcastMapper,
         NormalListingMapper $normalBroadcastMapper,
+        TimeIntMapper $timeIntMapper,
         ImageMapper $imageMapper,
-        DateTimeImmutable $currentTime,
         LoggerInterface $logger
     ) {
         $this->entityManager = $entityManager;
-        $this->currentTime = $currentTime;
         $this->logger = $logger;
         $this->programmeMapper = $programmeMapper;
         $this->imageMapper = $imageMapper;
@@ -51,5 +50,6 @@ abstract class AbstractService
         $this->specialDayMapper = $specialDayMapper;
         $this->specialBroadcastMapper = $specialBroadcastMapper;
         $this->normalBroadcastMapper = $normalBroadcastMapper;
+        $this->timeIntMapper = $timeIntMapper;
     }
 }

@@ -25,20 +25,33 @@
                 </div>
             {% endif %}
 
+            <h2 class="hidden--visually">Listings</h2>
+
             <ol class="schedule-list">
                 {% for broadcast in broadcasts %}
                     <li class="schedule-list__item">
-                        <a class="schedule-list__link" href="/viewShow.php?showID={{ broadcast.programme.legacyId }}">
-                            <h2 class="c schedule-list__time">{{ broadcast.time.formatted }}</h2>
+                        <a class="broadcast {%
+                            if broadcast.programme.isEvent
+                        %}broadcast--event broadcast--event-{{ broadcast.programme.type }}{%
+                            endif %}" href="{{ broadcast.programme.url }}">
+                            <h3 class="c broadcast__datetime">
+                                <span class="broadcast__datetime-time">{{ broadcast.time.formatted }}</span>
+                            </h3>
                             {% if broadcast.programme.image %}
-                                <img class="schedule-list__programme-image"
+                                <img class="broadcast__image"
                                      alt=""
                                      src="{{ broadcast.programme.image.src }}" />
                             {% endif %}
-                            <div class="schedule-list__programme">
-                                <h3 class="d schedule-list__programme-title">{{ broadcast.programme.title }}</h3>
+                            <div class="broadcast__programme">
+                                {% if broadcast.programme.isEvent %}
+                                    <p class="broadcast__programme-type">{{ broadcast.programme.typeName }}</p>
+                                {% endif %}
+                                <h4 class="broadcast__programme-title">{{ broadcast.programme.title }}</h4>
                                 {% if broadcast.programme.tagline %}
-                                    <p class="schedule-list__programme-tagline">{{ broadcast.programme.tagline }}</p>
+                                    <p class="broadcast__programme-tagline">{{ broadcast.programme.tagline }}</p>
+                                {% endif %}
+                                {% if broadcast.publicNote %}
+                                    <p class="broadcast__programme-tagline">{{ broadcast.publicNote }}</p>
                                 {% endif %}
                             </div>
                         </a>

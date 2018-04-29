@@ -25,6 +25,7 @@ class NormalListingMapper implements MapperInterface
             $this->timeIntMapper->map($item['timeInt']),
             null,
             null,
+            null,
             $this->mapProgramme($item)
         );
     }

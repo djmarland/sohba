@@ -5,9 +5,10 @@
   align-items: center;
 
   &__text {
-    @extend .d;
+    @extend .b;
     flex: 1;
     padding: $grid-unit;
+    line-height: 1;
   }
 
   &__menu-link {

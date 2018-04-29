@@ -3,5 +3,36 @@
 {% block title %}{{ programme.title }} - {% endblock %}
 
 {% block body %}
-    <h1>SHOW {{ showId }}</h1>
+    {% if programme.image %}
+    <img src="{{ programme.image.src }}" alt="" />
+    {% endif %}
+    <div class="text--prose">
+        <h1>{{ programme.title }}</h1>
+        <p>{{ programme.availableDetail|nl2br }}</p>
+
+    </div>
+
+    {% if listings %}
+        <div>
+            <h2>On Air:</h2>
+            <ul class="list--unstyled">
+                {% for listing in listings %}
+                    <li>
+                        {{ listing.day }} - {{ listing.time }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if nextOn %}
+        <div>
+            <h2>Next On</h2>
+            <p>{{ nextOn.dateFormatted }} - {{ nextOn.time }}</p>
+        </div>
+    {% endif %}
+
+
+    <p>PEOPLE</p>
+
 {% endblock %}

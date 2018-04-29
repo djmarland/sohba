@@ -31,7 +31,8 @@ services:
     DateTimeZone:
         class: DateTimeZone
         arguments:
-            - 'UTC' # Always UTC. Only do conversion at the very edge with the user
+#            - 'UTC' # Always UTC. Only do conversion at the very edge with the user
+            - 'Europe/London' # Temporary, while migrating
 
     # Ensure that injected times are all the same instance
     DateTimeImmutable:

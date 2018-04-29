@@ -10,3 +10,18 @@
     display: inline-block;
   }
 }
+
+.list--boxed {
+  @extend .list--unstyled;
+  > li {
+    margin-top: $grid-unit;
+    border: solid 1px $color-grey-lightest;
+  }
+}
+
+.list--textual {
+  list-style: square;
+  > li {
+    margin: $grid-unit/2 0;
+  }
+}

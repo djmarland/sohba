@@ -1,0 +1,31 @@
+{% if broadcasts is empty %}
+    <p>More events to be announced</p>
+{% else %}
+    <ol class="list--boxed">
+        {% for broadcast in broadcasts %}
+            <li>
+                <a class="broadcast {%
+                    if broadcast.programme.isEvent
+                %}broadcast--event broadcast--event-{{ broadcast.programme.type }}{%
+                    endif %}" href="{{ broadcast.programme.url }}">
+                    <h3 class="c broadcast__datetime">
+                        <span class="broadcast__datetime-date">{{ broadcast.dateFormatted }}</span>
+                        <span class="broadcast__datetime-time">{{ broadcast.time }}</span>
+                    </h3>
+                    <div class="broadcast__programme">
+                        {% if broadcast.programme.isEvent %}
+                            <p class="broadcast__programme-type">{{ broadcast.programme.typeName }}</p>
+                        {% endif %}
+                        <h4 class="broadcast__programme-title">{{ broadcast.programme.title }}</h4>
+                        {% if broadcast.programme.tagline %}
+                            <p class="broadcast__programme-tagline">{{ broadcast.programme.tagline }}</p>
+                        {% endif %}
+                        {% if broadcast.publicNote %}
+                            <p class="broadcast__programme-tagline">{{ broadcast.publicNote }}</p>
+                        {% endif %}
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ol>
+{% endif %}

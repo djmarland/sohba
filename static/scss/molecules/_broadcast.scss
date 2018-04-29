@@ -1,0 +1,78 @@
+.broadcast {
+  $root: &;
+
+  display: flex;
+  align-items: start;
+  padding: $grid-unit;
+  background: $color-page linear-gradient(
+                  135deg,
+                  rgba($color-page, 1) 0,
+                  rgba($color-page, 1) 45%,
+                  rgba($color-page, 0) 90%
+  );
+
+  &--event {
+    &-1 {
+      background-color: $color-show-cricket;
+    }
+    &-2 {
+      background-color: $color-show-football;
+    }
+    &-3 {
+      background-color: $color-show-event;
+    }
+    &-4 {
+      background-color: $color-show-special;
+    }
+  }
+
+  &:hover, &:active {
+    text-decoration: none;
+    background: $color-grey-lightest;
+    color: $color-link;
+  }
+
+  &__datetime {
+    width: 72px;
+    font-weight: lighter;
+    margin-right: $grid-unit;
+    line-height: 1;
+    color: $color-text;
+    text-align: center;
+  }
+
+  &__datetime-date {
+    @extend .e;
+    display: block;
+    margin-bottom: $grid-unit/4;
+    text-transform: uppercase;
+  }
+  &__datetime-time {
+    @extend .c;
+  }
+
+  &__image {
+    width: 80px;
+    margin-right: $grid-unit;
+  }
+
+  &__programme {
+    flex: 1;
+  }
+  &__programme-type {
+    @extend .f;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  &__programme-title {
+    @extend .d;
+    line-height: 1;
+    margin-bottom: $grid-unit / 2;
+    #{$root}__link:hover &, #{$root}__link:active & {
+      text-decoration: underline;
+    }
+  }
+  &__programme-tagline {
+    color: $color-text;
+  }
+}

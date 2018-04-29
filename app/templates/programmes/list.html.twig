@@ -3,10 +3,17 @@
 {% block title %}Programmes - {% endblock %}
 
 {% block body %}
-    <h1>LIST OF SHOWS</h1>
-    <ul>
-        {% for programme in programmes %}
-            <li>{{ programme.title }}</li>
-        {% endfor %}
-    </ul>
+    <h1>All Regular Programmes</h1>
+    {% for letter, letterGroup in letterGroups %}
+        <h2>{{ letter }}</h2>
+        <ol class="list--textual">
+            {% for programme in letterGroup %}
+                <li>
+                    <a href="{{ programme.url }}">
+                        {{ programme.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ol>
+    {% endfor %}
 {% endblock %}

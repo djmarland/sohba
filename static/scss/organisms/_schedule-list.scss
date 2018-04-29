@@ -1,50 +1,11 @@
 .schedule-list {
-  $root: &;
-
   @extend .list--unstyled;
+
   &__item {
     display: block;
     border-bottom: solid 1px $color-grey-lightest;
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-  &__link {
-    display: flex;
-    align-items: start;
-    padding: $grid-unit 0;
-    &:hover, &:active {
-      text-decoration: none;
-      background: $color-grey-lightest;
-      padding: $grid-unit;
-      margin: (-1px) (-$grid-unit);
+    &:first-child {
       border-top: solid 1px $color-grey-lightest;
-      border-bottom: solid 1px $color-grey-lightest;
-      color: $color-link;
     }
-  }
-  &__time {
-    width: 72px;
-    font-weight: lighter;
-    margin-right: $grid-unit;
-    line-height: 1;
-    color: $color-text;
-  }
-  &__programme {
-    flex: 1;
-  }
-  &__programme-title {
-    line-height: 1;
-    margin-bottom: $grid-unit / 2;
-    #{$root}__link:hover &, #{$root}__link:active & {
-      text-decoration: underline;
-    }
-  }
-  &__programme-tagline {
-    color: $color-text;
-  }
-  &__programme-image {
-    width: 80px;
-    margin-right: $grid-unit;
   }
 }

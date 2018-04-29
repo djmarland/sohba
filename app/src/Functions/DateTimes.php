@@ -16,6 +16,16 @@ function formatDateForDisplay(DateTimeInterface $date): string
 }
 
 /**
+ * The standard formatting for this application to display a short date
+ * @param DateTimeInterface $date
+ * @return string
+ */
+function formatShortDateForDisplay(DateTimeInterface $date): string
+{
+    return $date->format('j M');
+}
+
+/**
  * The standard formatting for this application to display a month
  * @param DateTimeInterface $date
  * @return string
