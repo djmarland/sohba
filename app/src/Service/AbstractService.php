@@ -5,8 +5,10 @@ namespace App\Service;
 
 use App\Data\Database\EntityManager;
 use App\Data\Database\Mapper\ImageMapper;
+use App\Data\Database\Mapper\MapperInterface;
 use App\Data\Database\Mapper\NormalListingMapper;
 use App\Data\Database\Mapper\PageMapper;
+use App\Data\Database\Mapper\PersonMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
 use App\Data\Database\Mapper\SpecialDayMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
@@ -30,10 +32,12 @@ abstract class AbstractService
     protected $specialBroadcastMapper;
     protected $normalBroadcastMapper;
     protected $timeIntMapper;
+    protected $personMapper;
 
     public function __construct(
         EntityManager $entityManager,
         PageMapper $pageMapper,
+        PersonMapper $personMapper,
         ProgrammeMapper $programmeMapper,
         SpecialDayMapper $specialDayMapper,
         SpecialListingMapper $specialBroadcastMapper,
@@ -51,5 +55,24 @@ abstract class AbstractService
         $this->specialBroadcastMapper = $specialBroadcastMapper;
         $this->normalBroadcastMapper = $normalBroadcastMapper;
         $this->timeIntMapper = $timeIntMapper;
+        $this->personMapper = $personMapper;
+    }
+
+    protected function mapSingle(?array $result, MapperInterface $mapper)
+    {
+        if ($result) {
+            return $mapper->map($result);
+        }
+        return null;
+    }
+
+    protected function mapMany(array $results, MapperInterface $mapper): array
+    {
+        return array_map(
+            function ($result) use ($mapper) {
+                return $mapper->map($result);
+            },
+            $results
+        );
     }
 }

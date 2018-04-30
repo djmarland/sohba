@@ -89,6 +89,16 @@ class EntityManager extends EntityManagerDecorator
         return $this->getRepository(Entity\Page::class);
     }
 
+    public function getPersonRepo(): EntityRepository\PersonRepository
+    {
+        return $this->getRepository(Entity\Person::class);
+    }
+
+    public function getPersonInShowRepo(): EntityRepository\PersonInShowRepository
+    {
+        return $this->getRepository(Entity\PersonInShow::class);
+    }
+
     public function getProgrammeRepo(): EntityRepository\ProgrammeRepository
     {
         return $this->getRepository(Entity\Programme::class);

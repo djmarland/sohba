@@ -5,6 +5,7 @@ namespace App\Domain\Entity;
 
 use App\Domain\Exception\DataNotFetchedException;
 use App\Domain\ValueObject\Time;
+use function App\Functions\DateTimes\formatDateForDisplay;
 use function App\Functions\DateTimes\formatShortDateForDisplay;
 use DateTimeImmutable;
 use Ramsey\Uuid\UuidInterface;
@@ -63,6 +64,11 @@ class Broadcast extends Entity implements \JsonSerializable
     public function getDateFormatted(): string
     {
         return formatShortDateForDisplay($this->getDate());
+    }
+
+    public function getDateFormattedFull(): string
+    {
+        return formatDateForDisplay($this->getDate());
     }
 
     public function getTime(): Time

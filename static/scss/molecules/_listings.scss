@@ -1,0 +1,24 @@
+.listing {
+  @extend .d;
+  @extend .list--unstyled;
+
+  font-weight: lighter;
+
+  &__item {
+    margin-bottom: $grid-unit / 2;
+    display: flex;
+    background: $color-grey-lightest;
+  }
+
+  &__date {
+    flex: 1;
+    padding: $grid-unit/2 $grid-unit;
+  }
+
+  &__time {
+    text-align: right;
+    margin-left: $grid-unit;
+    padding: $grid-unit/2 $grid-unit;
+    background: rgba($color-primary-light, 0.2);
+  }
+}

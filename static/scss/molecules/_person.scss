@@ -1,0 +1,31 @@
+.person {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__image {
+    > img {
+      max-height: 80px;
+    }
+    margin-right: $grid-unit;
+  }
+
+  &__detail {
+    flex: 1;
+  }
+  &__name {
+    @extend .d;
+    line-height: 1;
+    margin-bottom: $grid-unit / 4;
+  }
+
+  &__position {
+    @extend .f;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__shows {
+    @extend .list--unstyled;
+    width: 100%;
+  }
+}

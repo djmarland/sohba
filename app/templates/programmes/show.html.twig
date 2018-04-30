@@ -3,36 +3,51 @@
 {% block title %}{{ programme.title }} - {% endblock %}
 
 {% block body %}
-    {% if programme.image %}
-    <img src="{{ programme.image.src }}" alt="" />
-    {% endif %}
-    <div class="text--prose">
-        <h1>{{ programme.title }}</h1>
-        <p>{{ programme.availableDetail|nl2br }}</p>
+    <div class="t-programme">
 
+        <h1 class="t-programme__title">{{ programme.title }}</h1>
+
+        <div class="t-programme__main">
+
+            <div class="t-programme__detail">
+                {% if programme.image %}
+                    <div class="t-programme__img">
+                        <img src="{{ programme.image.src }}" alt=""/>
+                    </div>
+                {% endif %}
+                <div class="t-programme__prose text--prose">
+                    <p>{{ programme.availableDetail|nl2br }}</p>
+                </div>
+            </div>
+
+            {% if listings %}
+                <div class="t-programme__listings">
+                    <h2 class="t-programme__listing-title">On air times</h2>
+                    <ul class="listing">
+                        {% for listing in listings %}
+                            <li class="listing__item">
+                                <span class="listing__date">{{ listing.day }}</span>
+                                <span class="listing__time">{{ listing.time }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% elseif nextOn %}
+                <div class="t-programme__listings">
+                    <h2 class="t-programme__listing-title">Next on</h2>
+                    <div class="listing">
+                        <p class="listing__item">
+                            <span class="listing__date">{{ nextOn.dateFormattedFull }}</span>
+                            <span class="listing__time">{{ nextOn.time }}</span>
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="t-programme__people">
+            <p>PEOPLE</p>
+        </div>
     </div>
-
-    {% if listings %}
-        <div>
-            <h2>On Air:</h2>
-            <ul class="list--unstyled">
-                {% for listing in listings %}
-                    <li>
-                        {{ listing.day }} - {{ listing.time }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
-    {% if nextOn %}
-        <div>
-            <h2>Next On</h2>
-            <p>{{ nextOn.dateFormatted }} - {{ nextOn.time }}</p>
-        </div>
-    {% endif %}
-
-
-    <p>PEOPLE</p>
 
 {% endblock %}

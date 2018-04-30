@@ -9,10 +9,20 @@
     </div>
 
     <div>
-        [[EXECUTIVE COMMITTEEE]]
+        <h2>Executive Committee</h2>
+        <ul class="person-list">
+            {% for person in committee %}
+                <li>{% include '_presenters/person.html.twig' with {'person': person} %}</li>
+            {% endfor %}
+        </ul>
     </div>
 
     <div>
-        [[OTHER PEOPLE]]
+        <h2>More of our members</h2>
+        <ul class="person-list person-list--small">
+            {% for person in members %}
+                <li>{% include '_presenters/person.html.twig' with {'person': person} %}</li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

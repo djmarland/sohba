@@ -40,7 +40,7 @@ $collection->add('programmes_show', new Route('/programmes/{showId}', [
     // todo - uuid
 ]));
 
-$collection->add('page_requests', new Route('/people', [
+$collection->add('page_people', new Route('/people', [
     '_controller' => Controller\Page\PeopleAction::class,
 ]));
 

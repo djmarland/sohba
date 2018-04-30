@@ -1,0 +1,20 @@
+<div class="person">
+    {% if person.person.image %}
+    <div class="person__image">
+        <img src="{{ person.person.image.src }}" alt="" />
+    </div>
+    {% endif %}
+    <div class="person__detail">
+        <h3 class="person__name">{{ person.person.name }}</h3>
+        {% if person.person.isOnCommittee %}
+            <p class="person__position">{{ person.person.committeeTitle }}</p>
+        {% endif %}
+        {% if person.hasProgrammes %}
+        <ul class="person__shows">
+            {% for programme in person.programmes %}
+                <li><a href="{{ programme.url }}">{{ programme.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>

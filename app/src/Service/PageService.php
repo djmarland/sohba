@@ -9,24 +9,17 @@ class PageService extends AbstractService
 {
     public function findByLegacyId(int $legacyId): ?Page
     {
-        $result = $this->entityManager->getPageRepo()
-            ->findByLegacyId($legacyId);
-        if ($result) {
-            return $this->pageMapper->map($result);
-        }
-        return null;
+        return $this->mapSingle(
+            $this->entityManager->getPageRepo()->findByLegacyId($legacyId),
+            $this->pageMapper
+        );
     }
 
     public function findAllForNavigation(): array
     {
-        $results = $this->entityManager->getPageRepo()
-            ->findAllInCategories();
-
-        return array_map(
-            function ($result) {
-                return $this->pageMapper->map($result);
-            },
-            $results
+        return $this->mapMany(
+            $this->entityManager->getPageRepo()->findAllInCategories(),
+            $this->pageMapper
         );
     }
 }

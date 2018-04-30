@@ -1,0 +1,26 @@
+.person-list {
+  @extend .list--unstyled;
+  margin: $grid-unit 0;
+  > li {
+    background: $color-grey-lightest;
+    padding: $grid-unit;
+    margin-bottom: $grid-unit;
+  }
+
+
+  @media (min-width: 64rem) {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -$grid-unit;
+    > li {
+      width: calc(50% - #{$grid-unit});
+      margin-right: $grid-unit;
+    }
+
+    &--small {
+      > li {
+        width: calc(#{100% / 3} - #{$grid-unit});
+      }
+    }
+  }
+}

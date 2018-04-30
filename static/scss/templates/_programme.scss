@@ -1,0 +1,54 @@
+.t-programme {
+
+  $sizebar-width: 304px;
+
+  &__title {
+    margin-bottom: $grid-unit;
+  }
+
+  &__detail {
+    display: flex;
+  }
+
+  &__img {
+    max-width: 96px;
+    margin: 4px $grid-unit 0 0;
+  }
+
+  &__prose {
+    flex: 1;
+    margin-bottom: $grid-unit;
+  }
+
+  &__people {
+    margin-top: $grid-unit
+  }
+
+  &__listing-title {
+    @extend .d;
+    margin: -($grid-unit/2) 0 $grid-unit;
+  }
+
+  @media (min-width: 64rem) {
+    &__title {
+      max-width: calc(100% - #{($sizebar-width + $grid-unit)});
+    }
+
+    &__main {
+      display: flex;
+    }
+
+    &__detail {
+      flex: 1;
+    }
+
+    &__img {
+      max-width: 144px;
+    }
+
+    &__listings {
+      margin-left: $grid-unit;
+      width: $sizebar-width;
+    }
+  }
+}
