@@ -24,4 +24,19 @@ class PersonInShowRepository extends AbstractEntityRepository
 
         return $qb->getQuery()->getResult($resultType);
     }
+
+    public function findPeopleForProgrammeId(
+        int $legacyId,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl', 'person', 'image')
+            ->innerJoin('tbl.person', 'person')
+            ->leftJoin('person.image', 'image')
+            ->where('IDENTITY(tbl.programme) = :programmeId')
+            ->orderBy('person.name', 'ASC')
+            ->setParameter('programmeId', $legacyId);
+
+        return $qb->getQuery()->getResult($resultType);
+    }
 }

@@ -45,9 +45,15 @@
             {% endif %}
         </div>
 
+        {% if hasPeople %}
         <div class="t-programme__people">
-            <p>PEOPLE</p>
+            <ul class="person-list">
+                {% for person in people %}
+                    <li>{% include '_presenters/person.html.twig' with {'person': person} %}</li>
+                {% endfor %}
+            </ul>
         </div>
+        {% endif %}
     </div>
 
 {% endblock %}

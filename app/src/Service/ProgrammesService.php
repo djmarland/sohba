@@ -23,12 +23,16 @@ class ProgrammesService extends AbstractService
         );
     }
 
-    public function getAllByPersonIds(array $ids = []): array
+    public function getAllByPersonIds(array $ids = [], ?Programme $exclude = null): array
     {
         $results = $this->entityManager->getPersonInShowRepo()->findAll($ids);
         $groupedResults = [];
 
         foreach ($results as $result) {
+            if ($exclude && $exclude->getLegacyId() === $result['programme']['pkid']) {
+                continue;
+            }
+
             $personId = $result['person']['pkid'];
             if (!isset($groupedResults[$personId])) {
                 $groupedResults[$personId] = [];

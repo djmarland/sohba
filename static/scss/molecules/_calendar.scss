@@ -1,7 +1,8 @@
 .calendar {
 
   display: inline-block;
-  width: 240px;
+  max-width: 400px;
+  width: 100%;
   text-align: center;
   margin: $grid-unit $grid-unit 0 0;
   vertical-align: top;
