@@ -11,6 +11,10 @@
                   rgba($color-page, 0) 90%
   );
 
+  &--compact {
+    padding: $grid-unit / 2;
+  }
+
   &--event {
     &-1 {
       background-color: $color-show-cricket;

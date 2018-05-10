@@ -9,19 +9,26 @@ use Ramsey\Uuid\UuidInterface;
 
 class Programme extends Entity implements \JsonSerializable
 {
+    private const PROGRAMME_TYPE_CRICKET = 1;
+    private const PROGRAMME_TYPE_FOOTBALL = 2;
+    private const PROGRAMME_TYPE_EVENT = 3;
+    private const PROGRAMME_TYPE_SPECIAL = 4;
+
     public const PROGRAMME_EVENT_TYPES = [
-        1 => 'Cricket',
-        2 => 'Football',
-        3 => 'Event',
-        4 => 'Special Broadcast',
+        self::PROGRAMME_TYPE_CRICKET => 'Cricket',
+        self::PROGRAMME_TYPE_FOOTBALL => 'Football',
+        self::PROGRAMME_TYPE_EVENT => 'Event',
+        self::PROGRAMME_TYPE_SPECIAL => 'Special Broadcast',
     ];
 
     public const PROGRAMME_SPORTS_TYPES = [
-        1, 2
+        self::PROGRAMME_TYPE_CRICKET,
+        self::PROGRAMME_TYPE_FOOTBALL,
     ];
 
     public const PROGRAMME_OUTSIDE_BROADCASTS_TYPES = [
-        3, 4
+        self::PROGRAMME_TYPE_EVENT,
+        self::PROGRAMME_TYPE_SPECIAL,
     ];
 
     private $title;
@@ -126,5 +133,10 @@ class Programme extends Entity implements \JsonSerializable
     public function isEvent(): bool
     {
         return array_key_exists($this->programmeType, self::PROGRAMME_EVENT_TYPES);
+    }
+
+    public function isCricket(): bool
+    {
+        return $this->programmeType === self::PROGRAMME_TYPE_CRICKET;
     }
 }

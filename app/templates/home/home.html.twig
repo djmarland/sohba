@@ -1,5 +1,129 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<h1>HOME {{ name }}</h1>
+    <h1 class="hidden--visually">Southampton Hospital Radio</h1>
+
+    {% if baseShowCricket %}
+        <div class="live-cricket">
+            <div class="live-cricket__ball"></div>
+            <h2 class="live-cricket__title">Listen Live</h2>
+            <p>Ball-by-ball commentary service on todays match: Requestline (Friday) (<a
+                        href="http://vs32.applesources.net:8000/cricket" target="_blank">new window</a>)</p>
+            <audio class="live-cricket__audio" src="http://vs32.applesources.net:8000/cricket"
+                   controls="controls"></audio>
+        </div>
+    {% endif %}
+
+    <div class="t-home">
+
+        <div class="t-home__intro">
+
+            <div class="t-home__actions">
+                <div class="t-home__panel t-home__panel--requestline">
+                    <h2 class="t-home__panel-header">Requestline</h2>
+                    <div class="text--prose">
+                        <p>Broadcasting every evening. Request a song for a patient. Call now</p>
+                        <p class="text--center c"><strong><a href="tel:02380785151">023 8078 5151</a></strong></p>
+                        <p class="text--center d"><a href="/requests">Make a request >></a></p>
+                    </div>
+                </div>
+
+                <div class="t-home__panel t-home__panel--on-now">
+                    <h2 class="t-home__panel-header">On Now</h2>
+                    <div class="text--prose">
+                        {% if baseNowAndNext[0] %}
+                            <p class="d">
+                                <strong>{{ baseNowAndNext[0].time }}</strong>
+                                <a href="{{ baseNowAndNext[0].programme.url }}">{{ baseNowAndNext[0].programme.title }}</a>
+                            </p>
+                            <p>
+                                {{ baseNowAndNext[0].programme.tagLine }}
+                            </p>
+                        {% endif %}
+                        {% if baseNowAndNext[1] %}
+                            <h3 class="d">On next</h3>
+                            <p class="e">
+                                <strong>{{ baseNowAndNext[1].time }}</strong>
+                                <a href="{{ baseNowAndNext[1].programme.url }}">{{ baseNowAndNext[1].programme.title }}</a>
+                            </p>
+                            <p>
+                                {{ baseNowAndNext[1].programme.tagLine }}
+                            </p>
+                        {% endif %}
+                        <p class="text--right">
+                            <a href="/schedules">Full listings</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="t-home__welcome">
+                <div class="text--prose">
+                    <h2>Welcome</h2>
+
+                    <img src="/image.php?i=117"
+                         alt="The Queens Award for Voluntary Service"
+                         style="display: block;margin: 0 auto 16px"/>
+
+                    <p>
+                        Welcome to the Website of "SOUTHAMPTON HOSPITAL RADIO," we have been broadcasting to the
+                        patients of Southampton continuously since October 1952.
+                    </p>
+                    <p>
+                        Affiliated to the Hospital Broadcasting Association (HBA)and Serving the Southampton General
+                        and Princess Anne Hospitals, we provide patient entertainment 24 hours a day, 7 days a week.
+                    </p>
+                    <p>
+                        All of the members of the Southampton Hospital Broadcasting Association (SHBA) were honoured
+                        to be awarded the Queens Award for Voluntary Service on the 2nd June 2012.
+                    </p>
+                    <p>
+                        Look around our website to see what we offer, and if you want to get involved why not
+                        <a href="/12">join us</a> as a volunteer.
+                    </p>
+
+                    <p>
+                        Thank you for looking at the website for "SOUTHAMPTON HOSPITAL RADIO"
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="t-home__events">
+
+            <div class="t-home__events-panel t-home__panel t-home__panel--sports">
+                <div>
+                    <h2 class="t-home__panel-header">Upcoming Sports</h2>
+                    {% include '_partials/events-list.html.twig' with {
+                        'broadcasts': sports,
+                        'compact': true
+                    } %}
+                    <p class="text--right">
+                        <a href="/sports">Full list</a>
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="t-home__events-panel t-home__panel t-home__panel--ob">
+                <div>
+                    <h2 class="t-home__panel-header">Outside Broadcasts</h2>
+                    {% include '_partials/events-list.html.twig' with {
+                        'broadcasts': events,
+                        'compact': true
+                    } %}
+                    <p class="text--right">
+                        <a href="/outside-broadcasts">
+                            Full list
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 {% endblock %}

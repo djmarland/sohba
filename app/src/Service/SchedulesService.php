@@ -99,20 +99,20 @@ class SchedulesService extends AbstractService
         return [$now, $next];
     }
 
-    public function findUpcomingSports(DateTimeImmutable $now)
+    public function findUpcomingSports(DateTimeImmutable $now, ?int $limit = null)
     {
         return $this->mapMany(
             $this->entityManager->getSpecialListingRepo()
-                ->findListingsOfTypesAfter(Programme::PROGRAMME_SPORTS_TYPES, $now),
+                ->findListingsOfTypesAfter(Programme::PROGRAMME_SPORTS_TYPES, $now, $limit),
             $this->specialBroadcastMapper
         );
     }
 
-    public function findUpcomingOutsideBroadcasts($now)
+    public function findUpcomingOutsideBroadcasts($now, ?int $limit = null)
     {
         return $this->mapMany(
             $this->entityManager->getSpecialListingRepo()
-                ->findListingsOfTypesAfter(Programme::PROGRAMME_OUTSIDE_BROADCASTS_TYPES, $now),
+                ->findListingsOfTypesAfter(Programme::PROGRAMME_OUTSIDE_BROADCASTS_TYPES, $now, $limit),
             $this->specialBroadcastMapper
         );
     }

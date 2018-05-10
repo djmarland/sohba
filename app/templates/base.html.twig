@@ -5,6 +5,7 @@
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <title>{% block title %}{% endblock %}Southampton Hospital Radio</title>
         <link rel="stylesheet" href="/static/{{ baseAssetManifest['app.css'] }}" />
+        {% block headScripts %}{% endblock %}
     </head>
     <body>
         <div class="page-wrap">
@@ -48,6 +49,7 @@
                                 <li><a class="nav__item" href="/schedules">Programme Listings</a></li>
                                 <li><a class="nav__item" href="/sports">Sports</a></li>
                                 <li><a class="nav__item" href="/outside-broadcasts">Outside Broadcasts</a></li>
+                                <li><a class="nav__item" href="/people">The People</a></li>
                             </ul>
                         </li>
                         {% for group in baseNavPresenter.groups %}

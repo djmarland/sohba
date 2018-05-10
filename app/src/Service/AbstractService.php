@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Data\Captcha;
 use App\Data\Database\EntityManager;
 use App\Data\Database\Mapper\ImageMapper;
 use App\Data\Database\Mapper\MapperInterface;
@@ -14,6 +15,7 @@ use App\Data\Database\Mapper\SpecialDayMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
 use App\Data\Database\Mapper\TimeIntMapper;
 use Psr\Log\LoggerInterface;
+use Swift_Mailer;
 
 abstract class AbstractService
 {
@@ -33,6 +35,8 @@ abstract class AbstractService
     protected $normalBroadcastMapper;
     protected $timeIntMapper;
     protected $personMapper;
+    protected $mailer;
+    protected $captcha;
 
     public function __construct(
         EntityManager $entityManager,
@@ -44,6 +48,8 @@ abstract class AbstractService
         NormalListingMapper $normalBroadcastMapper,
         TimeIntMapper $timeIntMapper,
         ImageMapper $imageMapper,
+        Swift_Mailer $mailer,
+        Captcha $captcha,
         LoggerInterface $logger
     ) {
         $this->entityManager = $entityManager;
@@ -56,6 +62,8 @@ abstract class AbstractService
         $this->normalBroadcastMapper = $normalBroadcastMapper;
         $this->timeIntMapper = $timeIntMapper;
         $this->personMapper = $personMapper;
+        $this->mailer = $mailer;
+        $this->captcha = $captcha;
     }
 
     protected function mapSingle(?array $result, MapperInterface $mapper)

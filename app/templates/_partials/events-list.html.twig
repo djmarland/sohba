@@ -5,6 +5,9 @@
         {% for broadcast in broadcasts %}
             <li>
                 <a class="broadcast {%
+                    if compact is defined
+                        %}broadcast--compact {%
+                    endif %}{%
                     if broadcast.programme.isEvent
                 %}broadcast--event broadcast--event-{{ broadcast.programme.type }}{%
                     endif %}" href="{{ broadcast.programme.url }}">

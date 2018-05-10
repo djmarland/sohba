@@ -15,7 +15,6 @@ class ConfigurableContentService extends AbstractService
         $result = $this->entityManager->getKeyValueRepo()
             ->findValueByKey(self::KEY_FOOTER_CONTENT);
 
-        // todo - process with markdown?
         return $result;
     }
 

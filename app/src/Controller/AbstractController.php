@@ -9,6 +9,7 @@ use App\Service\PageService;
 use App\Service\SchedulesService;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractController extends SymfonyAbstractController
@@ -30,8 +31,11 @@ abstract class AbstractController extends SymfonyAbstractController
         $this->now = $now;
     }
 
-    protected function renderMainSite(string $template, array $data = []): Response
-    {
+    protected function renderMainSite(
+        string $template,
+        array $data = [],
+        Request $request = null
+    ): Response {
         $pages = $this->pageService->findAllForNavigation();
 
         $data['baseNavPresenter'] = new NavigationPresenter($pages);
@@ -41,6 +45,16 @@ abstract class AbstractController extends SymfonyAbstractController
             file_get_contents(__DIR__ . '/../../../public_html/static/assets-manifest.json'),
             true
         );
+        $data['baseShowCricket'] = false;
+        if ($request && $request->get('crickettest')) {
+            $data['baseShowCricket'] = true;
+        } elseif (
+            isset($data['baseNowAndNext'][0]->programme) &&
+            $data['baseNowAndNext'][0]->programme->isCricket()
+        ) {
+            $data['baseShowCricket'] = true;
+        }
+
         return $this->render($template, $data);
     }
 }

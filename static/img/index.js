@@ -1,1 +1,1 @@
-import "./banner.png";
+import "./header-bg.png";

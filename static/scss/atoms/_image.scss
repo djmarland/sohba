@@ -1,0 +1,20 @@
+.image--left {
+  float: left;
+  max-width: 250px;
+  margin-right: 12px;
+  margin-bottom: 12px;
+  clear: both;
+}
+
+.image--right {
+  float: right;
+  max-width: 250px;
+  margin-left: 12px;
+  margin-bottom: 12px;
+  clear: both;
+}
+
+.image--center {
+  max-width: 250px;
+  clear: both;
+}
