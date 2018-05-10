@@ -27,7 +27,7 @@ class RequestsService extends AbstractService
             'studio@sohba.org',
             'SOHBA Request'
         );
-        $message->addTo('davidm@rland.me.uk');
+        $message->addTo('');
 
         // send the e-mail
         $this->mailer->send($message);

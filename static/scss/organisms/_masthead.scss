@@ -1,8 +1,12 @@
 .masthead {
-  background: $color-masthead-background url('/design/header-bg.png') top right no-repeat;
+  background: $color-masthead-background;
   color: $color-masthead-text;
   display: flex;
   align-items: center;
+
+  @media (min-width: 48rem) {
+    background: $color-masthead-background url('/design/header-bg.png') top right no-repeat;
+  }
 
   &__text {
     @extend .b;
