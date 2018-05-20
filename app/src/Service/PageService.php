@@ -15,6 +15,14 @@ class PageService extends AbstractService
         );
     }
 
+    public function findByUrl(string $urlPath): ?Page
+    {
+        return $this->mapSingle(
+            $this->entityManager->getPageRepo()->findByUrlPath($urlPath),
+            $this->pageMapper
+        );
+    }
+
     public function findAllForNavigation(): array
     {
         return $this->mapMany(

@@ -5,6 +5,7 @@ namespace App\Controller\Page;
 
 use App\Controller\AbstractController;
 use App\Service\PageService;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,9 +20,15 @@ class ShowAction extends AbstractController
 
         if (is_numeric($pageId)) {
             $page = $pageService->findByLegacyId((int) $pageId);
+            if ($page->getUrlPath()) {
+                return new RedirectResponse('/' . $page->getUrlPath(), 301);
+            }
         } else {
-            // todo - elseif for a string based entry
-            throw new NotFoundHttpException('No such page'); // todo - graceful 404
+            $page = $pageService->findByUrl($pageId);
+        }
+
+        if (!$page) {
+            throw new NotFoundHttpException('No such page');
         }
 
         return $this->renderMainSite(

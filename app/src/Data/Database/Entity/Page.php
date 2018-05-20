@@ -10,6 +10,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity(repositoryClass="App\Data\Database\EntityRepository\PageRepository")
  * @ORM\Table(
  *     name="tblPages",
+ *     indexes={@ORM\Index(name="page_url_path", columns={"url_path"})},
  *     options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  * )
  */
@@ -26,6 +27,11 @@ class Page extends AbstractEntity
      * @ORM\Column(type="string", name="title", length=50)
      */
     public $title;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    public $urlPath;
 
     /**
      * @ORM\Column(type="boolean", name="title_mobile")

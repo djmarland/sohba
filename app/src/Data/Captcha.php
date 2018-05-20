@@ -31,7 +31,7 @@ class Captcha
 
         $verifyResponse = $this->httpClient->request('GET', $fullUrl);
 
-        $responseData = \json_decode($verifyResponse->getBody());
+        $responseData = \json_decode($verifyResponse->getBody()->getContents());
 
         return !!$responseData->success;
     }

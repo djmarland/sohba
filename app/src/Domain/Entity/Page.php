@@ -13,12 +13,14 @@ class Page extends Entity implements \JsonSerializable
     private $category;
     private $legacyId;
     private $htmlContent;
+    private $urlPath;
 
     public function __construct(
         UuidInterface $id,
         int $legacyId,
         string $title,
         string $htmlContent,
+        ?string $urlPath = null,
         ?PageCategory $category = null
     ) {
         parent::__construct($id);
@@ -26,6 +28,7 @@ class Page extends Entity implements \JsonSerializable
         $this->category = $category;
         $this->legacyId = $legacyId;
         $this->htmlContent = $htmlContent;
+        $this->urlPath = $urlPath;
     }
 
     public function jsonSerialize()
@@ -119,5 +122,10 @@ class Page extends Entity implements \JsonSerializable
             return null;
         }
         return $this->category;
+    }
+
+    public function getUrlPath(): ?string
+    {
+        return $this->urlPath;
     }
 }

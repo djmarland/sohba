@@ -28,4 +28,13 @@ class PageRepository extends AbstractEntityRepository
             ->setParameter('legacyId', $legacyId);
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
+
+    public function findByUrlPath(string $urlPath, $resultType = Query::HYDRATE_ARRAY)
+    {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl')
+            ->where('tbl.urlPath = :path')
+            ->setParameter('path', $urlPath);
+        return $qb->getQuery()->getOneOrNullResult($resultType);
+    }
 }

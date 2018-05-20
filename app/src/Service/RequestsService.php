@@ -19,15 +19,24 @@ class RequestsService extends AbstractService
         $song = $request->get('request', '');
         $message = $request->get('message', '');
 
+        $now = new \DateTimeImmutable();
+
         $message = new Swift_Message(
-            'Request',
-            'A request with ' . $patientName . $hospital . $song . $message
+            'Request from web: ' . $now->format('l jS F'),
+            <<<BODY
+A request was made on {$now->format('l jS F')} at {$now->format('H:s')}.
+
+Patient Name: $patientName
+Hospital: $hospital
+Song: $song
+Message: $message
+BODY
         );
         $message->addFrom(
-            'studio@sohba.org',
+            $this->appConfigRequestFromAddress,
             'SOHBA Request'
         );
-        $message->addTo('');
+        $message->addTo($this->appConfigRequestToAddress);
 
         // send the e-mail
         $this->mailer->send($message);
@@ -35,6 +44,10 @@ class RequestsService extends AbstractService
 
     private function handleCaptcha(Request $request)
     {
+        if ($this->appConfigSkipCapture) {
+            return;
+        }
+
         $captcha = $request->get('g-recaptcha-response');
         if (!$captcha) {
             throw new CaptchaException('The Captcha was not supplied. Please try again');

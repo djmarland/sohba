@@ -6,5 +6,5 @@ swiftmailer:
     spool:
         type: memory
     port: 465
-    encryption: "tls"
+    encryption: "ssl"
     auth_mode: "login"

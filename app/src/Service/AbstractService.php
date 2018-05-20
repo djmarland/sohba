@@ -38,6 +38,10 @@ abstract class AbstractService
     protected $mailer;
     protected $captcha;
 
+    protected $appConfigRequestFromAddress;
+    protected $appConfigRequestToAddress;
+    protected $appConfigSkipCapture;
+
     public function __construct(
         EntityManager $entityManager,
         PageMapper $pageMapper,
@@ -50,7 +54,10 @@ abstract class AbstractService
         ImageMapper $imageMapper,
         Swift_Mailer $mailer,
         Captcha $captcha,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        string $appConfigRequestFromAddress,
+        string $appConfigRequestToAddress,
+        bool $appConfigSkipCapture
     ) {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
@@ -64,6 +71,9 @@ abstract class AbstractService
         $this->personMapper = $personMapper;
         $this->mailer = $mailer;
         $this->captcha = $captcha;
+        $this->appConfigRequestFromAddress = $appConfigRequestFromAddress;
+        $this->appConfigRequestToAddress = $appConfigRequestToAddress;
+        $this->appConfigSkipCapture = $appConfigSkipCapture;
     }
 
     protected function mapSingle(?array $result, MapperInterface $mapper)

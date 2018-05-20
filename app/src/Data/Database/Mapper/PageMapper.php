@@ -23,6 +23,7 @@ class PageMapper implements MapperInterface
             $item['pkid'],
             $item['title'],
             nl2br($item['content']),
+            $item['urlPath'],
             $this->mapCategory($item)
         );
     }
