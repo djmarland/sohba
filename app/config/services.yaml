@@ -40,3 +40,6 @@ services:
         arguments:
             - "now"
             - "@DateTimeZone"
+
+    GuzzleHttp\Client:
+        class: GuzzleHttp\Client

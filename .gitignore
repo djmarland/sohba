@@ -2,3 +2,6 @@ public_html/*
 
 !public_html/.htaccess
 !public_html/app.php
+
+/.env
+/build
