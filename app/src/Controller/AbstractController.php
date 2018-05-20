@@ -34,7 +34,8 @@ abstract class AbstractController extends SymfonyAbstractController
     protected function renderMainSite(
         string $template,
         array $data = [],
-        Request $request = null
+        ?Request $request = null,
+        ?Response $originalResponse = null
     ): Response {
         $pages = $this->pageService->findAllForNavigation();
 
@@ -55,6 +56,18 @@ abstract class AbstractController extends SymfonyAbstractController
             $data['baseShowCricket'] = true;
         }
 
-        return $this->render($template, $data);
+        return $this->render($template, $data, $originalResponse);
+    }
+
+    protected function render404(string $message)
+    {
+        return $this->renderMainSite(
+            'error/404.html.twig',
+            [
+                'message' => $message,
+            ],
+            null,
+            new Response('', Response::HTTP_NOT_FOUND)
+        );
     }
 }

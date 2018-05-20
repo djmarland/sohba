@@ -28,9 +28,15 @@ RewriteRule ^monitor$ "http\:\/\/vs32\.applesources\.net\:8000\/sohbatx" [R=301,
     # Explicitly disable rewriting for front controllers
     RewriteRule ^app.php - [L]
 
+    RewriteCond %{QUERY_STRING} ^pageID=(\d+)$ [NC]
+    RewriteRule ^viewPage.php$ /%1 [QSD,NC,R=301,L]
+
+    RewriteCond %{QUERY_STRING} ^showID=(\d+)$ [NC]
+    RewriteRule ^viewShow.php$ /programmes/%1 [QSD,NC,R=301,L]
+
     RewriteCond %{REQUEST_FILENAME} !-f
 
     RewriteCond %{REQUEST_URI} !^/admin/$
     RewriteCond %{REQUEST_URI} !^/admin$
-    RewriteRule ^(.+)$ /app.php [QSA,L]
+    RewriteRule ^(.*)$ /app.php [QSA,L]
 </IfModule>

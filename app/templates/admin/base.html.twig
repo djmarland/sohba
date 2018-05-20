@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <title>{% block title %}{% endblock %}Admin - Southampton Hospital Radio</title>
+        {% block headScripts %}{% endblock %}
+    </head>
+    <body>
+        <div class="page-wrap">
+            <header class="masthead">
+                <a href="/admin" class="masthead__text">
+                    Southampton Hospital Radio Admin
+                </a>
+            </header>
+            <main class="t-overall">
+                <h1>Nav</h1>
+                <nav>
+                    <ul>
+                        <li>NAV</li>
+                    </ul>
+                </nav>
+                {% block body %}{% endblock %}
+            </main>
+            <footer class="footer">
+                FOOTER
+            </footer>
+        </div>
+    </body>
+</html>

@@ -20,7 +20,7 @@ class ShowAction extends AbstractController
 
         if (is_numeric($pageId)) {
             $page = $pageService->findByLegacyId((int) $pageId);
-            if ($page->getUrlPath()) {
+            if ($page && $page->getUrlPath()) {
                 return new RedirectResponse('/' . $page->getUrlPath(), 301);
             }
         } else {
@@ -28,7 +28,7 @@ class ShowAction extends AbstractController
         }
 
         if (!$page) {
-            throw new NotFoundHttpException('No such page');
+            return $this->render404('No such page');
         }
 
         return $this->renderMainSite(

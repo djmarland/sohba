@@ -13,6 +13,9 @@
     flex: 1;
     padding: $grid-unit;
     line-height: 1;
+    &:link, &:visited, &:hover, &:active {
+      color: $color-masthead-text;
+    }
   }
 
   &__menu-link {

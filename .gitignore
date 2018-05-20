@@ -5,3 +5,4 @@ public_html/*
 
 /.env
 /build
+/uploaded_files

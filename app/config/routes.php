@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Route;
 $collection = new RouteCollection();
 
 // home
-$collection->add('home', new Route('/home', [
+$collection->add('home', new Route('/', [
     '_controller' => Controller\Home\HomeAction::class,
 ]));
 
@@ -24,6 +24,16 @@ $collection->add('schedule_date', new Route('/schedules/{year}-{month}-{day}', [
         'day' => '[0123][0-9]',
     ]
 ));
+
+$collection->add('schedule_date', new Route('/images/{width}/{id}.jpg', [
+    '_controller' => Controller\Images\ShowAction::class,
+], [
+        'width' => '\d+',
+        'id' => '[a-f0-9]{32}',
+    ]
+));
+
+
 
 $collection->add('schedule_day', new Route('/schedules/{day}', [
     '_controller' => Controller\Schedules\DayAction::class,
@@ -54,6 +64,12 @@ $collection->add('page_sports', new Route('/sports', [
 
 $collection->add('page_outside_broadcasts', new Route('/outside-broadcasts', [
     '_controller' => Controller\Page\OutsideBroadcastsAction::class,
+]));
+
+
+// Admin
+$collection->add('admin_home', new Route('/admin2', [
+    '_controller' => Controller\Admin\HomeAction::class,
 ]));
 
 
