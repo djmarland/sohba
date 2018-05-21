@@ -50,8 +50,8 @@ abstract class AbstractController extends SymfonyAbstractController
         if ($request && $request->get('crickettest')) {
             $data['baseShowCricket'] = true;
         } elseif (
-            isset($data['baseNowAndNext'][0]->programme) &&
-            $data['baseNowAndNext'][0]->programme->isCricket()
+            isset($data['baseNowAndNext'][0]) &&
+            $data['baseNowAndNext'][0]->getProgramme()->isCricket()
         ) {
             $data['baseShowCricket'] = true;
         }
