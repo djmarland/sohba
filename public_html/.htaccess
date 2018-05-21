@@ -28,6 +28,8 @@ RewriteRule ^monitor$ "http\:\/\/vs32\.applesources\.net\:8000\/sohbatx" [R=301,
     # Explicitly disable rewriting for front controllers
     RewriteRule ^app.php - [L]
 
+    RewriteRule ^index.php / [R=301,L]
+
     RewriteCond %{QUERY_STRING} ^pageID=(\d+)$ [NC]
     RewriteRule ^viewPage.php$ /%1 [QSD,NC,R=301,L]
 

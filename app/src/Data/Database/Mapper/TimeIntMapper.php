@@ -9,11 +9,7 @@ class TimeIntMapper
 {
     public function map($timeInt): Time
     {
-        // todo - use a proper time object in the database so this isn't needed
-        $minutes = $timeInt % 60;
-        $hundreds = $timeInt - $minutes;
-        $hours = $hundreds / 100;
-
-        return new Time((int) $hours, (int) $minutes);
+        $timeString = str_pad((string) $timeInt, 4, '0', STR_PAD_LEFT);
+        return new Time((int) substr($timeString, 0, 2), (int) substr($timeString, 2, 2));
     }
 }
