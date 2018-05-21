@@ -1,7 +1,6 @@
 # docker-compose file for local dev only
 version: "3"
 
-
 services:
   sohba:
     build: .

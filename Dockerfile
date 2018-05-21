@@ -19,6 +19,7 @@ RUN docker-php-source extract \
 RUN docker-php-ext-configure opcache \
     && docker-php-ext-configure calendar \
     && docker-php-ext-configure exif \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-configure fileinfo \
     && docker-php-ext-configure gettext \
     && docker-php-ext-configure mysqli \
@@ -39,6 +40,7 @@ RUN docker-php-ext-configure opcache \
     opcache \
     calendar \
     exif \
+    gd \
     fileinfo \
     gettext \
     mysqli \

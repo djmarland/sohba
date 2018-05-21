@@ -25,7 +25,7 @@ class ShowAction extends AbstractController
             return $this->render404('No such image');
         }
 
-        [$originalWidth, $originalHeight] = getimagesize($sourcePath);
+        [$originalWidth, $originalHeight] = \getimagesize($sourcePath);
 
         $originalRatio = $originalWidth / $originalHeight;
 

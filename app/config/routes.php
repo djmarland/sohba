@@ -25,21 +25,19 @@ $collection->add('schedule_date', new Route('/schedules/{year}-{month}-{day}', [
     ]
 ));
 
-$collection->add('schedule_date', new Route('/images/{width}/{id}.jpg', [
+$collection->add('schedule_day', new Route('/schedules/{day}', [
+    '_controller' => Controller\Schedules\DayAction::class,
+], [
+    'day' => '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)'
+]));
+
+$collection->add('images_show', new Route('/images/{width}/{id}.jpg', [
     '_controller' => Controller\Images\ShowAction::class,
 ], [
         'width' => '\d+',
         'id' => '[a-f0-9]{32}',
     ]
 ));
-
-
-
-$collection->add('schedule_day', new Route('/schedules/{day}', [
-    '_controller' => Controller\Schedules\DayAction::class,
-], [
-    'day' => '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)'
-]));
 
 $collection->add('programmes_list', new Route('/programmes', [
     '_controller' => Controller\Programmes\ListAction::class,
