@@ -18,6 +18,7 @@ class PersonInShow extends AbstractEntity
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="spPKID")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $pkid;
 

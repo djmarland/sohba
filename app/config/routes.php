@@ -69,6 +69,9 @@ $collection->add('page_outside_broadcasts', new Route('/outside-broadcasts', [
 $collection->add('admin_home', new Route('/admin2', [
     '_controller' => Controller\Admin\HomeAction::class,
 ]));
+$collection->add('admin_pages', new Route('/admin/pages', [
+    '_controller' => Controller\Admin\PagesAction::class,
+]));
 
 
 $collection->add('page', new Route('/{page}', [

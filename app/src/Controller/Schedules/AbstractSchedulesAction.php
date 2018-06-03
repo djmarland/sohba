@@ -80,8 +80,8 @@ abstract class AbstractSchedulesAction extends AbstractController
 
         $specialDays = $this->schedulesService->getAllSpecialDaysAfter($startOfMonth);
         $specialFlags = $this->mapSpecialDaysToBooleanList($specialDays);
-        $allDates = array_keys($specialFlags);
-        $end = new DateTimeImmutable(end($allDates) . 'T23:59:59Z');
+        $allDates = \array_keys($specialFlags);
+        $end = new DateTimeImmutable(\end($allDates) . 'T23:59:59Z');
 
         $months = [];
         while ($startOfMonth < $end) {

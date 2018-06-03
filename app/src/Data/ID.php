@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Data;
 
 use App\Data\Database\Entity\KeyValue;
+use App\Data\Database\Entity\PageCategory;
 use App\Data\Database\Entity\Programme;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
@@ -12,6 +13,7 @@ use Ramsey\Uuid\UuidInterface;
 class ID
 {
     private const ENTITY_MAPPINGS = [
+        PageCategory::class => 'ca0e',
         Programme::class => 'edfa',
         KeyValue::class => 'c0c0',
     ];

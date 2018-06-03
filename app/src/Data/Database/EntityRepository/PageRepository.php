@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data\Database\EntityRepository;
 
+use App\Data\Database\Entity\Page;
 use Doctrine\ORM\Query;
 
 class PageRepository extends AbstractEntityRepository

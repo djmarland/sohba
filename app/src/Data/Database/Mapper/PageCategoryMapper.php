@@ -11,6 +11,7 @@ class PageCategoryMapper implements MapperInterface
     {
         return new PageCategory(
             $item['id'],
+            (int) $item['pkid'],
             $item['title']
         );
     }

@@ -1,30 +1,53 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <title>{% block title %}{% endblock %}Admin - Southampton Hospital Radio</title>
-        {% block headScripts %}{% endblock %}
-    </head>
-    <body>
-        <div class="page-wrap">
-            <header class="masthead">
-                <a href="/admin" class="masthead__text">
-                    Southampton Hospital Radio Admin
-                </a>
-            </header>
-            <main class="t-overall">
-                <h1>Nav</h1>
-                <nav>
-                    <ul>
-                        <li>NAV</li>
-                    </ul>
-                </nav>
-                {% block body %}{% endblock %}
-            </main>
-            <footer class="footer">
-                FOOTER
-            </footer>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    <title>{% block title %}{% endblock %}Southampton Hospital Radio Admin</title>
+    <link rel="stylesheet" href="{{ baseAssetManifest['app.css'] }}"/>
+    {% block headScripts %}{% endblock %}
+</head>
+<body>
+<div class="page-wrap">
+    <header class="masthead masthead--admin">
+        <a href="/admin" class="masthead__text">
+            HBA Admin
+        </a>
+        <a href="#nav" class="masthead__menu-link" title="Show navigation">
+            <svg viewBox="0 0 24 24">
+                <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"/>
+            </svg>
+        </a>
+    </header>
+    <main class="t-overall">
+        <div class="t-overall__main">
+            {% block body %}{% endblock %}
         </div>
-    </body>
+        <nav id="nav" class="t-overall__nav">
+            <ul class="nav">
+                <li>
+                    <span class="nav__group-title nav__item">Admin</span>
+                    <ul class="nav__sub">
+                        <li><a href="/admin" class="nav__item">Calendar</a></li>
+                        <li><a href="/admin/pages" class="nav__item">Pages</a></li>
+                        <li><a href="/" class="nav__item">Logout</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <span class="nav__group-title nav__item">User guide</span>
+                    <ul class="nav__sub">
+                        <li><a class="nav__item" href="/admin2/guide">Shows</a></li>
+                        <li><a class="nav__item" href="/admin2/technical">Technical Information</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+    </main>
+    <footer class="footer">Built by David Marland</footer>
+</div>
+{% block footScripts %}{% endblock %}
+<script type="text/javascript" src="{{ baseAssetManifest['app.js'] }}"></script>
+</body>
 </html>

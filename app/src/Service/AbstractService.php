@@ -8,6 +8,7 @@ use App\Data\Database\EntityManager;
 use App\Data\Database\Mapper\ImageMapper;
 use App\Data\Database\Mapper\MapperInterface;
 use App\Data\Database\Mapper\NormalListingMapper;
+use App\Data\Database\Mapper\PageCategoryMapper;
 use App\Data\Database\Mapper\PageMapper;
 use App\Data\Database\Mapper\PersonMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
@@ -30,6 +31,7 @@ abstract class AbstractService
     protected $programmeMapper;
     protected $imageMapper;
     protected $pageMapper;
+    protected $pageCategoryMapper;
     protected $specialDayMapper;
     protected $specialBroadcastMapper;
     protected $normalBroadcastMapper;
@@ -45,6 +47,7 @@ abstract class AbstractService
     public function __construct(
         EntityManager $entityManager,
         PageMapper $pageMapper,
+        PageCategoryMapper $pageCategoryMapper,
         PersonMapper $personMapper,
         ProgrammeMapper $programmeMapper,
         SpecialDayMapper $specialDayMapper,
@@ -74,6 +77,7 @@ abstract class AbstractService
         $this->appConfigRequestFromAddress = $appConfigRequestFromAddress;
         $this->appConfigRequestToAddress = $appConfigRequestToAddress;
         $this->appConfigSkipCapture = $appConfigSkipCapture;
+        $this->pageCategoryMapper = $pageCategoryMapper;
     }
 
     protected function mapSingle(?array $result, MapperInterface $mapper)

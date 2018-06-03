@@ -18,6 +18,7 @@ class Programme extends AbstractEntity
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="showsPKID")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $pkid;
 

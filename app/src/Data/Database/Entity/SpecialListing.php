@@ -18,6 +18,7 @@ class SpecialListing extends AbstractEntity
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="spdPKID")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $pkid;
 

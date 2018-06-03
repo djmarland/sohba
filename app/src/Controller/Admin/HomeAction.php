@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\AbstractController;
 use App\Service\SchedulesService;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,7 @@ class HomeAction extends AbstractAdminController
         DateTimeImmutable $now
     ): Response {
         return $this->renderAdminSite(
-            'admin/home.html.twig',
+            'home.html.twig',
             [],
             $request
         );

@@ -1,27 +1,38 @@
 {
-  "name": "planet-cargo",
+  "name": "sohba",
   "version": "0.0.1",
-  "description": "Planet Cargo: Node, React",
+  "description": "Southampton Hospital Radio",
   "dependencies": {
+    "date-fns": "^1.29.0",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-sortable-hoc": "^0.8.3"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.5",
-    "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.0",
-    "file-loader": "^1.1.4",
-    "node-sass": "^4.5.3",
-    "optimize-css-assets-webpack-plugin": "^3.2.0",
-    "postcss-loader": "^2.0.6",
-    "prettier": "1.11.1",
-    "sass-loader": "^6.0.6",
-    "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
-    "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.9.1",
-    "webpack-manifest-plugin": "^1.3.2"
+    "@types/react": "^16.3.16",
+    "@types/react-dom": "^16.0.5",
+    "autoprefixer": "^8.5.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "postcss-loader": "^2.1.5",
+    "prettier": "^1.13.4",
+    "sass-loader": "^7.0.1",
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.9.1",
+    "webpack": "^4.10.2",
+    "webpack-command": "^0.2.0",
+    "webpack-manifest-plugin": "^2.0.3"
   },
   "scripts": {
-    "dev": "webpack-dev-server --config webpack/dev.config.js",
-    "client": "webpack --config webpack.js --env.NODE_ENV=production",
+    "dev": "webpack --config webpack.config.js --mode=development --watch --watch-aggregate-timeout=300 --watch-poll=1000",
+    "client": "webpack --config webpack.config.js --mode=production",
     "pretty": "prettier --write --no-config '{src,tests}/**/*.{ts,tsx}'"
   }
 }

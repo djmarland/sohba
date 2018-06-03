@@ -18,6 +18,7 @@ class SpecialDay extends AbstractEntity
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="sdPKID")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $pkid;
 

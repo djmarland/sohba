@@ -42,10 +42,7 @@ abstract class AbstractController extends SymfonyAbstractController
         $data['baseNavPresenter'] = new NavigationPresenter($pages);
         $data['baseFooterContent'] = $this->configurableContentService->getFooterContent();
         $data['baseNowAndNext'] = $this->schedulesService->getNowAndNext($this->now);
-        $data['baseAssetManifest'] = json_decode(
-            file_get_contents(__DIR__ . '/../../../public_html/static/assets-manifest.json'),
-            true
-        );
+        $data['baseAssetManifest'] = $this->getAssetManifest();
         $data['baseShowCricket'] = false;
         if ($request && $request->get('crickettest')) {
             $data['baseShowCricket'] = true;
@@ -68,6 +65,14 @@ abstract class AbstractController extends SymfonyAbstractController
             ],
             null,
             new Response('', Response::HTTP_NOT_FOUND)
+        );
+    }
+
+    protected function getAssetManifest()
+    {
+        return json_decode(
+            file_get_contents(__DIR__ . '/../../../public_html/static/assets-manifest.json'),
+            true
         );
     }
 }

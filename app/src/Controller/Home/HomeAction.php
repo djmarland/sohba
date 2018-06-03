@@ -19,8 +19,8 @@ class HomeAction extends AbstractController
         return $this->renderMainSite(
             'home/home.html.twig',
             [
-                'sports' => $schedulesService->findUpcomingSports($now),
-                'events' => $schedulesService->findUpcomingOutsideBroadcasts($now),
+                'sports' => $schedulesService->findUpcomingSports($now, 3),
+                'events' => $schedulesService->findUpcomingOutsideBroadcasts($now, 3),
             ],
             $request
         );
