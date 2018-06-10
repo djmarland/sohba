@@ -1,0 +1,61 @@
+.pages {
+  &__button-field {
+    width: 34px;
+  }
+  &--category {
+    background-color: $color-primary-dark;
+    color: $color-white;
+    input, button {
+      color: $color-text;
+      margin: 0;
+    }
+    td {
+      padding: 8px 4px;
+      &:first-child {
+        padding-left: 8px;
+      }
+      &:last-child {
+        padding-right: 8px;
+      }
+    }
+    .form--category {
+      position: relative;
+
+      input {
+        display: inline-block;
+      }
+      button {
+        position: absolute;
+        top: 4px;
+        margin: 0;
+        right: 4px;
+        background: none;
+        border: none;
+        &:hover {
+          background: $color-grey-lightest;
+        }
+      }
+    }
+  }
+  &--page {
+    &:nth-child(2n) {
+      background: $color-grey-lightest;
+    }
+    td {
+      padding: 8px 4px;
+      &:first-child {
+        padding-left: 8px;
+      }
+      &:last-child {
+        padding-right: 8px;
+      }
+    }
+  }
+
+
+  &__button-field--delete {
+    button {
+      color: $color-important
+    }
+  }
+}

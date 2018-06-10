@@ -6,6 +6,7 @@ namespace App\Service;
 use App\Data\ID;
 use App\Domain\Entity\Page;
 use App\Data\Database\Entity\PageCategory as DbPageCategory;
+use App\Domain\Entity\PageCategory;
 use Doctrine\ORM\Query;
 
 class PageService extends AbstractService
@@ -72,5 +73,13 @@ class PageService extends AbstractService
     public function updateCategoryPosition(int $catId, int $position): void
     {
         $this->entityManager->getPageCategoryRepo()->updateCategoryPosition($catId, $position);
+    }
+
+    public function findAllInCategory(PageCategory $category): array
+    {
+        return $this->mapMany(
+            $this->entityManager->getPageRepo()->findAllInCategoryId($category->getLegacyId()),
+            $this->pageMapper
+        );
     }
 }

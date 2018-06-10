@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Domain\Entity\Page;
 use App\Domain\Entity\PageCategory;
 use App\Service\PageService;
 use DateTimeImmutable;
@@ -55,14 +56,17 @@ class PagesAction extends AbstractAdminController
                 'id' => $category->getLegacyId(),
                 'title' => $category->getTitle(),
                 'position' => $i + 1,
+                'pagesInCategory' => [],
             ];
 
-            // add pages with their positions.
-//            $pageMap = [
-//                'id' => $page->getLegacyId(),
-//                'title' => $page->getTitle()
-//            ];
-
+            foreach ($pageService->findAllInCategory($category) as $j => $page) {
+                /** @var Page $page */
+                $categoryMap['pagesInCategory'][] = [
+                    'id' => $page->getLegacyId(),
+                    'title' => $page->getTitle(),
+                    'position' => (($i + 1) * 100) + ($j + 1),
+                ];
+            }
             $categories[] = $categoryMap;
         }
 

@@ -72,6 +72,9 @@ $collection->add('admin_home', new Route('/admin2', [
 $collection->add('admin_pages', new Route('/admin/pages', [
     '_controller' => Controller\Admin\PagesAction::class,
 ]));
+$collection->add('admin_page', new Route('/admin/pages/{pageId}', [
+    '_controller' => Controller\Admin\PageAction::class,
+]));
 
 
 $collection->add('page', new Route('/{page}', [

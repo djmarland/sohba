@@ -1,0 +1,12 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1>Edit Page</h1>
+    <div id="app" data-container="PageDetail"></div>
+{% endblock %}
+
+{% block footScripts %}
+    <script>
+        window.HBAContent = {{ pageData | raw }};
+    </script>
+{% endblock %}

@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 
 const path = require("path");
+const autoprefixer = require("autoprefixer");
 
 const settings = {
   entry: {
@@ -14,13 +15,16 @@ const settings = {
     filename: "[chunkhash:10].[name].js"
   },
   resolve: {
-    extensions: ['.js', '.jsx',  '.json'],
+    extensions: [".js", ".jsx", ".json"]
   },
   module: {
     rules: [
       {
         test: /.jsx?$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
+        options: {
+          presets: ["env", "react", "stage-2"]
+        }
       },
       {
         test: /\.(png|svg|ico)$/,
@@ -39,6 +43,12 @@ const settings = {
             }
           },
           {
+            loader: "postcss-loader",
+            options: {
+              plugins: [autoprefixer]
+            }
+          },
+          {
             loader: "sass-loader",
             options: {
               sourceMap: true
@@ -54,7 +64,10 @@ const settings = {
       filename: "[hash:10].[name].css"
     }),
     new ManifestPlugin({
-      fileName: path.resolve(__dirname, "../public_html/static/assets-manifest.json")
+      fileName: path.resolve(
+        __dirname,
+        "../public_html/static/assets-manifest.json"
+      )
     })
   ]
 };

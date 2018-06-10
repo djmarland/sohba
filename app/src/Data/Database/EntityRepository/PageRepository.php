@@ -9,7 +9,7 @@ use Doctrine\ORM\Query;
 class PageRepository extends AbstractEntityRepository
 {
     public function findAllInCategories(
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'category')
@@ -21,7 +21,7 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    public function findByLegacyId(int $legacyId, $resultType = Query::HYDRATE_ARRAY)
+    public function findByLegacyId(int $legacyId, int $resultType = Query::HYDRATE_ARRAY)
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -30,12 +30,22 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
 
-    public function findByUrlPath(string $urlPath, $resultType = Query::HYDRATE_ARRAY)
+    public function findByUrlPath(string $urlPath, int $resultType = Query::HYDRATE_ARRAY)
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.urlPath = :path')
             ->setParameter('path', $urlPath);
         return $qb->getQuery()->getOneOrNullResult($resultType);
+    }
+
+    public function findAllInCategoryId(int $categoryId, int $resultType = Query::HYDRATE_ARRAY): array
+    {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl')
+            ->where('IDENTITY(tbl.category) = :categoryId')
+            ->orderBy('tbl.order', 'ASC')
+            ->setParameter('categoryId', $categoryId);
+        return $qb->getQuery()->getResult($resultType);
     }
 }

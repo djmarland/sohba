@@ -14,7 +14,6 @@ const arrayMove = (arr, oldIndex, newIndex) => {
 };
 
 class Container extends React.Component {
-
   state = {};
 
   componentDidMount() {
@@ -40,12 +39,11 @@ class Container extends React.Component {
     });
 
     fetch("/admin/pages", {
-      "method": "POST",
-      "credentials": "include",
-      "body": JSON.stringify(categoryPositions),
-      "headers": {
-        "content-type":
-          "application/json"
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(categoryPositions),
+      headers: {
+        "content-type": "application/json"
       }
     });
   }
@@ -58,47 +56,57 @@ class Container extends React.Component {
     const numCategories = this.state.categories.length;
     const categories = this.state.categories.map((cat, i) => {
       return (
-        <PageCategory key={cat.id}
-                      category={cat}
-                      onMoveUp={(i !== 0) ? () => {
-                        this.onCategoryMove(i, -1);
-                      } : null}
-                      onMoveDown={(i !== (numCategories - 1)) ? () => {
-                        this.onCategoryMove(i, 1);
-                      } : null}
-                      onCategoryDelete={() => {
-                        this.onCategoryDelete(cat.id);
-                      }}
+        <PageCategory
+          key={cat.id}
+          category={cat}
+          onMoveUp={
+            i !== 0
+              ? () => {
+                  this.onCategoryMove(i, -1);
+                }
+              : null
+          }
+          onMoveDown={
+            i !== numCategories - 1
+              ? () => {
+                  this.onCategoryMove(i, 1);
+                }
+              : null
+          }
+          onCategoryDelete={() => {
+            this.onCategoryDelete(cat.id);
+          }}
         />
       );
     });
 
     return (
-      <React.Fragment>
+      <div className="text--prose">
+        <p style={{ color: "red" }}>
+          Work in Progress. Functional but to be improved
+        </p>
         <h2>New Category</h2>
-        <form method="post">
-          <input type="text" name="new-category-title"/>
+        <form method="post" className="form">
+          <input type="text" name="new-category-title" />
           <button type="submit">Create</button>
         </form>
 
         <h2>Categories & Pages</h2>
         <table className="table">
           <thead className="hidden--visually">
-          <tr>
-            <td>Category or page name</td>
-            <td>Is Published?</td>
-            <td>Move up</td>
-            <td>Move down</td>
-            <td>Delete</td>
-          </tr>
+            <tr>
+              <td>Category or page name</td>
+              <td>Is Published?</td>
+              <td>Move up</td>
+              <td>Move down</td>
+              <td>Delete</td>
+            </tr>
           </thead>
-          <tbody>
-          {categories}
-          </tbody>
+          <tbody>{categories}</tbody>
         </table>
         <h2>Uncategorised pages</h2>
-        <ul className="list--unstyled"></ul>
-      </React.Fragment>
+        <ul className="list--unstyled" />
+      </div>
     );
   }
 }

@@ -1,14 +1,11 @@
 import * as React from "react";
 
 const four = {
-  john: '11'
+  john: "11"
 };
 
 class AppContainer extends React.Component<undefined, undefined> {
-
-
   render() {
-    console.log('render');
     return (
       <div>
         <h1>HELLO ADMIN HOME</h1>

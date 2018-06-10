@@ -36,6 +36,7 @@ class Page extends Entity implements \JsonSerializable
         return [
             'id' => $this->id,
             'title' => $this->getTitle(),
+            'specialType' => null,
         ];
     }
 

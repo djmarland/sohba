@@ -3,6 +3,7 @@ import { hydrate as ReactDomRender } from "react-dom";
 
 import AdminHome from "./Container/AdminHome";
 import PagesList from "./Container/PagesList";
+import PageDetail from "./Container/PageDetail";
 
 // static assets
 import "../scss/app.scss";
@@ -17,6 +18,9 @@ if (appContainer) {
       break;
     case "PagesList":
       ReactDomRender(<PagesList />, appContainer);
+      break;
+    case "PageDetail":
+      ReactDomRender(<PageDetail />, appContainer);
       break;
   }
 }
