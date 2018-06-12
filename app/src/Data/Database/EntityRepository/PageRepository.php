@@ -24,7 +24,8 @@ class PageRepository extends AbstractEntityRepository
     public function findByLegacyId(int $legacyId, int $resultType = Query::HYDRATE_ARRAY)
     {
         $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl')
+            ->select('tbl', 'category')
+            ->leftJoin('tbl.category', 'category')
             ->where('tbl.pkid = :legacyId')
             ->setParameter('legacyId', $legacyId);
         return $qb->getQuery()->getOneOrNullResult($resultType);
@@ -47,5 +48,55 @@ class PageRepository extends AbstractEntityRepository
             ->orderBy('tbl.order', 'ASC')
             ->setParameter('categoryId', $categoryId);
         return $qb->getQuery()->getResult($resultType);
+    }
+
+    // todo - this shouldn't exist. Do it properly with entities
+    public function updatePage(
+        int $legacyId,
+        string $title,
+        string $url,
+        string $content,
+        ?int $navPosition,
+        ?int $navCategoryId
+    ): void {
+        $sql = 'UPDATE ' . Page::class . ' t 
+            SET t.title = :title,
+                t.urlPath = :url,
+                t.content = :content,
+                t.order = :order,
+                t.category = :category
+            WHERE t.pkid = :id';
+        $query = $this->getEntityManager()
+            ->createQuery($sql)
+            ->setParameter('id', $legacyId)
+            ->setParameter('title', $title)
+            ->setParameter('url', $url)
+            ->setParameter('content', $content)
+            ->setParameter('order', $navPosition)
+            ->setParameter('category', $navCategoryId);
+        $query->execute();
+    }
+
+    public function findAllUncategorised(int $resultType = Query::HYDRATE_ARRAY): array
+    {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl')
+            ->where('tbl.category IS NULL')
+            ->orWhere('tbl.category = 0')// todo - always use NULL, not 0
+            ->orderBy('tbl.title', 'ASC');
+        return $qb->getQuery()->getResult($resultType);
+    }
+
+    public function newPage($title, $url)
+    {
+    }
+
+    public function deleteByLegacyId(int $legacyId): void
+    {
+        $sql = 'DELETE FROM ' . Page::class . ' t WHERE t.pkid = :id';
+        $query = $this->getEntityManager()
+            ->createQuery($sql)
+            ->setParameter('id', $legacyId);
+        $query->execute();
     }
 }

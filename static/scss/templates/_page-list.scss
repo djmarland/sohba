@@ -1,0 +1,19 @@
+.t-page-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__new-page, &__new-category {
+    width: 50%;
+  }
+  &__new-category {
+    padding-left: $grid-unit * 2;
+  }
+
+  &__pages {
+    margin-top: $grid-unit;
+    width: 100%;
+    input[type="text"] {
+      width: 100%;
+    }
+  }
+}

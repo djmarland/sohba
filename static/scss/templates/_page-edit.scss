@@ -1,0 +1,31 @@
+.t-page-edit {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__basic, &__nav {
+    width: 50%;
+  }
+  &__nav {
+    padding-left: $grid-unit * 2;
+  }
+
+  &__pop {
+    @extend .text--right;
+    margin-bottom: 19px;
+  }
+
+  &__content {
+    margin-top: $grid-unit;
+    width: 100%;
+    textarea {
+      max-width: 780px;
+      height: 500px;
+    }
+  }
+
+  &__submit {
+    margin-top: $grid-unit;
+    width: 100%;
+    text-align: right;
+  }
+}

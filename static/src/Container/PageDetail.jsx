@@ -2,18 +2,41 @@ import * as React from "react";
 
 class PageDetail extends React.Component {
   state = {};
+  categories = [];
+  specialPages = [];
+  urlRegex = "";
+  message = null;
 
   componentDidMount() {
+    this.specialPages = window.HBAContent.specialPages;
+    this.categories = window.HBAContent.allCategories;
+    this.urlRegex = window.HBAContent.urlRegex;
+
+    if (window.HBAContent.messageOk) {
+      this.message = (
+        <div className="message message--success">
+          {window.HBAContent.messageOk}
+        </div>
+      );
+    } else if (window.HBAContent.messageFail) {
+      this.message = (
+        <div className="message message--error">
+          {window.HBAContent.messageFail}
+        </div>
+      );
+    }
+
     this.setState({
       page: window.HBAContent.page,
-      specialType: window.HBAContent.page.specialType || ""
+      specialType: window.HBAContent.specialType || "",
+      showNavigation: !!window.HBAContent.page.category
     });
   }
 
   changeType(event) {
     this.setState({
-      specialType: event.target.value,
-    })
+      specialType: event.target.value
+    });
   }
 
   render() {
@@ -30,71 +53,48 @@ class PageDetail extends React.Component {
           <input type="text"
                  name="url"
                  defaultValue={this.state.page.urlPath}
+                 pattern={this.urlRegex}
                  required
           />
         </label>
       );
     }
 
-    return (
-      <div className="text--prose">
-        <form method="post" className="form">
-          <button type="submit" style={{position:"sticky", float: "right"}}>Save</button>
-          <h2>Basic details</h2>
+    const categories = this.categories.map(category => (
+      <option key={category.legacyId} value={category.legacyId}>{category.title}</option>
+    ));
 
-          <label>
-            Full Page Title
-            <input type="text"
-                   name="title"
-                   defaultValue={this.state.page.title}
-                   required
-            />
-          </label>
 
-          <label>
-            Special Page type
-            <select name="special" onChange={this.changeType.bind(this)} value={this.state.specialType}>
-              <option value="">None (set a URL)</option>
-              <option value="home">Home</option>
-              <option value="requests">Requests</option>
-              <option value="sports">Sports</option>
-              <option value="ob">Outside Broadcasts</option>
-              <option value="people">People</option>
-            </select>
-          </label>
+    const specialPages = this.specialPages.map(page => (
+      <option key={page.value} value={page.value}>{page.title}</option>
+    ));
 
-          {pageUrl}
-
-          <h2>Page content</h2>
-
-          <label>Enter the content for the page
-          <textarea>
-
-          </textarea>
-          </label>
-
-          <h2>Navigation details</h2>
-
-          <label>
-            <input type="checkbox" /> Include in navigation
-          </label>
-
+    let navigationContent = null;
+    if (this.state.showNavigation) {
+      navigationContent = (
+        <React.Fragment>
           <label>
             Navigation Category
-            <select name="special" onChange={this.changeType.bind(this)} value={this.state.specialType}>
-              <option value="1">What's On</option>
+            <select name="nav-category"
+                    defaultValue={this.state.page.category ?
+                      this.state.page.category.legacyId : ""
+                    }
+                    required
+            >
+              {categories}
             </select>
           </label>
 
-
+          {/*
           <label>
-            Navigation Title
+            Navigation Title Override
             <input type="text"
                    name="title"
+                   placeholder="optional"
                    defaultValue={this.state.page.navTitle}
-                   required
             />
           </label>
+          */}
 
           <label>
             Navigation Position
@@ -105,9 +105,72 @@ class PageDetail extends React.Component {
                    required
             />
           </label>
-        </form>
+        </React.Fragment>
+      );
+    }
 
-      </div>
+    return (
+      <React.Fragment>
+        {this.message}
+        <form method="post" className="form">
+          <div className="t-page-edit">
+            <div className="t-page-edit__basic">
+
+              <h2>Basic details</h2>
+
+              <p className="t-page-edit__pop">
+                <a href={`/${this.state.page.legacyId}`}
+                   target="_blank">View page ⇗</a>
+              </p>
+
+              <label>
+                Full Page Title
+                <input type="text"
+                       name="title"
+                       defaultValue={this.state.page.title}
+                       required
+                />
+              </label>
+
+              <label>
+                Special Page type
+                <select name="special" onChange={this.changeType.bind(this)} value={this.state.specialType}>
+                  <option value="">--None (set a URL)--</option>
+                  {specialPages}
+                </select>
+              </label>
+
+              {pageUrl}
+            </div>
+            <div className="t-page-edit__nav">
+
+              <h2>Navigation details</h2>
+
+              <label>
+                <input type="checkbox"
+                       checked={this.state.showNavigation}
+                       onChange={() => {
+                         this.setState({
+                           showNavigation: !this.state.showNavigation
+                         });
+                       }}/> Include in navigation
+              </label>
+
+              {navigationContent}
+            </div>
+            <div className="t-page-edit__content">
+              <h2>Page content</h2>
+              <label>Enter the content for the page
+                <textarea name="content"
+                          defaultValue={this.state.page.originalContent}/>
+              </label>
+            </div>
+            <div className="t-page-edit__submit">
+              <button type="submit">Save</button>
+            </div>
+          </div>
+        </form>
+      </React.Fragment>
     );
   }
 }

@@ -29,12 +29,14 @@ class Page extends AbstractEntity
     public $title;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true, unique=true)
+     * todo - make this not nullable
      */
     public $urlPath;
 
     /**
      * @ORM\Column(type="boolean", name="title_mobile")
+     * todo - remove this
      */
     public $showOnMobile = 1;
 
@@ -45,6 +47,7 @@ class Page extends AbstractEntity
 
     /**
      * @ORM\Column(type="boolean", name="published")
+     * todo - remove this
      */
     public $isPublished;
 

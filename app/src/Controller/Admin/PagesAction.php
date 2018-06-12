@@ -26,6 +26,13 @@ class PagesAction extends AbstractAdminController
             } elseif ($request->get('delete-category')) {
                 $categoryId = (int)$request->get('delete-category');
                 $pageService->deletePageCategory($categoryId);
+            } elseif ($request->get('delete-page')) {
+                $pageId = (int)$request->get('delete-page');
+                $pageService->deletePage($pageId);
+            } elseif ($request->get('new-page-title')) {
+                $title = $request->get('new-page-title');
+                $pageId = $pageService->newPage($title);
+                return $this->redirect('/admin/pages/' . $pageId);
             } elseif ($request->get('new-category-title')) {
                 $title = $request->get('new-category-title');
                 $pageService->newPageCategory($title);
@@ -72,7 +79,13 @@ class PagesAction extends AbstractAdminController
 
         return [
           'categories' => $categories,
-          'uncategorised' => [],
+          'uncategorised' => array_map(function ($page) {
+              /** @var Page $page */
+              return [
+                  'id' => $page->getLegacyId(),
+                  'title' => $page->getTitle(),
+              ];
+          }, $pageService->findAllUncategorised()),
         ];
     }
 }

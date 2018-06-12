@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import PageCategory from "../Components/Pages/Category";
+import Page from "../Components/Pages/Page";
 
 const arrayMove = (arr, oldIndex, newIndex) => {
   if (newIndex >= arr.length) {
@@ -62,15 +63,15 @@ class Container extends React.Component {
           onMoveUp={
             i !== 0
               ? () => {
-                  this.onCategoryMove(i, -1);
-                }
+                this.onCategoryMove(i, -1);
+              }
               : null
           }
           onMoveDown={
             i !== numCategories - 1
               ? () => {
-                  this.onCategoryMove(i, 1);
-                }
+                this.onCategoryMove(i, 1);
+              }
               : null
           }
           onCategoryDelete={() => {
@@ -80,32 +81,61 @@ class Container extends React.Component {
       );
     });
 
-    return (
-      <div className="text--prose">
-        <p style={{ color: "red" }}>
-          Work in Progress. Functional but to be improved
-        </p>
-        <h2>New Category</h2>
-        <form method="post" className="form">
-          <input type="text" name="new-category-title" />
-          <button type="submit">Create</button>
-        </form>
+    const uncategorised = this.state.uncategorised.map(page => (
+      <Page key={page.id} page={page}/>
+    ));
 
-        <h2>Categories & Pages</h2>
-        <table className="table">
-          <thead className="hidden--visually">
+    return (
+      <div className="t-page-list">
+        <div className="t-page-list__new-page">
+          <h2>New Page</h2>
+          <form method="post" className="form">
+            <label>
+              Page Title
+              <input type="text" name="new-page-title"/>
+            </label>
+            <button type="submit">Create</button>
+          </form>
+        </div>
+        <div className="t-page-list__new-category">
+          <h2>New Category</h2>
+          <form method="post" className="form">
+            <label>
+              Category Title
+              <input type="text" name="new-category-title"/>
+            </label>
+            <button type="submit">Create</button>
+          </form>
+        </div>
+
+        <div className="t-page-list__pages">
+
+          <p style={{ color: "red" }}>
+            Work in Progress. Functional but to be improved
+          </p>
+          <h2>Categories & Pages</h2>
+          <table className="table">
+            <thead className="hidden--visually">
             <tr>
               <td>Category or page name</td>
-              <td>Is Published?</td>
               <td>Move up</td>
               <td>Move down</td>
               <td>Delete</td>
             </tr>
-          </thead>
-          <tbody>{categories}</tbody>
-        </table>
-        <h2>Uncategorised pages</h2>
-        <ul className="list--unstyled" />
+            </thead>
+            <tbody>{categories}</tbody>
+          </table>
+          <h2>Uncategorised pages</h2>
+          <table className="table">
+            <thead className="hidden--visually">
+            <tr>
+              <td>Page name</td>
+              <td>Delete</td>
+            </tr>
+            </thead>
+            <tbody>{uncategorised}</tbody>
+          </table>
+        </div>
       </div>
     );
   }

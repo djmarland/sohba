@@ -31,6 +31,7 @@ class PageCategory extends Entity implements \JsonSerializable
         return [
             'id' => $this->id,
             'title' => $this->getTitle(),
+            'legacyId' => $this->getLegacyId(),
         ];
     }
 

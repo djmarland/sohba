@@ -6,6 +6,7 @@ namespace App\Service;
 use App\Data\ID;
 use App\Domain\Entity\Page;
 use App\Data\Database\Entity\PageCategory as DbPageCategory;
+use App\Data\Database\Entity\Page as DbPage;
 use App\Domain\Entity\PageCategory;
 use Doctrine\ORM\Query;
 
@@ -59,6 +60,11 @@ class PageService extends AbstractService
         $this->entityManager->getPageCategoryRepo()->deleteByLegacyId($categoryId);
     }
 
+    public function deletePage(int $pageId): void
+    {
+        $this->entityManager->getPageRepo()->deleteByLegacyId($pageId);
+    }
+
     public function newPageCategory(string $title)
     {
         $category = new DbPageCategory(
@@ -81,5 +87,53 @@ class PageService extends AbstractService
             $this->entityManager->getPageRepo()->findAllInCategoryId($category->getLegacyId()),
             $this->pageMapper
         );
+    }
+
+    public function updatePage(
+        Page $page,
+        string $title,
+        string $url,
+        string $content,
+        ?int $navPosition,
+        ?int $navCategoryId
+    ): void {
+        $this->entityManager->getPageRepo()->updatePage(
+            $page->getLegacyId(),
+            $title,
+            $url,
+            $content,
+            $navPosition,
+            $navCategoryId
+        );
+    }
+
+    public function findAllUncategorised()
+    {
+        return $this->mapMany(
+            $this->entityManager->getPageRepo()->findAllUncategorised(),
+            $this->pageMapper
+        );
+    }
+
+    public function newPage(string $title)
+    {
+        $url = str_replace(' ', '-', strtolower($title));
+        $url = preg_replace('/[^a-z0-9-]/s', '', $url);
+
+        $page = new DbPage(
+            ID::makeNewID(DbPage::class),
+            $title,
+            0
+        );
+
+        // todo - things that can't be null should be in the constructor (e.g. content)
+        $page->urlPath = $url;
+        $page->content = '';
+        $page->isPublished = true;
+
+        $this->entityManager->persist($page);
+        $this->entityManager->flush();
+
+        return $page->pkid;
     }
 }
