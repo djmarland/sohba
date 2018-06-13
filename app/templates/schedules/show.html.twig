@@ -3,18 +3,15 @@
 {% block title %}Schedules - {{ title }} - {% endblock %}
 
 {% block body %}
-    <div class="text--prose">
-        <h1 class="title">
-            <span class="title__context">
-                <a href="/schedules">Schedules</a>
-            </span>
-            {{ title }}
-        </h1>
-        <p>
-            Click a day to see the normal programme listings. To see changes to the regular
-            schedule per month click the appropriate link to the right. Days with changes
-            are highlighted. Click a listing to view the show page.
-        </p>
+    <h1 class="title">
+        <span class="title__context">
+            <a href="/schedules">{{ prose.title }}</a>
+        </span>
+        {{ title }}
+    </h1>
+
+    <div class="unit">
+        {{ prose.htmlContent|raw }}
     </div>
 
     <div class="t-schedules">

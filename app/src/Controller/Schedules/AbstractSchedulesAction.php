@@ -17,7 +17,10 @@ use function App\Functions\DateTimes\formatDateForDisplay;
 
 abstract class AbstractSchedulesAction extends AbstractController
 {
+    public const SPECIAL_PAGE_URL = 'schedules';
+
     private $schedulesService;
+    private $pagesService;
     private $now;
 
     public function __construct(
@@ -28,6 +31,7 @@ abstract class AbstractSchedulesAction extends AbstractController
     ) {
         parent::__construct($pageService, $schedulesService, $configurableContentService, $now);
         $this->schedulesService = $schedulesService;
+        $this->pagesService = $pageService;
         $this->now = $now;
     }
 
@@ -51,6 +55,7 @@ abstract class AbstractSchedulesAction extends AbstractController
                 'title' => $title,
                 'calendars' => $this->getCalendars(),
                 'broadcasts' => $this->schedulesService->getShowsForSpecialDay($specialDay),
+                'prose' => $this->getIntroduction(),
             ]
         );
     }
@@ -67,6 +72,7 @@ abstract class AbstractSchedulesAction extends AbstractController
                 'title' => $title,
                 'calendars' => $this->getCalendars(),
                 'broadcasts' => $this->schedulesService->getShowsForDay($dayNum),
+                'prose' => $this->getIntroduction(),
             ]
         );
     }
@@ -100,5 +106,10 @@ abstract class AbstractSchedulesAction extends AbstractController
         }
         ksort($days);
         return $days;
+    }
+
+    private function getIntroduction()
+    {
+        return $this->pagesService->findByUrl(self::SPECIAL_PAGE_URL);
     }
 }

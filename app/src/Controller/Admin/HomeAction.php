@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Service\PageService;
 use App\Service\SchedulesService;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;

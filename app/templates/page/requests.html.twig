@@ -8,7 +8,7 @@
 
 {% block body %}
     <div class="text--prose">
-        <h1>Requests</h1>
+        <h1>{{ prose.title }}</h1>
 
         {% if sent %}
             <p class="message message--success">
@@ -21,26 +21,7 @@
             </p>
         {% endif %}
 
-        <p>
-            <strong>Get a record played on air for someone in hospital.</strong> Each night we broadcast 'Requestline,'
-            the show where the audience can get what they want played. Your request could be:
-        </p>
-        <ul>
-            <li>
-                a single record to be played on the programme. Give us the artist and title and we'll do our best
-                to play it. You may suggest an alternative in case we can't find it
-            </li>
-            <li>
-                a song from your favourite artist(s)/genre(s) to be played each day you are in hospital.
-            </li>
-            <li>
-                a message to be read out on air.
-            </li>
-        </ul>
-        <p>
-            Please remember to give us the name and ward of the patient the request is for.
-            However, this is optional. If you would prefer your request at a specific time, please let us know.
-        </p>
+        {{ prose.htmlContent|raw }}
     </div>
 
     <div>

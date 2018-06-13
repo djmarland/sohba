@@ -5,15 +5,19 @@ namespace App\Controller\Page;
 
 use App\Controller\AbstractController;
 use App\Domain\Exception\CaptchaException;
+use App\Service\PageService;
 use App\Service\RequestsService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class RequestsAction extends AbstractController
 {
+    public const SPECIAL_PAGE_URL = 'requests';
+
     public function __invoke(
         Request $request,
-        RequestsService $requestsService
+        RequestsService $requestsService,
+        PageService $pageService
     ): Response {
 
         $sent = false;
@@ -35,6 +39,7 @@ class RequestsAction extends AbstractController
             [
                 'sent' => $sent,
                 'fail' => $fail,
+                'prose' => $pageService->findByUrl(self::SPECIAL_PAGE_URL),
             ]
         );
     }

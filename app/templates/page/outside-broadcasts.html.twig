@@ -4,15 +4,8 @@
 
 {% block body %}
     <div class="text--prose">
-        <h1>Outside Broadcasts</h1>
-        <p>
-            Southampton Hospital Radio are proud to not only bring live and recorded
-            broadcasts from in and around the local area to the Hospitals, but we also
-            provide a public address service for various events throughout the year.
-        </p>
-        <p>
-            Below are the events that we are planning to cover soon.
-        </p>
+        <h1>{{ prose.title }}</h1>
+        {{ prose.htmlContent|raw }}
     </div>
     
     <h2>Upcoming Broadcasts</h2>

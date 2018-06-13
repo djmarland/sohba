@@ -47,64 +47,16 @@
                         </li>
 
 
-
-                        {# Disabled the auto list and hard coded it for now, until it can be dynamic
                         {% for group in baseNavPresenter.groups %}
                             <li>
                                 <span class="nav__group-title nav__item">{{ group.title }}</span>
                                 <ul class="nav__sub">
                                     {% for page in group.pages %}
-                                        <li><a class="nav__item" href="/{{ page.legacyId }}">{{ page.title }}</a></li>
+                                        <li><a class="nav__item" href="/{{ page.urlPath }}">{{ page.title }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>
                         {% endfor %}
-                        #}
-
-                        <li>
-                            <span class="nav__group-title nav__item">What's on</span>
-                            <ul class="nav__sub">
-                                <li><a class="nav__item" href="/schedules">Programme Listings</a></li>
-                                <li><a class="nav__item" href="/sports">Sports</a></li>
-                                <li><a class="nav__item" href="/outside-broadcasts">Outside Broadcasts</a></li>
-                            </ul>
-                        </li>
-
-
-                        <li>
-                            <span class="nav__group-title nav__item">About us</span>
-                            <ul class="nav__sub">
-                                <li><a class="nav__item" href="/first-fifty-years">The First Fifty Years</a></li>
-                                <li><a class="nav__item" href="/people">The People</a></li>
-                                <li><a class="nav__item" href="/overview">Overview</a></li>
-                                <li><a class="nav__item" href="/the-audience">The Audience</a></li>
-                                <li><a class="nav__item" href="/fundraising">Fundraising</a></li>
-                                <li><a class="nav__item" href="/record-library">Record Library</a></li>
-                                <li><a class="nav__item" href="/engineering-team">Engineering</a></li>
-                                <li><a class="nav__item" href="/alumni">Alumni</a></li>
-                                <li><a class="nav__item" href="/useful-info">Useful Info</a></li>
-                                <li><a class="nav__item" href="/contact-us">Contact Us</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="nav__group-title nav__item">For Hire</span>
-                            <ul class="nav__sub">
-                                <li><a class="nav__item" href="/public-address">Public Address</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="nav__group-title nav__item">Get Involved</span>
-                            <ul class="nav__sub">
-                                <li><a class="nav__item" href="/join-us">Join Us</a></li>
-                                <li><a class="nav__item" href="/donate">Donate</a></li>
-                                <li><a class="nav__item" href="/sponsorship">Sponsorship</a></li>
-                                <li><a class="nav__item" href="/sainsburys">Sainsburys</a></li>
-                            </ul>
-                        </li>
-
-
                     </ul>
                 </nav>
             </main>

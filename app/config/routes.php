@@ -12,11 +12,13 @@ $collection->add('home', new Route('/', [
     '_controller' => Controller\Home\HomeAction::class,
 ]));
 
-$collection->add('schedule_today', new Route('/schedules', [
+$schedulesPrefix = '/' . Controller\Schedules\AbstractSchedulesAction::SPECIAL_PAGE_URL;
+
+$collection->add('schedule_today', new Route($schedulesPrefix, [
     '_controller' => Controller\Schedules\TodayAction::class,
 ]));
 
-$collection->add('schedule_date', new Route('/schedules/{year}-{month}-{day}', [
+$collection->add('schedule_date', new Route($schedulesPrefix . '/{year}-{month}-{day}', [
     '_controller' => Controller\Schedules\DateAction::class,
 ], [
         'year' => '20[0-9][0-9]',
@@ -25,10 +27,10 @@ $collection->add('schedule_date', new Route('/schedules/{year}-{month}-{day}', [
     ]
 ));
 
-$collection->add('schedule_day', new Route('/schedules/{day}', [
+$collection->add('schedule_day', new Route($schedulesPrefix . '/{day}', [
     '_controller' => Controller\Schedules\DayAction::class,
 ], [
-    'day' => '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)'
+    'day' => '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)',
 ]));
 
 $collection->add('images_show', new Route('/images/{width}/{id}.jpg', [
@@ -48,21 +50,24 @@ $collection->add('programmes_show', new Route('/programmes/{showId}', [
     // todo - uuid
 ]));
 
-$collection->add('page_people', new Route('/people', [
+$collection->add('page_people', new Route('/' . Controller\Page\PeopleAction::SPECIAL_PAGE_URL, [
     '_controller' => Controller\Page\PeopleAction::class,
 ]));
 
-$collection->add('page_requests', new Route('/requests', [
+$collection->add('page_requests', new Route('/' . Controller\Page\RequestsAction::SPECIAL_PAGE_URL, [
     '_controller' => Controller\Page\RequestsAction::class,
 ]));
 
-$collection->add('page_sports', new Route('/sports', [
+$collection->add('page_sports', new Route('/' . Controller\Page\SportsAction::SPECIAL_PAGE_URL, [
     '_controller' => Controller\Page\SportsAction::class,
 ]));
 
-$collection->add('page_outside_broadcasts', new Route('/outside-broadcasts', [
-    '_controller' => Controller\Page\OutsideBroadcastsAction::class,
-]));
+$collection->add('page_outside_broadcasts', new Route(
+    '/' . Controller\Page\OutsideBroadcastsAction::SPECIAL_PAGE_URL,
+    [
+        '_controller' => Controller\Page\OutsideBroadcastsAction::class,
+    ]
+));
 
 
 // Admin

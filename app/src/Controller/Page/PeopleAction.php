@@ -6,6 +6,7 @@ namespace App\Controller\Page;
 use App\Controller\AbstractController;
 use App\Domain\Entity\Person;
 use App\Presenter\PersonPresenter;
+use App\Service\PageService;
 use App\Service\PeopleService;
 use App\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +14,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PeopleAction extends AbstractController
 {
+    public const SPECIAL_PAGE_URL = 'people';
+
     public function __invoke(
         PeopleService $peopleService,
         ProgrammesService $programmesService,
+        PageService $pageService,
         Request $request
     ): Response {
 
@@ -37,6 +41,7 @@ class PeopleAction extends AbstractController
             [
                 'committee' => $executiveCommittee,
                 'members' => $members,
+                'prose' => $pageService->findByUrl(self::SPECIAL_PAGE_URL),
             ]
         );
     }

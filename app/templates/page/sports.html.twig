@@ -4,21 +4,8 @@
 
 {% block body %}
     <div class="text--prose">
-        <h1>Sports Coverage</h1>
-        <p>
-            At Southampton Hospital Radio we provide live coverage of Hampshire's Cricket
-            and Southampton's Football matches to the patients in Hospital.
-        </p>
-        <p>
-            We have a team of commentators broadcasting from St Mary's Football Stadium,
-            covering every Saints home game. (dates for Premier League games may be
-            subject to change).
-        </p>
-        <p>
-            We also bring you live "ball by ball" Cricket commentary from the The Ageas Bowl
-            (including International matches).
-            <a href="/viewPage.php?pageID=14">Meet the Commentary Teams</a>
-        </p>
+        <h1>{{ prose.title }}</h1>
+        {{ prose.htmlContent|raw }}
     </div>
 
     <h2>Upcoming Sports</h2>

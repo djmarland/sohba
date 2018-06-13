@@ -76,12 +76,12 @@ class Page extends Entity implements \JsonSerializable
         $pageContent = \str_replace('[i]', '<em>', $pageContent);
         $pageContent = \str_replace('[/i]', '</em>', $pageContent);
         //link
-        $pageContent = \str_replace('&quot; Ltitle=&quot;', '">', $pageContent);
-        $pageContent = \str_replace('[link-address=&quot;', '<a href="', $pageContent);
-        $pageContent = \str_replace('&quot;-link]', '</a>', $pageContent);
+        $pageContent = \str_replace('" Ltitle="', '">', $pageContent);
+        $pageContent = \str_replace('[link-address="', '<a href="', $pageContent);
+        $pageContent = \str_replace('"-link]', '</a>', $pageContent);
         //mailLink
-        $pageContent = \str_replace('[mail-address=&quot;', '<a href="mailto:', $pageContent);
-        $pageContent = \str_replace('&quot;-mail]', '</a>', $pageContent);
+        $pageContent = \str_replace('[mail-address="', '<a href="mailto:', $pageContent);
+        $pageContent = \str_replace('"-mail]', '</a>', $pageContent);
 
         // CONVERT IMAGES
         //left
