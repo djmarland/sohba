@@ -93,7 +93,8 @@ class PageService extends AbstractService
         Page $page,
         string $title,
         string $url,
-        string $content,
+        string $legacyContent,
+        string $htmlContent,
         ?int $navPosition,
         ?int $navCategoryId
     ): void {
@@ -101,7 +102,8 @@ class PageService extends AbstractService
             $page->getLegacyId(),
             $title,
             $url,
-            $content,
+            !empty($legacyContent) ? $legacyContent : '',
+            !empty($htmlContent) ? $htmlContent : null,
             $navPosition,
             $navCategoryId
         );

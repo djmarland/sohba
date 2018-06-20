@@ -96,7 +96,9 @@ class PageAction extends AbstractAdminController
         $title = $request->get('title');
         $specialPage = $request->get('special');
         $url = $request->get('url');
-        $content = $request->get('content');
+        $legacyContent = trim($request->get('content', ''));
+        $htmlContent = trim($request->get('html-content', ''));
+
         $navCategory = $request->get('nav-category');
         $navPosition = $request->get('nav-position');
 
@@ -115,7 +117,8 @@ class PageAction extends AbstractAdminController
             $page,
             $title,
             $url,
-            $content,
+            $legacyContent,
+            $htmlContent,
             $navPosition ? (int) $navPosition : null,
             $navCategory ? (int) $navCategory : null
         );

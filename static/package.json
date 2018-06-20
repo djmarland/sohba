@@ -4,8 +4,13 @@
   "description": "Southampton Hospital Radio",
   "dependencies": {
     "date-fns": "^1.29.0",
+    "draft-js": "^0.10.5",
+    "draftjs-to-html": "^0.8.4",
+    "html-to-draftjs": "^1.4.0",
+    "immutable": "^3.8.2",
     "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react-dom": "^16.4.0",
+    "react-draft-wysiwyg": "^1.12.13"
   },
   "devDependencies": {
     "autoprefixer": "^8.5.2",
@@ -13,6 +18,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",

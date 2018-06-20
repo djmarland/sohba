@@ -55,7 +55,8 @@ class PageRepository extends AbstractEntityRepository
         int $legacyId,
         string $title,
         string $url,
-        string $content,
+        string $legacyContent,
+        ?string $htmlContent,
         ?int $navPosition,
         ?int $navCategoryId
     ): void {
@@ -63,6 +64,7 @@ class PageRepository extends AbstractEntityRepository
             SET t.title = :title,
                 t.urlPath = :url,
                 t.content = :content,
+                t.htmlContent = :htmlContent,
                 t.order = :order,
                 t.category = :category
             WHERE t.pkid = :id';
@@ -71,7 +73,8 @@ class PageRepository extends AbstractEntityRepository
             ->setParameter('id', $legacyId)
             ->setParameter('title', $title)
             ->setParameter('url', $url)
-            ->setParameter('content', $content)
+            ->setParameter('content', $legacyContent)
+            ->setParameter('htmlContent', $htmlContent)
             ->setParameter('order', $navPosition)
             ->setParameter('category', $navCategoryId);
         $query->execute();

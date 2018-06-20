@@ -31,7 +31,7 @@ const settings = {
         use: "file-loader?name=[hash:10].[name].[ext]"
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         use: [
           MiniCssExtractPlugin.loader,
           {

@@ -46,6 +46,11 @@ class Page extends AbstractEntity
     public $content;
 
     /**
+     * @ORM\Column(type="text", name="html_content", nullable=true)
+     */
+    public $htmlContent;
+
+    /**
      * @ORM\Column(type="boolean", name="published")
      * todo - remove this
      */

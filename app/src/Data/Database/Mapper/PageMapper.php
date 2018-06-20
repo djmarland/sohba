@@ -23,6 +23,7 @@ class PageMapper implements MapperInterface
             $item['pkid'],
             $item['title'],
             $item['content'],
+            $item['htmlContent'],
             $item['urlPath'],
             $item['order'],
             $this->mapCategory($item)

@@ -13,6 +13,7 @@ class Page extends Entity implements \JsonSerializable
     private $category;
     private $legacyId;
     private $htmlContent;
+    private $legacyContent;
     private $urlPath;
     private $navPosition;
 
@@ -20,7 +21,8 @@ class Page extends Entity implements \JsonSerializable
         UuidInterface $id,
         int $legacyId,
         string $title,
-        string $htmlContent,
+        string $legacyContent,
+        ?string $htmlContent,
         ?string $urlPath = null,
         ?int $navPosition = null,
         ?PageCategory $category = null
@@ -29,6 +31,7 @@ class Page extends Entity implements \JsonSerializable
         $this->title = $title;
         $this->category = $category;
         $this->legacyId = $legacyId;
+        $this->legacyContent = $legacyContent;
         $this->htmlContent = $htmlContent;
         $this->urlPath = $urlPath;
         $this->navPosition = $navPosition;
@@ -42,7 +45,8 @@ class Page extends Entity implements \JsonSerializable
             'legacyId' => $this->legacyId,
             'urlPath' => $this->urlPath,
             'specialType' => null,
-            'originalContent' => $this->htmlContent,
+            'legacyContent' => $this->legacyContent,
+            'htmlContent' => $this->htmlContent,
             'navPosition' => $this->navPosition,
         ];
         if ($this->category !== null) {
@@ -63,9 +67,51 @@ class Page extends Entity implements \JsonSerializable
 
     public function getHtmlContent(): string
     {
+        if (!empty($this->htmlContent)) {
+            $content = $this->htmlContent;
+
+            // collapse to one line
+            $content = str_replace(["\n", "\r"], '', $content);
+
+            // convert </p> followed by populated <p> to a single <br />
+            $content = preg_replace('/<\/p><p>(?!<\/p>)/i', '<br>$1', $content);
+
+            // remove empty paragraphs
+            $content = str_replace(['<p></p>', '<p><br>'], ['', '<p>'], $content);
+
+            return $content;
+        }
+        return $this->parseLegacyContent();
+    }
+
+    public function getCategory(): ?PageCategory
+    {
+        if ($this->category === null) {
+            throw new DataNotFetchedException(
+                'Tried to use the page category, but it was not fetched'
+            );
+        }
+        if ($this->category instanceof NullPageCategory) {
+            return null;
+        }
+        return $this->category;
+    }
+
+    public function getUrlPath(): ?string
+    {
+        return $this->urlPath;
+    }
+
+    public function getNavPosition(): ?int
+    {
+        return $this->navPosition;
+    }
+
+    private function parseLegacyContent(): string
+    {
         // parse html the legacy way
         // CONVERT LINE BREAKS
-        $pageContent = \nl2br($this->htmlContent);
+        $pageContent = \nl2br($this->legacyContent);
 
         // CONVERT FORMATTING
 
@@ -121,28 +167,5 @@ class Page extends Entity implements \JsonSerializable
         $pageContent = \str_replace('<br /><br />', '<br />', $pageContent);
 
         return $pageContent;
-    }
-
-    public function getCategory(): ?PageCategory
-    {
-        if ($this->category === null) {
-            throw new DataNotFetchedException(
-                'Tried to use the page category, but it was not fetched'
-            );
-        }
-        if ($this->category instanceof NullPageCategory) {
-            return null;
-        }
-        return $this->category;
-    }
-
-    public function getUrlPath(): ?string
-    {
-        return $this->urlPath;
-    }
-
-    public function getNavPosition(): ?int
-    {
-        return $this->navPosition;
     }
 }

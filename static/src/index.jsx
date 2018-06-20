@@ -6,6 +6,7 @@ import PagesList from "./Container/PagesList";
 import PageDetail from "./Container/PageDetail";
 
 // static assets
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "../scss/app.scss";
 import "../img";
 

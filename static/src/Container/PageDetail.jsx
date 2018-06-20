@@ -1,4 +1,5 @@
 import * as React from "react";
+import RichTextEditor from "./RichTextEditor";
 
 class PageDetail extends React.Component {
   state = {};
@@ -31,6 +32,10 @@ class PageDetail extends React.Component {
       specialType: window.HBAContent.specialType || "",
       showNavigation: !!window.HBAContent.page.category
     });
+  }
+
+  onEditorStateChange() {
+
   }
 
   changeType(event) {
@@ -160,9 +165,17 @@ class PageDetail extends React.Component {
             </div>
             <div className="t-page-edit__content">
               <h2>Page content</h2>
-              <label>Enter the content for the page
-                <textarea name="content"
-                          defaultValue={this.state.page.originalContent}/>
+              <label>Enter the content for the page</label>
+              <RichTextEditor
+                initialContent={this.state.page.htmlContent}
+                fieldName="html-content"/>
+            </div>
+            <div className="t-page-edit__content">
+              <h2>Legacy Page content</h2>
+              <label>Enter the content for the page (legacy format - to be replaced)
+                <textarea
+                  name="content"
+                  defaultValue={this.state.page.legacyContent}/>
               </label>
             </div>
             <div className="t-page-edit__submit">
