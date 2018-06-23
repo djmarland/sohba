@@ -9,15 +9,18 @@ class Image extends Entity implements \JsonSerializable
 {
     private $title;
     private $legacyID;
+    private $fileName;
 
     public function __construct(
         UuidInterface $id,
         int $legacyID,
-        string $title
+        string $title,
+        ?string $fileName = null
     ) {
         parent::__construct($id);
         $this->title = $title;
         $this->legacyID = $legacyID;
+        $this->fileName = $fileName;
     }
 
     public function jsonSerialize()
@@ -25,6 +28,7 @@ class Image extends Entity implements \JsonSerializable
         return [
             'id' => $this->id,
             'title' => $this->getTitle(),
+            'src' => $this->getSrc(),
         ];
     }
 
@@ -40,6 +44,9 @@ class Image extends Entity implements \JsonSerializable
 
     public function getSrc(): string
     {
+        if ($this->fileName) {
+            return '/assets/' . $this->fileName;
+        }
         return '/image.php?i=' . $this->legacyID;
     }
 }

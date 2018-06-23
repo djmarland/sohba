@@ -12,7 +12,8 @@ class ImageMapper implements MapperInterface
         return new Image(
             $item['id'],
             $item['pkid'],
-            $item['title']
+            $item['title'],
+            $item['fileName']
         );
     }
 }

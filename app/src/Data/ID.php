@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data;
 
+use App\Data\Database\Entity\Image;
 use App\Data\Database\Entity\KeyValue;
 use App\Data\Database\Entity\Page;
 use App\Data\Database\Entity\PageCategory;
@@ -14,6 +15,7 @@ use Ramsey\Uuid\UuidInterface;
 class ID
 {
     private const ENTITY_MAPPINGS = [
+        Image::class => '1111',
         Page::class => 'a0a0',
         PageCategory::class => 'ca0e',
         Programme::class => 'edfa',

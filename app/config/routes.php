@@ -80,6 +80,9 @@ $collection->add('admin_pages', new Route('/admin/pages', [
 $collection->add('admin_page', new Route('/admin/pages/{pageId}', [
     '_controller' => Controller\Admin\PageAction::class,
 ]));
+$collection->add('admin_images', new Route('/admin/images', [
+    '_controller' => Controller\Admin\ImagesAction::class,
+]));
 
 
 $collection->add('page', new Route('/{page}', [

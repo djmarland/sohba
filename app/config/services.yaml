@@ -47,3 +47,6 @@ services:
 
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
+
+    Ramsey\Uuid\UuidFactory:
+        class: Ramsey\Uuid\UuidFactory

@@ -74,6 +74,12 @@ class EntityManager extends EntityManagerDecorator
         return \array_filter($results);
     }
 
+
+    public function getImageRepo(): EntityRepository\ImageRepository
+    {
+        return $this->getRepository(Entity\Image::class);
+    }
+
     public function getKeyValueRepo(): EntityRepository\KeyValueRepository
     {
         return $this->getRepository(Entity\KeyValue::class);

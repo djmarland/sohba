@@ -1,0 +1,55 @@
+{% extends "admin/base.html.twig" %}
+
+{% block headScripts %}
+<style>
+    .button--icon {
+        padding: 3px;
+        height: 32px;
+        width: 32px;
+    }
+    .button--icon svg {
+        width: 24px;
+        height: 24px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <h1>Images</h1>
+    {% if okMessage %}
+        <div class="message message--success">
+            {{ okMessage }}
+        </div>
+    {% endif %}
+    {% if errorMessage %}
+        <div class="message message--error">
+            {{ errorMessage }}
+        </div>
+    {% endif %}
+
+    <form enctype="multipart/form-data" method="post">
+        <fieldset>
+            <legend>Upload New Image</legend>
+            <div>
+                <p>
+                    <label>Image Title:
+                        <input type="text" required name="upImageTitle" id="upImageTitle">
+                    </label>
+                </p>
+                <p>
+                    <label>Choose Image:
+                        <input type="file" required name="chooseImage" class="full" id="chooseImage">
+                    </label>
+                </p>
+                <p>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
+                    <button name="upload">Upload</button>
+                </p>
+            </div>
+        </fieldset>
+    </form>
+
+    {% for image in images %}
+        <p><img src="{{ image.src }}" /></p>
+    {% endfor %}
+{% endblock %}
