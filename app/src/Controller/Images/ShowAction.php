@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Images;
 
 use App\Controller\AbstractController;
-use App\Service\SchedulesService;
-use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

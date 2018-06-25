@@ -1,5 +1,6 @@
 import * as React from "react";
-import RichTextEditor from "./RichTextEditor";
+import RichTextEditor from "../Container/RichTextEditor";
+import Message from "../Components/Message";
 
 class PageDetail extends React.Component {
   state = {};
@@ -15,15 +16,17 @@ class PageDetail extends React.Component {
 
     if (window.HBAContent.messageOk) {
       this.message = (
-        <div className="message message--success">
-          {window.HBAContent.messageOk}
-        </div>
+        <Message
+          message={window.HBAContent.messageOk}
+          type={Message.TYPE_OK}
+        />
       );
     } else if (window.HBAContent.messageFail) {
       this.message = (
-        <div className="message message--error">
-          {window.HBAContent.messageFail}
-        </div>
+        <Message
+          message={window.HBAContent.messageFail}
+          type={Message.TYPE_ERROR}
+        />
       );
     }
 

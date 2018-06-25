@@ -11,6 +11,9 @@ $collection = new RouteCollection();
 $collection->add('home', new Route('/', [
     '_controller' => Controller\Home\HomeAction::class,
 ]));
+$collection->add('styleguide', new Route('/styleguide', [
+    '_controller' => Controller\Home\StyleguideAction::class,
+]));
 
 $schedulesPrefix = '/' . Controller\Schedules\AbstractSchedulesAction::SPECIAL_PAGE_URL;
 

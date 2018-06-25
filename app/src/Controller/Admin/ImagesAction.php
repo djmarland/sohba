@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Presenter\Message\ErrorMessage;
+use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
 use DateTimeImmutable;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,33 +21,39 @@ class ImagesAction extends AbstractAdminController
         DateTimeImmutable $now
     ): Response {
 
-        $okMessage = null;
-        $errorMessage = null;
+        $message = null;
 
         if ($request->getMethod() === 'POST') {
             try {
-                if ($request->files->get('chooseImage')) {
-                    /** @var UploadedFile $file */
-                    $file = $request->files->get('chooseImage');
-                    $extension = $file->guessExtension();
-                    if (!$extension) {
-                        throw new \InvalidArgumentException('Could not recognise file type');
-                    }
-                    $title = $request->get('upImageTitle');
-                    $fileName = $imagesService->newImage(
-                        $title,
-                        $extension
-                    );
+                $content = $request->getContent();
 
-                    $file->move(
-                        __DIR__ . '/../../../../uploaded_files',
-                        $fileName
-                    );
+                $parts = \explode(',', $content);
+                $imageData = \base64_decode(\end($parts));
 
-                    $okMessage = 'Image uploaded';
+                $mimeParts = \explode(';', \reset($parts));
+                switch (\reset($mimeParts)) {
+                    case 'data:image/jpeg':
+                        $extension = 'jpg';
+                        break;
+                    case 'data:image/png':
+                        $extension = 'png';
+                        break;
+                    default:
+                        throw new \InvalidArgumentException('Unrecognised image type');
                 }
+
+                $fileName = $imagesService->newImage(
+                    '',
+                    $extension
+                );
+
+                file_put_contents(__DIR__ . '/../../../../uploaded_files/' . $fileName, $imageData);
+                return new JsonResponse([
+                    'message' => new OkMessage('Image uploaded successfully'),
+                    'images' => $imagesService->findAll(),
+                ]);
             } catch (\Exception $e) {
-                $errorMessage = $e->getMessage();
+                $message = new ErrorMessage($e->getMessage());
             }
         }
 
@@ -52,9 +62,10 @@ class ImagesAction extends AbstractAdminController
         return $this->renderAdminSite(
             'images.html.twig',
             [
-                'okMessage' => $okMessage,
-                'errorMessage' => $errorMessage,
-                'images' => $images,
+                'pageData' => \json_encode([
+                    'message' => $message,
+                    'images' => $images,
+                ], JSON_PRETTY_PRINT),
             ],
             $request
         );

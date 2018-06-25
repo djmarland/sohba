@@ -1,9 +1,10 @@
 import * as React from "react";
-import { hydrate as ReactDomRender } from "react-dom";
+import { render as ReactDomRender } from "react-dom";
 
-import AdminHome from "./Container/AdminHome";
-import PagesList from "./Container/PagesList";
-import PageDetail from "./Container/PageDetail";
+import AdminHome from "./Pages/AdminHome";
+import ImagesList from "./Pages/ImagesList";
+import PagesList from "./Pages/PagesList";
+import PageDetail from "./Pages/PageDetail";
 
 // static assets
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -16,6 +17,9 @@ if (appContainer) {
   switch (appContainer.dataset.container) {
     case "AdminHome":
       ReactDomRender(<AdminHome />, appContainer);
+      break;
+    case "ImagesList":
+      ReactDomRender(<ImagesList />, appContainer);
       break;
     case "PagesList":
       ReactDomRender(<PagesList />, appContainer);

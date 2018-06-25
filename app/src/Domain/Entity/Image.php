@@ -26,7 +26,7 @@ class Image extends Entity implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id,
+            'id' => $this->legacyID,
             'title' => $this->getTitle(),
             'src' => $this->getSrc(),
         ];

@@ -12,7 +12,7 @@ class ImageRepository extends AbstractEntityRepository
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
-            ->orderBy('tbl.title', 'ASC');
+            ->orderBy('tbl.pkid', 'DESC');
         return $qb->getQuery()->getResult($resultType);
     }
 }

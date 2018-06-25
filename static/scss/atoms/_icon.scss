@@ -1,0 +1,17 @@
+.icon {
+  color: currentColor;
+  fill: currentColor;
+}
+
+.icon-text {
+
+}
+
+.icon-text__icon {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: $grid-unit;
+  margin-top: -2px;
+}
