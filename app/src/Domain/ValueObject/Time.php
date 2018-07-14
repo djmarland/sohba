@@ -12,8 +12,7 @@ class Time
         int $hours,
         int $minutes
     ) {
-        if (
-            $hours < 0 ||
+        if ($hours < 0 ||
             $minutes < 0 ||
             $hours > 23 ||
             $minutes > 59
@@ -38,7 +37,7 @@ class Time
 
     public function getFormatted(): string
     {
-        return $this->pad((string) $this->hours) . ':' . $this->pad((string) $this->minutes);
+        return $this->pad((string)$this->hours) . ':' . $this->pad((string)$this->minutes);
     }
 
     public function isBeforeOrAt(self $compare)

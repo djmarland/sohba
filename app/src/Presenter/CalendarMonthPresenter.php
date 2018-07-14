@@ -34,7 +34,7 @@ class CalendarMonthPresenter
         $weeks = [];
 
         // first rewind to monday
-        $firstDayOffset = (int) $startOfMonth->format('N') - 1;
+        $firstDayOffset = (int)$startOfMonth->format('N') - 1;
         $startOfNextMonth = $startOfMonth->add(new DateInterval('P1M'));
 
         $dateIncrement = $startOfMonth->sub(new DateInterval('P' . $firstDayOffset . 'D'));

@@ -122,7 +122,6 @@ class Programme extends Entity implements \JsonSerializable
     public function getUrl(): string
     {
         return '/programmes/' . $this->legacyId;
-//        return '/viewShow.php?showID=' . $this->legacyId;
     }
 
     public function getTypeName(): ?string

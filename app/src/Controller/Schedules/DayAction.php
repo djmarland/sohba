@@ -15,7 +15,7 @@ class DayAction extends AbstractSchedulesAction
         $day = $request->get('day');
 
         // convert day name to day number
-        $dayNum = (int) date('w', strtotime($day));
+        $dayNum = (int)date('w', strtotime($day));
 
         return $this->renderDay(
             $dayNum,

@@ -43,7 +43,7 @@ abstract class AbstractSchedulesAction extends AbstractController
         $specialDay = $this->schedulesService->getSpecialDay($date);
         if (!$specialDay) {
             return $this->renderDay(
-                (int) $date->format('w'),
+                (int)$date->format('w'),
                 $title
             );
         }

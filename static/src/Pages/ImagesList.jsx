@@ -1,6 +1,8 @@
 import * as React from "react";
 import FileDrop from "../Container/FileDrop";
 import Message from "../Components/Message";
+import TickIcon from "../Components/Icons/TickIcon";
+import DeleteIcon from "../Components/Icons/DeleteIcon";
 
 const isCorrectFileType = file => (/^(jpg|jpeg|png)$/i).test(file);
 
@@ -50,14 +52,13 @@ class Container extends React.Component {
           this.setState({
             loading: false,
             message: {
-              message: data.message.text,
-              type: data.type
+              message: data.message.message,
+              type: data.message.type
             },
             images : data.images,
           });
         })
         .catch(error => {
-          console.log(error);
           this.setState({
             loading: false,
             message: {
@@ -87,23 +88,71 @@ class Container extends React.Component {
     if (this.state.message) {
       message = (
         <Message
-          message={this.state.message.text}
+          message={this.state.message.message}
           type={this.state.message.type}
         />
       )
     }
 
     const images = this.state.images.map(image => (
-      <p key={image.id}>
-        <img src={image.src} />
-      </p>
+      <li key={image.id} className="images__item">
+        <div className="images__image">
+          <img src={image.src} />
+        </div>
+        <div className="images__edit">
+          <form method="post" className="form">
+            <input
+              type="hidden"
+              name="update-image"
+              value={image.id}
+            />
+            <input
+              type="text"
+              name="image-title"
+              className="form__input--compact"
+              defaultValue={image.title}
+            />
+            <button
+              className="button button--icon"
+              type="submit"
+              title="Edit image title"
+            >
+              <TickIcon />
+            </button>
+          </form>
+          <form
+            method="post"
+            onSubmit={e => {
+              if (
+                !window.confirm(`Are you sure you want to delete this image?`)
+              ) {
+                e.preventDefault();
+              }
+            }}>
+            <input
+              type="hidden"
+              name="delete-image"
+              value={image.id}
+            />
+            <button
+              className="button button--icon button--danger"
+              type="submit"
+              title="Delete category"
+            >
+              <DeleteIcon />
+            </button>
+          </form>
+        </div>
+      </li>
     ));
 
     return (
       <React.Fragment>
         {message}
         {fileDrop}
-        {images}
+        <ul className="images">
+          {images}
+        </ul>
       </React.Fragment>
     );
   }

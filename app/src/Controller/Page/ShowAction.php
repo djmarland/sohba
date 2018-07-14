@@ -19,7 +19,7 @@ class ShowAction extends AbstractController
         $pageId = $request->get('page');
 
         if (is_numeric($pageId)) {
-            $page = $pageService->findByLegacyId((int) $pageId);
+            $page = $pageService->findByLegacyId((int)$pageId);
             if ($page && $page->getUrlPath()) {
                 return new RedirectResponse('/' . $page->getUrlPath(), 301);
             }

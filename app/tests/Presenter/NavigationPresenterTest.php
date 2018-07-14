@@ -5,39 +5,54 @@ namespace Tests\App\Presenter;
 
 use App\Domain\Entity\Page;
 use App\Domain\Entity\PageCategory;
+use App\Domain\ValueObject\RichText;
 use App\Presenter\NavigationPresenter;
 use Ramsey\Uuid\Uuid;
 
-class NavigationPresenterTest extends \PHPUnit\Framework\TestCase
+class NavigationPresenterTest extends \Tests\App\BaseTestCase
 {
     public function testGroupsBrokenOut()
     {
         $group1 = new PageCategory(
             $this->createMock(Uuid::class),
-            $groupTitle1 = 'group1'
+            $this->faker->randomNumber(8),
+            $groupTitle1 = $this->faker->text(50)
         );
         $group2 = new PageCategory(
             $this->createMock(Uuid::class),
-            $groupTitle2 = 'group2'
+            $this->faker->randomNumber(8),
+            $groupTitle2 = $this->faker->text(50)
         );
 
         $input = [
             new Page(
                 $this->createMock(Uuid::class),
-                1,
-                $pageTitle1 = 'Page1',
+                $this->faker->randomNumber(8),
+                $pageTitle1 = $this->faker->text(50),
+                $this->faker->text(),
+                $this->createMock(RichText::class),
+                $this->faker->text(20),
+                $this->faker->randomNumber(3),
                 $group1
             ),
             new Page(
                 $this->createMock(Uuid::class),
-                2,
-                $pageTitle2 = 'Page2',
+                $this->faker->randomNumber(8),
+                $pageTitle2 = $this->faker->text(50),
+                $this->faker->text(),
+                $this->createMock(RichText::class),
+                $this->faker->text(20),
+                $this->faker->randomNumber(3),
                 $group1
             ),
             new Page(
                 $this->createMock(Uuid::class),
-                3,
-                $pageTitle3 = 'Page3',
+                $this->faker->randomNumber(8),
+                $pageTitle3 = $this->faker->text(50),
+                $this->faker->text(),
+                $this->createMock(RichText::class),
+                $this->faker->text(20),
+                $this->faker->randomNumber(3),
                 $group2
             )
         ];

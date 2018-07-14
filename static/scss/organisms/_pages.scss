@@ -4,11 +4,6 @@
   }
   &--category {
     background-color: $color-primary-dark;
-    color: $color-white;
-    input, button {
-      color: $color-text;
-      margin: 0;
-    }
     td {
       padding: 8px 4px;
       &:first-child {
@@ -52,10 +47,15 @@
     }
   }
 
-
-  &__button-field--delete {
+  &--page,
+  &--category {
     button {
-      color: $color-important
+      visibility: hidden;
+    }
+    &:hover {
+      button {
+        visibility: visible;
+      }
     }
   }
 }

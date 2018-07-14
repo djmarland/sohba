@@ -5,6 +5,7 @@ namespace App\Presenter\Message;
 
 abstract class AbstractMessagePresenter implements \JsonSerializable
 {
+    protected const TYPE = null;
     private $message;
 
     public function __construct(string $message)

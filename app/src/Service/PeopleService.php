@@ -37,5 +37,4 @@ class PeopleService extends AbstractService
             $this->personMapper
         );
     }
-
 }

@@ -14,9 +14,9 @@ class DateAction extends AbstractSchedulesAction
     public function __invoke(
         Request $request
     ): Response {
-        $year = (int) $request->get('year');
-        $month = (int) $request->get('month');
-        $day = (int) $request->get('day');
+        $year = (int)$request->get('year');
+        $month = (int)$request->get('month');
+        $day = (int)$request->get('day');
 
         if (!checkdate($month, $day, $year)) {
             throw new NotFoundHttpException('No such date');

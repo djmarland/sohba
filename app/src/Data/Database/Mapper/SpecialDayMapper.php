@@ -10,7 +10,7 @@ class SpecialDayMapper implements MapperInterface
 {
     public function map(array $item): SpecialDay
     {
-        $dateString = str_pad((string) $item['dateInt'], 8, '0', STR_PAD_LEFT);
+        $dateString = str_pad((string)$item['dateInt'], 8, '0', STR_PAD_LEFT);
 
         return new SpecialDay(
             $item['id'],

@@ -78,14 +78,14 @@ class PagesAction extends AbstractAdminController
         }
 
         return [
-          'categories' => $categories,
-          'uncategorised' => array_map(function ($page) {
+            'categories' => $categories,
+            'uncategorised' => array_map(function ($page) {
               /** @var Page $page */
-              return [
-                  'id' => $page->getLegacyId(),
-                  'title' => $page->getTitle(),
-              ];
-          }, $pageService->findAllUncategorised()),
+                return [
+                    'id' => $page->getLegacyId(),
+                    'title' => $page->getTitle(),
+                ];
+            }, $pageService->findAllUncategorised()),
         ];
     }
 }

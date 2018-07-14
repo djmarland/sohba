@@ -29,7 +29,7 @@ class PeopleAction extends AbstractController
         $shows = $programmesService->getAllByPersonIds();
 
         $executiveCommittee = array_map(function (Person $person) use ($shows) {
-           return new PersonPresenter($person, $shows);
+            return new PersonPresenter($person, $shows);
         }, $executiveCommittee);
 
         $members = array_map(function (Person $person) use ($shows) {

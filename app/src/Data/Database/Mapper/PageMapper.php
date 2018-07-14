@@ -5,6 +5,7 @@ namespace App\Data\Database\Mapper;
 
 use App\Domain\Entity\Null\NullPageCategory;
 use App\Domain\Entity\Page;
+use App\Domain\ValueObject\RichText;
 
 class PageMapper implements MapperInterface
 {
@@ -18,12 +19,14 @@ class PageMapper implements MapperInterface
 
     public function map(array $item): Page
     {
+        $html = !empty($item['htmlContent']) ? new RichText($item['htmlContent']) : null;
+
         return new Page(
             $item['id'],
             $item['pkid'],
             $item['title'],
             $item['content'],
-            $item['htmlContent'],
+            $html,
             $item['urlPath'],
             $item['order'],
             $this->mapCategory($item)

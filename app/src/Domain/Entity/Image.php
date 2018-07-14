@@ -45,7 +45,7 @@ class Image extends Entity implements \JsonSerializable
     public function getSrc(): string
     {
         if ($this->fileName) {
-            return '/assets/' . $this->fileName;
+            return '/images/original/' . $this->fileName;
         }
         return '/image.php?i=' . $this->legacyID;
     }

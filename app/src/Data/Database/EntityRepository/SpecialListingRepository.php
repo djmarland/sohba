@@ -49,8 +49,8 @@ class SpecialListingRepository extends AbstractEntityRepository
     public function findNextForLegacyProgrammeId(
         int $getLegacyId,
         DateTimeImmutable $now,
-        $resultType = Query::HYDRATE_ARRAY)
-    {
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'spd')
             ->innerJoin('tbl.specialDay', 'spd')

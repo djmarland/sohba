@@ -11,6 +11,7 @@ use App\Controller\Schedules\AbstractSchedulesAction;
 use App\Domain\Entity\Page;
 use App\Service\PageService;
 use DateTimeImmutable;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -50,7 +51,9 @@ class PageAction extends AbstractAdminController
 
             // re-fetch the latest
             $page = $pageService->findByLegacyId((int)$pageId);
-
+            if (!$page) {
+                throw new RuntimeException('Something went very wrong here');
+            }
         }
 
         $specialPages = [];
@@ -119,8 +122,8 @@ class PageAction extends AbstractAdminController
             $url,
             $legacyContent,
             $htmlContent,
-            $navPosition ? (int) $navPosition : null,
-            $navCategory ? (int) $navCategory : null
+            $navPosition ? (int)$navPosition : null,
+            $navCategory ? (int)$navCategory : null
         );
     }
 }

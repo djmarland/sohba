@@ -5,6 +5,7 @@ namespace App\Domain\Entity;
 
 use App\Domain\Entity\Null\NullPageCategory;
 use App\Domain\Exception\DataNotFetchedException;
+use App\Domain\ValueObject\RichText;
 use Ramsey\Uuid\UuidInterface;
 
 class Page extends Entity implements \JsonSerializable
@@ -22,7 +23,7 @@ class Page extends Entity implements \JsonSerializable
         int $legacyId,
         string $title,
         string $legacyContent,
-        ?string $htmlContent,
+        ?RichText $htmlContent,
         ?string $urlPath = null,
         ?int $navPosition = null,
         ?PageCategory $category = null
@@ -46,7 +47,7 @@ class Page extends Entity implements \JsonSerializable
             'urlPath' => $this->urlPath,
             'specialType' => null,
             'legacyContent' => $this->legacyContent,
-            'htmlContent' => $this->htmlContent,
+            'htmlContent' => $this->htmlContent ? $this->htmlContent->getContent() : null,
             'navPosition' => $this->navPosition,
         ];
         if ($this->category !== null) {
@@ -65,23 +66,9 @@ class Page extends Entity implements \JsonSerializable
         return $this->title;
     }
 
-    public function getHtmlContent(): string
+    public function getHtmlContent() // : RichText
     {
-        if (!empty($this->htmlContent)) {
-            $content = $this->htmlContent;
-
-            // collapse to one line
-            $content = str_replace(["\n", "\r"], '', $content);
-
-            // convert </p> followed by populated <p> to a single <br />
-            $content = preg_replace('/<\/p><p>(?!<\/p>)/i', '<br>$1', $content);
-
-            // remove empty paragraphs
-            $content = str_replace(['<p></p>', '<p><br>'], ['', '<p>'], $content);
-
-            return $content;
-        }
-        return $this->parseLegacyContent();
+        return $this->htmlContent ?? $this->parseLegacyContent();
     }
 
     public function getCategory(): ?PageCategory

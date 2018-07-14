@@ -36,7 +36,7 @@ export default props => {
       </td>
       <td className="pages__button-field">{moveUpButton}</td>
       <td className="pages__button-field">{moveDownButton}</td>
-      <td className="pages__button-field pages__button-field--delete">
+      <td className="pages__button-field">
         <form
           method="post"
           onSubmit={e => {
@@ -47,7 +47,7 @@ export default props => {
         >
           <input type="hidden" name="delete-page" value={props.page.id} />
           <button
-            className="button button--icon"
+            className="button button--icon button--danger"
             type="submit"
             title="Delete page"
           >

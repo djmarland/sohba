@@ -35,6 +35,6 @@ class SpecialDayRepository extends AbstractEntityRepository
 
     private function dateToLegacyInt(DateTimeInterface $date): int
     {
-        return (int) $date->format('jmY');
+        return (int)$date->format('jmY');
     }
 }

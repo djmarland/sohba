@@ -15,11 +15,6 @@ abstract class Entity
         $this->id = $id;
     }
 
-//    public function equals(Entity $entity): bool
-//    {
-//        return $this->getId()->equals($entity->getId());
-//    }
-
     public function getId(): UuidInterface
     {
         return $this->id;

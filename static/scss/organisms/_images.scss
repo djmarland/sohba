@@ -1,0 +1,36 @@
+.images {
+  @extend .list--unstyled;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+  margin-right: -$grid-unit;
+
+  &__item {
+    margin: 0 $grid-unit $grid-unit 0;
+    flex: 0 0 calc(25% - #{$grid-unit});
+    background: $color-grey-lightest;
+    padding: $grid-unit / 2;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__image {
+    width: 100%;
+    text-align: center;
+  }
+
+  &__edit {
+    width: 100%;
+    align-self: flex-end;
+    display: flex;
+    > form:first-child {
+      display: flex;
+      margin-right: $grid-unit / 2;
+      input[type="text"] {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+}

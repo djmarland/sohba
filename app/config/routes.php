@@ -36,11 +36,12 @@ $collection->add('schedule_day', new Route($schedulesPrefix . '/{day}', [
     'day' => '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)',
 ]));
 
-$collection->add('images_show', new Route('/images/{width}/{id}.jpg', [
+$collection->add('images_show', new Route('/images/{width}/{id}.{ext}', [
     '_controller' => Controller\Images\ShowAction::class,
 ], [
-        'width' => '\d+',
-        'id' => '[a-f0-9]{32}',
+        'width' => '(original|\d+)',
+        'id' => '[a-f0-9-]{36}',
+        'ext' => '(jpg|png)',
     ]
 ));
 
@@ -85,6 +86,9 @@ $collection->add('admin_page', new Route('/admin/pages/{pageId}', [
 ]));
 $collection->add('admin_images', new Route('/admin/images', [
     '_controller' => Controller\Admin\ImagesAction::class,
+]));
+$collection->add('admin_images_convert', new Route('/admin/images/convert', [
+    '_controller' => Controller\Admin\ImagesConvertAction::class,
 ]));
 
 

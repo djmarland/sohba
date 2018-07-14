@@ -81,7 +81,7 @@ export default props => {
               value={props.category.id}
             />
             <button
-              className="button button--icon"
+              className="button button--icon button--danger"
               type="submit"
               title="Delete category"
             >
