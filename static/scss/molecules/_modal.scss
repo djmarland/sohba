@@ -1,0 +1,32 @@
+.modal {
+  position: fixed;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+
+  &__panel {
+    display: block;
+    padding: $grid-unit;
+    background: $color-page;
+    width: 90%;
+    max-width: 680px;
+  }
+
+  &__close {
+    margin-bottom: $grid-unit;
+    text-align: right;
+  }
+
+  .modal-content-target {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}

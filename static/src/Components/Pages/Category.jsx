@@ -15,7 +15,7 @@ export default props => {
         title="Move Category Up"
         onClick={props.onMoveUp}
       >
-        <UpIcon />
+        <UpIcon/>
       </button>
     );
   }
@@ -26,37 +26,46 @@ export default props => {
         title="Move Category Down"
         onClick={props.onMoveDown}
       >
-        <DownIcon />
+        <DownIcon/>
       </button>
     );
   }
 
   const pages = props.category.pagesInCategory.map(page => (
-    <Page key={page.id} page={page} />
+    <Page key={page.id} page={page}/>
   ));
 
   return (
     <React.Fragment>
       <tr className="pages--category">
         <td>
-          <form method="post" className="form form--category">
+          <form method="post" className="form">
             <input
               type="hidden"
               name="update-category"
               value={props.category.id}
             />
-            <input
-              type="text"
-              name="category-title"
-              defaultValue={props.category.title}
-            />
-            <button
-              className="button button--icon"
-              type="submit"
-              title="Edit category title"
+            <label htmlFor={`field-title-${props.category.id}`}
+                   className="hidden--visually"
             >
-              <TickIcon />
-            </button>
+              Category title
+            </label>
+            <div className="form__row form__row--inline">
+              <input
+                id={`field-title-${props.category.id}`}
+                type="text"
+                name="category-title"
+                className="form__input form__input--compact"
+                defaultValue={props.category.title}
+              />
+              <button
+                className="button button--icon"
+                type="submit"
+                title="Edit category title"
+              >
+                <TickIcon/>
+              </button>
+            </div>
           </form>
         </td>
         <td className="pages__button-field">{moveUpButton}</td>
@@ -85,7 +94,7 @@ export default props => {
               type="submit"
               title="Delete category"
             >
-              <DeleteIcon />
+              <DeleteIcon/>
             </button>
           </form>
         </td>

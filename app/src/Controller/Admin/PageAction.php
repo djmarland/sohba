@@ -9,6 +9,7 @@ use App\Controller\Page\RequestsAction;
 use App\Controller\Page\SportsAction;
 use App\Controller\Schedules\AbstractSchedulesAction;
 use App\Domain\Entity\Page;
+use App\Service\ImagesService;
 use App\Service\PageService;
 use DateTimeImmutable;
 use RuntimeException;
@@ -29,6 +30,7 @@ class PageAction extends AbstractAdminController
     public function __invoke(
         Request $request,
         PageService $pageService,
+        ImagesService $imagesService,
         DateTimeImmutable $now
     ): Response {
 
@@ -70,6 +72,8 @@ class PageAction extends AbstractAdminController
 
         $urlRegex = '^(?!' . implode('|', $parts) . ')[a-z0-9-]+$';
 
+        $images = $imagesService->findAll();
+
         return $this->renderAdminSite(
             'page.html.twig',
             [
@@ -77,6 +81,7 @@ class PageAction extends AbstractAdminController
                     'messageOk' => $messageOk,
                     'messageFail' => $messageFail,
                     'page' => $page,
+                    'images' => $images,
                     'allCategories' => $pageService->findAllPageCategories(),
                     'specialPages' => $specialPages,
                     'urlRegex' => $urlRegex,

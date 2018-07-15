@@ -27,19 +27,19 @@
     <div>
         <h2>Make a request</h2>
         <form method="post" class="form">
-            <label>Patient's name:
-                <input type="text" name="name" required>
+            <label class="form__label-row">Patient's name:
+                <input class="form__input" type="text" name="name" required>
             </label>
-            <label>Hospital and ward:
-                <input type="text" name="hospital">
+            <label class="form__label-row">Hospital and ward:
+                <input class="form__input" type="text" name="hospital">
             </label>
-            <label>Song Request (full title, artist or genre):
-                <input type="text" name="request">
+            <label class="form__label-row">Song Request (full title, artist or genre):
+                <input class="form__input" type="text" name="request">
             </label>
-            <label>Message:
-                <textarea name="message"></textarea>
+            <label class="form__label-row">Message:
+                <textarea class="form__input form__input--textarea" name="message"></textarea>
             </label>
-            <div class="g-recaptcha" data-sitekey="6LfgECgTAAAAANMguAPgvP9pP1htaVGepJoZgNGq"></div>
+            <div class="g-recaptcha unit" data-sitekey="6LfgECgTAAAAANMguAPgvP9pP1htaVGepJoZgNGq"></div>
             <div><button type="submit" class="button">Send Request</button></div>
         </form>
     </div>

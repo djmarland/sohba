@@ -88,32 +88,34 @@ class Container extends React.Component {
     return (
       <div className="t-page-list">
         <div className="t-page-list__new-page">
-          <h2>New Page</h2>
+          <h2 className="unit">New Page</h2>
           <form method="post" className="form">
-            <label>
+            <label className="form__label-row">
               Page Title
-              <input type="text" name="new-page-title"/>
+              <input type="text"
+                     name="new-page-title"
+                     className="form__input"
+              />
             </label>
-            <button type="submit">Create</button>
+            <button type="submit" className="button">Create</button>
           </form>
         </div>
         <div className="t-page-list__new-category">
-          <h2>New Category</h2>
+          <h2 className="unit">New Category</h2>
           <form method="post" className="form">
-            <label>
+            <label className="form__label-row">
               Category Title
-              <input type="text" name="new-category-title"/>
+              <input type="text"
+                     name="new-category-title"
+                     className="form__input"
+              />
             </label>
-            <button type="submit">Create</button>
+            <button type="submit" className="button">Create</button>
           </form>
         </div>
 
         <div className="t-page-list__pages">
-
-          <p style={{ color: "red" }}>
-            Work in Progress. Functional but to be improved
-          </p>
-          <h2>Categories & Pages</h2>
+          <h2 className="unit">Categories & Pages</h2>
           <table className="table">
             <thead className="hidden--visually">
             <tr>

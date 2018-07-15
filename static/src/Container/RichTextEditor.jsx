@@ -4,8 +4,10 @@ import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
+import ImagePicker from './ImagePicker';
+
 const toolbarOptions = {
-  options: ["inline", "blockType", "list", "link", "image", "history"],
+  options: ["inline", "blockType", "list", "link", "history"],
   inline: {
     options: ["bold", "italic", "underline", "strikethrough"]
   },
@@ -16,19 +18,6 @@ const toolbarOptions = {
   list: {
     options: ["unordered", "ordered"]
   },
-  image: {
-    urlEnabled: true,
-    uploadEnabled: true,
-    alignmentEnabled: false,
-    uploadCallback: undefined,
-    previewImage: true,
-    inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-    alt: { present: false, mandatory: false },
-    defaultSize: {
-      height: "auto",
-      width: "auto"
-    }
-  }
 };
 
 const getRaw = content => {
@@ -70,6 +59,7 @@ class RichTextEditor extends React.Component {
           toolbarClassName="rich-text__toolbar"
           editorClassName="rich-text__editor"
           toolbar={toolbarOptions}
+          toolbarCustomButtons={[<ImagePicker />]}
           onEditorStateChange={this.onEditorStateChange.bind(this)}
         />
         <textarea

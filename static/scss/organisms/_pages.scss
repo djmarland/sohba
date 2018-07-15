@@ -13,24 +13,6 @@
         padding-right: 8px;
       }
     }
-    .form--category {
-      position: relative;
-
-      input {
-        display: inline-block;
-      }
-      button {
-        position: absolute;
-        top: 4px;
-        margin: 0;
-        right: 4px;
-        background: none;
-        border: none;
-        &:hover {
-          background: $color-grey-lightest;
-        }
-      }
-    }
   }
   &--page {
     &:nth-child(2n) {
@@ -47,8 +29,7 @@
     }
   }
 
-  &--page,
-  &--category {
+  &--page {
     button {
       visibility: hidden;
     }
