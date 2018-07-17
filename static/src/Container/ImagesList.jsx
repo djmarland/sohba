@@ -11,6 +11,7 @@ class Container extends React.Component {
   state = {
     message: null,
     loading: false,
+    filter: '',
     images: []
   };
 
@@ -173,12 +174,29 @@ class Container extends React.Component {
       );
     }
 
-    const images = this.state.images.map(this.renderImage.bind(this));
+    let images = this.state.images;
+    if (this.state.filter.length > 0) {
+      images = images.filter(
+        i => ~i.title.toLowerCase().indexOf(this.state.filter.toLowerCase())
+      )
+    }
+    images = images.map(this.renderImage.bind(this));
+
 
     return (
       <React.Fragment>
         {message}
         {fileDrop}
+        <div className="unit">
+          <input className="form__input" type="text"
+                 value={this.state.filter}
+                 onChange={(ev) => {
+                   this.setState({
+                     filter : ev.target.value
+                   })
+                 }}
+                 placeholder="Filter..." />
+        </div>
         <div className="modal-content-target">
           <ul className="images">
             {images}
