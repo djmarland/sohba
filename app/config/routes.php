@@ -90,6 +90,12 @@ $collection->add('admin_images', new Route('/admin/images', [
 $collection->add('admin_images_convert', new Route('/admin/images/convert', [
     '_controller' => Controller\Admin\ImagesConvertAction::class,
 ]));
+$collection->add('admin_people', new Route('/admin/people', [
+    '_controller' => Controller\Admin\PeopleAction::class,
+]));
+$collection->add('admin_person', new Route('/admin/people/{personId}', [
+    '_controller' => Controller\Admin\PersonAction::class,
+]));
 
 
 $collection->add('page', new Route('/{page}', [

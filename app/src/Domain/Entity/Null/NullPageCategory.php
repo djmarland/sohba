@@ -8,6 +8,8 @@ use Ramsey\Uuid\Uuid;
 
 class NullPageCategory extends PageCategory
 {
+    use NullBaseTrait;
+
     public function __construct()
     {
         parent::__construct(

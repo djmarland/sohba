@@ -23,7 +23,8 @@ class PersonMapper implements MapperInterface
             $item['pkid'],
             $item['name'],
             $item['isOnCommittee'],
-            $item['committeeTitle'],
+            !empty($item['committeeTitle']) ? $item['committeeTitle'] : null,
+            !empty($item['committeeOrder']) ? $item['committeeOrder'] : null,
             $this->mapImage($item)
         );
     }

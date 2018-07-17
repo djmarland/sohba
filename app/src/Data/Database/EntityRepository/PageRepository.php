@@ -14,10 +14,8 @@ class PageRepository extends AbstractEntityRepository
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'category')
             ->innerJoin('tbl.category', 'category')
-            ->where('tbl.isPublished = :published')
             ->orderBy('category.order', 'ASC')
-            ->addOrderBy('tbl.order', 'ASC')
-            ->setParameter('published', true);
+            ->addOrderBy('tbl.order', 'ASC');
         return $qb->getQuery()->getResult($resultType);
     }
 

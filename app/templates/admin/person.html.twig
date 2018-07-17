@@ -1,0 +1,17 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1 class="title">
+        <span class="title__context">
+            <a href="/admin/people">People</a>
+        </span>
+        Edit Person
+    </h1>
+    <div id="app" data-container="PersonDetail"></div>
+{% endblock %}
+
+{% block footScripts %}
+    <script>
+        window.HBAContent = {{ pageData | raw }};
+    </script>
+{% endblock %}

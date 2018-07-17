@@ -5,6 +5,8 @@ import AdminHome from "./Pages/AdminHome";
 import ImagesList from "./Pages/ImagesList";
 import PagesList from "./Pages/PagesList";
 import PageDetail from "./Pages/PageDetail";
+import PeopleList from "./Pages/PeopleList";
+import PersonDetail from "./Pages/PersonDetail";
 
 // static assets
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -26,6 +28,12 @@ if (appContainer) {
       break;
     case "PageDetail":
       ReactDomRender(<PageDetail />, appContainer);
+      break;
+    case "PeopleList":
+      ReactDomRender(<PeopleList />, appContainer);
+      break;
+    case "PersonDetail":
+      ReactDomRender(<PersonDetail />, appContainer);
       break;
   }
 }

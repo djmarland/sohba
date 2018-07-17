@@ -1,3 +1,22 @@
 .table {
   width: 100%;
+
+  th, td {
+    text-align: left;
+    padding: $grid-unit / 2;
+  }
+  thead {
+    background: $color-primary-dark;
+    color: $color-white;
+  }
+
+  &--striped {
+    tbody tr:nth-child(2n) {
+      background: $color-grey-lightest;
+    }
+  }
+
+  &__icon-cell {
+    width: 32px + ($grid-unit * 2);
+  }
 }

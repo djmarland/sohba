@@ -131,7 +131,6 @@ class PageService extends AbstractService
         // todo - things that can't be null should be in the constructor (e.g. content)
         $page->urlPath = $url;
         $page->content = '';
-        $page->isPublished = true;
 
         $this->entityManager->persist($page);
         $this->entityManager->flush();

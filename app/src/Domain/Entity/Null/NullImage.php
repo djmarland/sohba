@@ -8,6 +8,8 @@ use Ramsey\Uuid\Uuid;
 
 class NullImage extends Image
 {
+    use NullBaseTrait;
+
     public function __construct()
     {
         parent::__construct(

@@ -7,6 +7,7 @@ use App\Data\Database\Entity\Image;
 use App\Data\Database\Entity\KeyValue;
 use App\Data\Database\Entity\Page;
 use App\Data\Database\Entity\PageCategory;
+use App\Data\Database\Entity\Person;
 use App\Data\Database\Entity\Programme;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
@@ -18,6 +19,7 @@ class ID
         Image::class => '1111',
         Page::class => 'a0a0',
         PageCategory::class => 'ca0e',
+        Person::class => '0666',
         Programme::class => 'edfa',
         KeyValue::class => 'c0c0',
     ];

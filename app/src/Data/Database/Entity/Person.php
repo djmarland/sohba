@@ -35,18 +35,18 @@ class Person extends AbstractEntity
     /**
      * @ORM\Column(type="string", name="peopleTitle", length=100, nullable=true)
      */
-    public $committeeTitle = null;
+    public $committeeTitle;
 
     /**
      * @ORM\Column(type="integer", name="peopleExecPosition", length=2, nullable=true)
      */
-    public $committeeOrder = null;
+    public $committeeOrder;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL", name="peopleImage", referencedColumnName="imgPKID")
      */
-    public $image = null;
+    public $image;
 
     public function __construct(
         UuidInterface $id,

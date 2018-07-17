@@ -34,8 +34,7 @@ class PageAction extends AbstractAdminController
         DateTimeImmutable $now
     ): Response {
 
-        $messageOk = null;
-        $messageFail = null;
+        $message = null;
         $pageId = $request->get('pageId');
         $page = $pageService->findByLegacyId((int)$pageId);
         if (!$page) {
@@ -46,9 +45,15 @@ class PageAction extends AbstractAdminController
         if ($request->getMethod() === 'POST') {
             try {
                 $this->handlePost($request, $page, $pageService);
-                $messageOk = 'Saved';
+                $message = [
+                    'type' => 'ok',
+                    'message' => 'Saved',
+                ];
             } catch (\Exception $e) {
-                $messageFail = $e->getMessage();
+                $message = [
+                    'type' => 'error',
+                    'message' => $e->getMessage(),
+                ];
             }
 
             // re-fetch the latest
@@ -78,8 +83,7 @@ class PageAction extends AbstractAdminController
             'page.html.twig',
             [
                 'pageData' => \json_encode([
-                    'messageOk' => $messageOk,
-                    'messageFail' => $messageFail,
+                    'message' => $message,
                     'page' => $page,
                     'images' => $images,
                     'allCategories' => $pageService->findAllPageCategories(),

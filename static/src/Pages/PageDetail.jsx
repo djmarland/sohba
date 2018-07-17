@@ -14,18 +14,11 @@ class PageDetail extends React.Component {
     this.categories = window.HBAContent.allCategories;
     this.urlRegex = window.HBAContent.urlRegex;
 
-    if (window.HBAContent.messageOk) {
+    if (window.HBAContent.message) {
       this.message = (
         <Message
-          message={window.HBAContent.messageOk}
-          type={Message.TYPE_OK}
-        />
-      );
-    } else if (window.HBAContent.messageFail) {
-      this.message = (
-        <Message
-          message={window.HBAContent.messageFail}
-          type={Message.TYPE_ERROR}
+          message={window.HBAContent.message.message}
+          type={window.HBAContent.message.type}
         />
       );
     }
@@ -35,10 +28,6 @@ class PageDetail extends React.Component {
       specialType: window.HBAContent.specialType || "",
       showNavigation: !!window.HBAContent.page.category
     });
-  }
-
-  onEditorStateChange() {
-
   }
 
   changeType(event) {

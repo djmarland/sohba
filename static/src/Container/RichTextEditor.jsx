@@ -4,7 +4,7 @@ import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
-import ImagePicker from './ImagePicker';
+import RichTextImagePicker from './RichTextImagePicker';
 
 const toolbarOptions = {
   options: ["inline", "blockType", "list", "link", "history"],
@@ -59,7 +59,7 @@ class RichTextEditor extends React.Component {
           toolbarClassName="rich-text__toolbar"
           editorClassName="rich-text__editor"
           toolbar={toolbarOptions}
-          toolbarCustomButtons={[<ImagePicker />]}
+          toolbarCustomButtons={[<RichTextImagePicker />]}
           onEditorStateChange={this.onEditorStateChange.bind(this)}
         />
         <textarea
