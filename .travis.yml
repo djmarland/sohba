@@ -29,7 +29,7 @@ before_install:
 
 install:
   - composer install --no-interaction
-  
+
 script:
   - composer cs
   - composer stan
@@ -53,5 +53,3 @@ deploy:
       secure: $GITHUB_KEY
     file: ${TRAVIS_BUILD_DIR}sohba-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz
     skip_cleanup: true
-    on:
-      tags: true
