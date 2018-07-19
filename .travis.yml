@@ -7,22 +7,7 @@ matrix:
     - language: php
       php: 7.1
       env:
-        global:
-          - APP_ENV=prod
-          - APP_SECRET=na
-          - DATABASE_URL=na
-          - MAILER_HOST=na
-          - MAILER_USERNAME=na
-          - MAILER_PASSWORD=na
-          - DB_WRITE_HOST=na
-          - DB_PORT=na
-          - DB_NAME=na
-          - DB_WRITE_USER=na
-          - DB_WRITE_PASSWORD=na
-          - APP_CAPTCHA_SECRET=na
-          - APP_REQUEST_FROM_ADDRESS=na
-          - APP_REQUEST_TO_ADDRESS=na
-          - ADMIN_PASSWORD=na
+        - APP_ENV=prod
       before_install:
         - cd app
 
@@ -46,8 +31,6 @@ matrix:
         yarn: true
       before_install:
         - cd static
-      before_script:
-        - yarn global add serverless
       script:
         - yarn install
         - yarn test
