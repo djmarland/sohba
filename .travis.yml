@@ -1,44 +1,57 @@
-dist: trusty
-language: php
-php: 7.1
-
-env:
- global:
-  - APP_ENV=prod
-  - APP_SECRET=na
-  - DATABASE_URL=na
-  - MAILER_HOST=na
-  - MAILER_USERNAME=na
-  - MAILER_PASSWORD=na
-  - DB_WRITE_HOST=na
-  - DB_PORT=na
-  - DB_NAME=na
-  - DB_WRITE_USER=na
-  - DB_WRITE_PASSWORD=na
-  - APP_CAPTCHA_SECRET=na
-  - APP_REQUEST_FROM_ADDRESS=na
-  - APP_REQUEST_TO_ADDRESS=na
-  - ADMIN_PASSWORD=na
-
 branches:
   only:
   - master
 
-before_install:
-  - cd app
+matrix:
+  include:
+    - language: php
+      php: 7.1
+      env:
+       global:
+        - APP_ENV=prod
+        - APP_SECRET=na
+        - DATABASE_URL=na
+        - MAILER_HOST=na
+        - MAILER_USERNAME=na
+        - MAILER_PASSWORD=na
+        - DB_WRITE_HOST=na
+        - DB_PORT=na
+        - DB_NAME=na
+        - DB_WRITE_USER=na
+        - DB_WRITE_PASSWORD=na
+        - APP_CAPTCHA_SECRET=na
+        - APP_REQUEST_FROM_ADDRESS=na
+        - APP_REQUEST_TO_ADDRESS=na
+        - ADMIN_PASSWORD=na
+      before_install:
+        - cd app
 
-install:
-  - composer install --no-interaction
+      install:
+        - composer install --no-interaction
 
-script:
-  - composer cs
-  - composer stan
-  - composer test
+      script:
+        - composer cs
+        - composer stan
+        - composer test
 
-after_success:
-  - composer install --no-interaction --no-dev --optimize-autoloader
-  - php bin/console cache:clear
-  - php bin/console cache:warmup
+      after_success:
+        - composer install --no-interaction --no-dev --optimize-autoloader
+        - php bin/console cache:clear
+        - php bin/console cache:warmup
+
+    - language: node_js
+      cache:
+        yarn: true
+      before_install:
+        - cd static
+      before_script:
+        - yarn global add serverless
+      script:
+        - yarn install
+        - yarn test
+        - yarn client
+      after_success:
+        - yarn install --production --ignore-scripts --prefer-offline
 
 before_deploy:
   # Set up git user name and tag this commit
@@ -46,12 +59,12 @@ before_deploy:
   - git config --local user.email $GITHUB_EMAIL
   - git tag "$(date +'%Y%m%d%H%M%S')"
   # zip up the application
-  - tar -zcf sohba-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz config public src templates vendor var composer.json
+  - tar -cf sohba.tar config public src templates vendor var composer.json public_html/static
 
 deploy:
   # GitHub - Add zip to release
   - provider: releases
     api_key:
       secure: $GITHUB_KEY
-    file: sohba-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz
+    file: sohba.tar
     skip_cleanup: true
