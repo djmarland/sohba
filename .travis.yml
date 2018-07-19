@@ -69,7 +69,6 @@ jobs:
           skip_cleanup: true
 
 stages:
-  - php
-  - node
+  - build
   - name: deploy
     if: branch = master
