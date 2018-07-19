@@ -20,13 +20,23 @@ env:
   - APP_REQUEST_TO_ADDRESS=na
   - ADMIN_PASSWORD=na
 
-install:
-- cd app
-- composer install --no-interaction --no-dev --optimize-autoloader
-
 branches:
   only:
   - master
+
+before_install:
+  - cd app
+
+install:
+  - composer install --no-interaction
+  
+script:
+  - composer cs
+  - composer stan
+  - composer test
+
+after_success:
+  - composer install --no-interaction --no-dev --optimize-autoloader
 
 before_deploy:
   # Set up git user name and tag this commit
