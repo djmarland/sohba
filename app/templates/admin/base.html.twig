@@ -29,8 +29,10 @@
                     <span class="nav__group-title nav__item">Admin</span>
                     <ul class="nav__sub">
                         <li><a href="/admin" class="nav__item">Calendar</a></li>
+                        <li><a href="/admin/admin-showlist.php" class="nav__item">Shows</a></li>
                         <li><a href="/admin/pages" class="nav__item">Pages</a></li>
                         <li><a href="/admin/images" class="nav__item">Images</a></li>
+                        <li><a href="/admin/people" class="nav__item">Members</a></li>
                         <li><a href="/admin/people" class="nav__item">Members</a></li>
                         <li><a href="/" class="nav__item">Logout</a></li>
                     </ul>
@@ -39,15 +41,18 @@
                 <li>
                     <span class="nav__group-title nav__item">User guide</span>
                     <ul class="nav__sub">
-                        <li><a class="nav__item" href="/admin2/guide">Shows</a></li>
-                        <li><a class="nav__item" href="/admin2/technical">Technical Information</a></li>
+                        <li><a class="nav__item" href="/admin/guide/shows.php">Shows Guide</a></li>
+                        <li><a class="nav__item" href="/admin/guide/technical.php">Technical Information</a></li>
                     </ul>
                 </li>
 
             </ul>
         </nav>
     </main>
-    <footer class="footer">Built by David Marland</footer>
+    <footer class="footer">
+        Built by David Marland.
+        <a href="https://github.com/djmarland/sohba">Source code</a>
+    </footer>
 </div>
 {% block footScripts %}{% endblock %}
 <script type="text/javascript" src="{{ baseAssetManifest['app.js'] }}"></script>

@@ -1,0 +1,25 @@
+dist: trusty
+language: php
+php: 7.1
+
+install:
+- cd app
+- composer install --no-interaction --no-dev --optimize-autoloader
+
+branches:
+  # expected format: v1.0.0
+  only:
+  - /^v\d+(\.\d+)+$/
+
+before_deploy:
+- tar -zcf ${TRAVIS_BUILD_DIR}sohba-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz app/config app/public app/src app/templates app/vendor app/composer.json
+
+deploy:
+  # GitHub - Add zip to release
+  - provider: releases
+    api_key:
+      secure: $GITHUB_KEY
+    file: ${TRAVIS_BUILD_DIR}sohba-${BUILD_ENV}-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}.tar.gz
+    skip_cleanup: true
+    on:
+      tags: true
