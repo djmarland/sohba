@@ -7,22 +7,22 @@ matrix:
     - language: php
       php: 7.1
       env:
-       global:
-        - APP_ENV=prod
-        - APP_SECRET=na
-        - DATABASE_URL=na
-        - MAILER_HOST=na
-        - MAILER_USERNAME=na
-        - MAILER_PASSWORD=na
-        - DB_WRITE_HOST=na
-        - DB_PORT=na
-        - DB_NAME=na
-        - DB_WRITE_USER=na
-        - DB_WRITE_PASSWORD=na
-        - APP_CAPTCHA_SECRET=na
-        - APP_REQUEST_FROM_ADDRESS=na
-        - APP_REQUEST_TO_ADDRESS=na
-        - ADMIN_PASSWORD=na
+        global:
+          - APP_ENV=prod
+          - APP_SECRET=na
+          - DATABASE_URL=na
+          - MAILER_HOST=na
+          - MAILER_USERNAME=na
+          - MAILER_PASSWORD=na
+          - DB_WRITE_HOST=na
+          - DB_PORT=na
+          - DB_NAME=na
+          - DB_WRITE_USER=na
+          - DB_WRITE_PASSWORD=na
+          - APP_CAPTCHA_SECRET=na
+          - APP_REQUEST_FROM_ADDRESS=na
+          - APP_REQUEST_TO_ADDRESS=na
+          - ADMIN_PASSWORD=na
       before_install:
         - cd app
 
@@ -40,6 +40,8 @@ matrix:
         - php bin/console cache:warmup
 
     - language: node_js
+      node_js:
+        - "10"
       cache:
         yarn: true
       before_install:
