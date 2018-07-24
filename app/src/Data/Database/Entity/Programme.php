@@ -46,7 +46,7 @@ class Programme extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="Image")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL", name="showsImage", referencedColumnName="imgPKID")
      */
-    public $image = null;
+    public $image;
 
     public function __construct(
         UuidInterface $id,

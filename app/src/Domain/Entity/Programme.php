@@ -9,10 +9,11 @@ use Ramsey\Uuid\UuidInterface;
 
 class Programme extends Entity implements \JsonSerializable
 {
-    private const PROGRAMME_TYPE_CRICKET = 1;
-    private const PROGRAMME_TYPE_FOOTBALL = 2;
-    private const PROGRAMME_TYPE_EVENT = 3;
-    private const PROGRAMME_TYPE_SPECIAL = 4;
+    public const PROGRAMME_TYPE_REGULAR = 0;
+    public const PROGRAMME_TYPE_CRICKET = 1;
+    public const PROGRAMME_TYPE_FOOTBALL = 2;
+    public const PROGRAMME_TYPE_EVENT = 3;
+    public const PROGRAMME_TYPE_SPECIAL = 4;
 
     public const PROGRAMME_EVENT_TYPES = [
         self::PROGRAMME_TYPE_CRICKET => 'Cricket',
@@ -56,12 +57,37 @@ class Programme extends Entity implements \JsonSerializable
         $this->programmeType = $programmeType;
     }
 
+    public static function getAllTypesMapped()
+    {
+        $types = [];
+        foreach (array_merge(
+                     [self::PROGRAMME_TYPE_REGULAR => 'Regular'],
+                     self::PROGRAMME_EVENT_TYPES
+                 ) as $id => $title) {
+            $types[] = [
+                'id' => $id,
+                'title' => $title,
+            ];
+        }
+        return $types;
+    }
+
     public function jsonSerialize()
     {
-        return [
+        $data = [
             'id' => $this->id,
+            'legacyId' => $this->legacyId,
             'title' => $this->getTitle(),
+            'tagLine' => $this->tagLine,
+            'type' => $this->programmeType,
+            'typeTitle' => $this->getTypeName(),
+            'detail' => $this->detail,
         ];
+        if ($this->image) {
+            $data['image'] = $this->image;
+        }
+
+        return $data;
     }
 
     public function getTitle(): string

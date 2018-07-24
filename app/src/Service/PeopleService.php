@@ -49,7 +49,7 @@ class PeopleService extends AbstractService
         );
     }
 
-    public function newPerson($name): int
+    public function newPerson(string $name): int
     {
         $page = new DbPerson(
             ID::makeNewID(DbPerson::class),
@@ -62,9 +62,9 @@ class PeopleService extends AbstractService
         return $page->pkid;
     }
 
-    public function deletePerson(int $pageId): void
+    public function deletePerson(int $programmeId): void
     {
-        $this->entityManager->getPersonRepo()->deleteByLegacyId($pageId);
+        $this->entityManager->getPersonRepo()->deleteByLegacyId($programmeId);
     }
 
     public function findByLegacyId($legacyId): ?Person

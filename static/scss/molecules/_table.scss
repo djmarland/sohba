@@ -16,7 +16,15 @@
     }
   }
 
+  tr[data-href]:hover {
+    cursor: pointer;
+    background: $color-grey-light;
+  }
+
   &__icon-cell {
     width: 32px + ($grid-unit * 2);
+  }
+  &__title-cell {
+    min-width: 240px;
   }
 }

@@ -50,4 +50,22 @@
       margin-right: $grid-unit;
     }
   }
+
+  &__checkbox-row {
+    display: flex;
+    margin-bottom: $grid-unit;
+    margin-left: $grid-unit / 4;
+  }
+
+  &__checkbox-box {
+    padding: $grid-unit / 2;
+    text-align: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-left: $grid-unit / 4;
+    cursor: pointer;
+    > input {
+      margin-bottom: $grid-unit / 2;
+    }
+  }
 }

@@ -7,11 +7,13 @@ import PagesList from "./Pages/PagesList";
 import PageDetail from "./Pages/PageDetail";
 import PeopleList from "./Pages/PeopleList";
 import PersonDetail from "./Pages/PersonDetail";
+import ShowsList from "./Pages/ShowsList";
 
 // static assets
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "../scss/app.scss";
 import "../img";
+import ShowDetail from "./Pages/ShowDetail";
 
 // // find out if this page has an app we need to load
 const appContainer = document.getElementById("app");
@@ -34,6 +36,12 @@ if (appContainer) {
       break;
     case "PersonDetail":
       ReactDomRender(<PersonDetail />, appContainer);
+      break;
+    case "ShowsList":
+      ReactDomRender(<ShowsList />, appContainer);
+      break;
+    case "ShowDetail":
+      ReactDomRender(<ShowDetail />, appContainer);
       break;
   }
 }

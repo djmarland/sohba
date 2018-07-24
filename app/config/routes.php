@@ -96,6 +96,12 @@ $collection->add('admin_people', new Route('/admin/people', [
 $collection->add('admin_person', new Route('/admin/people/{personId}', [
     '_controller' => Controller\Admin\PersonAction::class,
 ]));
+$collection->add('admin_shows', new Route('/admin/shows', [
+    '_controller' => Controller\Admin\ShowsAction::class,
+]));
+$collection->add('admin_show', new Route('/admin/shows/{showId}', [
+    '_controller' => Controller\Admin\ShowAction::class,
+]));
 
 
 $collection->add('page', new Route('/{page}', [

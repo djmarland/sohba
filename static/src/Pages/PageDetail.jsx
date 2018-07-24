@@ -172,7 +172,7 @@ class PageDetail extends React.Component {
                 initialContent={this.state.page.htmlContent}
                 fieldName="html-content"/>
             </div>
-            <div className="t-page-edit__content">
+            <div className="t-page-edit__content" style={{display:"none"}}>
               <h2 className="unit">Legacy Page content</h2>
               <label className="form__label-row">
                 Enter the content for the page (legacy format - to be replaced)

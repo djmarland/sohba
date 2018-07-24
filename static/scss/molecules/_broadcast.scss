@@ -16,6 +16,9 @@
   }
 
   &--event {
+    &-0 {
+      background-color: $color-show-regular;
+    }
     &-1 {
       background-color: $color-show-cricket;
     }

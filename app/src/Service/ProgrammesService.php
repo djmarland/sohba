@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Data\Database\Entity\Programme as DbProgramme;
+use App\Data\ID;
 use App\Domain\Entity\Programme;
 
 class ProgrammesService extends AbstractService
@@ -19,6 +21,26 @@ class ProgrammesService extends AbstractService
     {
         return $this->mapMany(
             $this->entityManager->getProgrammeRepo()->findAllActive(),
+            $this->programmeMapper
+        );
+    }
+
+    public function getAllRegular(): array
+    {
+        return $this->mapMany(
+            $this->entityManager->getProgrammeRepo()->findByTypes([
+                Programme::PROGRAMME_TYPE_REGULAR
+            ]),
+            $this->programmeMapper
+        );
+    }
+
+    public function getAllEvents(): array
+    {
+        return $this->mapMany(
+            $this->entityManager->getProgrammeRepo()->findByTypes(array_keys(
+                Programme::PROGRAMME_EVENT_TYPES
+            )),
             $this->programmeMapper
         );
     }
@@ -41,5 +63,35 @@ class ProgrammesService extends AbstractService
         }
 
         return $groupedResults;
+    }
+
+    public function newProgramme(string $name): int
+    {
+        $page = new DbProgramme(
+            ID::makeNewID(DbProgramme::class),
+            $name
+        );
+
+        $this->entityManager->persist($page);
+        $this->entityManager->flush();
+
+        return $page->pkid;
+    }
+
+    public function deleteProgramme(int $programmeId): void
+    {
+        $this->entityManager->getProgrammeRepo()->deleteByLegacyId($programmeId);
+    }
+
+    public function updateProgramme(
+        Programme $page,
+        string $name,
+        ?int $imageId
+    ): void {
+        $this->entityManager->getProgrammeRepo()->updateProgramme(
+            $page->getLegacyId(),
+            $name,
+            $imageId
+        );
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\NormalListing;
+use App\Data\Database\Entity\Programme;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 
@@ -30,5 +31,45 @@ class ProgrammeRepository extends AbstractEntityRepository
             ->where('tbl.pkid = :id')
             ->setParameter('id', $id);
         return $qb->getQuery()->getOneOrNullResult($resultType);
+    }
+
+    public function findByTypes(
+        array $typeIds,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl')
+            ->where('tbl.type IN (:types)')
+            ->addOrderBy('tbl.type', 'ASC')
+            ->addOrderBy('tbl.title', 'ASC')
+            ->setParameter('types', $typeIds);
+        return $qb->getQuery()->getResult($resultType);
+    }
+
+    public function deleteByLegacyId(int $legacyId): void
+    {
+        $sql = 'DELETE FROM ' . Programme::class . ' t WHERE t.pkid = :id';
+        $query = $this->getEntityManager()
+            ->createQuery($sql)
+            ->setParameter('id', $legacyId);
+        $query->execute();
+    }
+
+    public function updateProgramme(
+        int $legacyId,
+        string $name,
+        ?int $imageId
+    ): void {
+        $sql = 'UPDATE ' . Programme::class . ' t 
+            SET t.title = :name,
+                t.image = :imageId
+            WHERE t.pkid = :id';
+        $query = $this->getEntityManager()
+            ->createQuery($sql)
+            ->setParameter('id', $legacyId)
+            ->setParameter('name', $name)
+            ->setParameter('imageId', $imageId)
+        ;
+        $query->execute();
     }
 }
