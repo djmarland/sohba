@@ -60,10 +60,11 @@ class Programme extends Entity implements \JsonSerializable
     public static function getAllTypesMapped()
     {
         $types = [];
-        foreach (array_merge(
-                     [self::PROGRAMME_TYPE_REGULAR => 'Regular'],
-                     self::PROGRAMME_EVENT_TYPES
-                 ) as $id => $title) {
+        $all = array_merge(
+            [self::PROGRAMME_TYPE_REGULAR => 'Regular'],
+            self::PROGRAMME_EVENT_TYPES
+        );
+        foreach ($all as $id => $title) {
             $types[] = [
                 'id' => $id,
                 'title' => $title,
