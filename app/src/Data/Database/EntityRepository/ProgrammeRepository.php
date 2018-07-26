@@ -58,16 +58,25 @@ class ProgrammeRepository extends AbstractEntityRepository
     public function updateProgramme(
         int $legacyId,
         string $name,
+        string $tagLine,
+        int $type,
+        string $detail,
         ?int $imageId
     ): void {
         $sql = 'UPDATE ' . Programme::class . ' t 
             SET t.title = :name,
+                t.tagline = :tagLine,
+                t.type = :type,
+                t.description = :detail,
                 t.image = :imageId
             WHERE t.pkid = :id';
         $query = $this->getEntityManager()
             ->createQuery($sql)
             ->setParameter('id', $legacyId)
             ->setParameter('name', $name)
+            ->setParameter('type', $type)
+            ->setParameter('detail', $detail)
+            ->setParameter('tagLine', $tagLine)
             ->setParameter('imageId', $imageId)
         ;
         $query->execute();

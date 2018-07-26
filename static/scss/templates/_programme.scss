@@ -11,8 +11,7 @@
   }
 
   &__img {
-    max-width: 96px;
-    margin: 4px $grid-unit 0 0;
+    margin: 0 0 $grid-unit 0;
   }
 
   &__prose {
@@ -42,11 +41,7 @@
       flex: 1;
     }
 
-    &__img {
-      max-width: 144px;
-    }
-
-    &__listings {
+    &__side {
       margin-left: $grid-unit;
       width: $sizebar-width;
     }

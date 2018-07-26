@@ -3,6 +3,7 @@ import Message from "../Components/Message";
 import ImagesList from "../Container/ImagesList";
 import Modal from "../Container/Modal";
 import RichTextEditor from "../Container/RichTextEditor";
+import AttachPeople from "../Container/AttachPeople";
 
 class ShowDetail extends React.Component {
   state = {};
@@ -84,6 +85,10 @@ class ShowDetail extends React.Component {
 
             <div className="t-person-edit__detail">
               <h2 className="unit">Basic details</h2>
+              <p className="unit text--right">
+                <a href={`/programmes/${this.state.show.legacyId}`}
+                   target="_blank">View show page ⇗</a>
+              </p>
 
               <label className="form__label-row">
                 Show name:
@@ -141,6 +146,10 @@ class ShowDetail extends React.Component {
               <RichTextEditor
                 initialContent={this.state.show.detail}
                 fieldName="html-content"/>
+            </div>
+
+            <div className="t-person-edit__full">
+              <AttachPeople />
             </div>
 
             <div className="t-person-edit__submit">

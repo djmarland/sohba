@@ -8,6 +8,7 @@ use App\Data\Database\Entity\KeyValue;
 use App\Data\Database\Entity\Page;
 use App\Data\Database\Entity\PageCategory;
 use App\Data\Database\Entity\Person;
+use App\Data\Database\Entity\PersonInShow;
 use App\Data\Database\Entity\Programme;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
@@ -20,6 +21,7 @@ class ID
         Page::class => 'a0a0',
         PageCategory::class => 'ca0e',
         Person::class => '0666',
+        PersonInShow::class => '9876',
         Programme::class => 'edfa',
         KeyValue::class => 'c0c0',
     ];

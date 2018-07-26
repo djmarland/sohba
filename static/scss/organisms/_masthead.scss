@@ -25,7 +25,7 @@
     display: block;
     width: $grid-unit * 2;
     height: $grid-unit * 2;
-    fill: $color-masthead-text;
+    color: $color-masthead-text;
     margin: $grid-unit;
 
     @media (min-width: 48rem) {

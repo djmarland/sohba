@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 
 use App\Domain\Entity\Programme;
 use App\Service\ImagesService;
+use App\Service\PeopleService;
 use App\Service\ProgrammesService;
 use DateTimeImmutable;
 use RuntimeException;
@@ -16,6 +17,7 @@ class ShowAction extends AbstractAdminController
     public function __invoke(
         Request $request,
         ProgrammesService $programmesService,
+        PeopleService $peopleService,
         ImagesService $imagesService,
         DateTimeImmutable $now
     ): Response {
@@ -30,7 +32,7 @@ class ShowAction extends AbstractAdminController
         // if POST, parse the incoming JSON into appropriate calls
         if ($request->getMethod() === 'POST') {
             try {
-                $this->handlePost($request, $show, $programmesService);
+                $this->handlePost($request, $show, $programmesService, $peopleService);
                 $message = [
                     'type' => 'ok',
                     'message' => 'Saved ',
@@ -50,6 +52,8 @@ class ShowAction extends AbstractAdminController
         }
 
         $images = $imagesService->findAll();
+        $people = $peopleService->findAll();
+        $peopleInShow = $peopleService->findForProgramme($show);
 
         return $this->renderAdminSite(
             'show.html.twig',
@@ -58,6 +62,8 @@ class ShowAction extends AbstractAdminController
                     'message' => $message,
                     'show' => $show,
                     'images' => $images,
+                    'people' => $people,
+                    'selectedPeople' => $peopleInShow,
                     'types' => Programme::getAllTypesMapped(),
                 ], JSON_PRETTY_PRINT),
             ],
@@ -68,17 +74,31 @@ class ShowAction extends AbstractAdminController
     private function handlePost(
         Request $request,
         Programme $programme,
-        ProgrammesService $programmesService
+        ProgrammesService $programmesService,
+        PeopleService $peopleService
     ): void {
         // get all the field values
         $name = $request->get('name');
+        $tagLine = $request->get('tagline');
+        $type = (int)$request->get('type');
+        $description = $request->get('html-content');
 
         $imageId = (int)$request->get('image-id') ?: null;
 
         $programmesService->updateProgramme(
             $programme,
             $name,
+            $tagLine,
+            $type,
+            $description,
             $imageId
         );
+
+        $people = trim((string)$request->get('people'));
+
+        $peopleIds = array_map(function ($id) {
+            return (int)trim($id);
+        }, array_filter(explode(',', $people)));
+        $peopleService->setPeopleForProgramme($peopleIds, $programme);
     }
 }

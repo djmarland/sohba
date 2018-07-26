@@ -86,11 +86,17 @@ class ProgrammesService extends AbstractService
     public function updateProgramme(
         Programme $page,
         string $name,
+        string $tagLine,
+        int $type,
+        string $description,
         ?int $imageId
     ): void {
         $this->entityManager->getProgrammeRepo()->updateProgramme(
             $page->getLegacyId(),
             $name,
+            $tagLine,
+            $type,
+            $description,
             $imageId
         );
     }

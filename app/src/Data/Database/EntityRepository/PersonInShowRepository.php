@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data\Database\EntityRepository;
 
+use App\Data\Database\Entity\PersonInShow;
 use Doctrine\ORM\Query;
 
 class PersonInShowRepository extends AbstractEntityRepository
@@ -38,5 +39,14 @@ class PersonInShowRepository extends AbstractEntityRepository
             ->setParameter('programmeId', $legacyId);
 
         return $qb->getQuery()->getResult($resultType);
+    }
+
+    public function deleteAllForProgrammeId($showId): void
+    {
+        $sql = 'DELETE FROM ' . PersonInShow::class . ' t WHERE t.programme = :showId';
+        $query = $this->getEntityManager()
+            ->createQuery($sql)
+            ->setParameter('showId', $showId);
+        $query->execute();
     }
 }

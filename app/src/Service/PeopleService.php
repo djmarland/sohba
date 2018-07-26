@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Data\Database\Entity\Person as DbPerson;
+use App\Data\Database\Entity\PersonInShow as DbPersonInShow;
 use App\Data\ID;
 use App\Domain\Entity\Person;
 use App\Domain\Entity\Programme;
+use Doctrine\ORM\Query;
 
 class PeopleService extends AbstractService
 {
@@ -91,5 +93,32 @@ class PeopleService extends AbstractService
             $committeePosition,
             $imageId
         );
+    }
+
+    public function setPeopleForProgramme(array $peopleIds, Programme $programme): void
+    {
+        $programmeId = $programme->getLegacyId();
+
+        $this->entityManager->getPersonInShowRepo()->deleteAllForProgrammeId($programmeId);
+
+        $programmeEntity = $this->entityManager->getProgrammeRepo()->findByLegacyId(
+            $programmeId,
+            Query::HYDRATE_OBJECT
+        );
+        foreach ($peopleIds as $personId) {
+            $personEntity = $this->entityManager->getPersonRepo()->findByLegacyId(
+                $personId,
+                Query::HYDRATE_OBJECT
+            );
+
+            $personInShow = new DbPersonInShow(
+                ID::makeNewID(DbPersonInShow::class)
+            );
+            $personInShow->person =$personEntity;
+            $personInShow->programme = $programmeEntity;
+
+            $this->entityManager->persist($personInShow);
+        }
+        $this->entityManager->flush();
     }
 }
