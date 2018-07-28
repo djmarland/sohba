@@ -87,9 +87,6 @@ $collection->add('admin_page', new Route('/admin/pages/{pageId}', [
 $collection->add('admin_images', new Route('/admin/images', [
     '_controller' => Controller\Admin\ImagesAction::class,
 ]));
-$collection->add('admin_images_convert', new Route('/admin/images/convert', [
-    '_controller' => Controller\Admin\ImagesConvertAction::class,
-]));
 $collection->add('admin_people', new Route('/admin/people', [
     '_controller' => Controller\Admin\PeopleAction::class,
 ]));

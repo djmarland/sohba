@@ -33,7 +33,7 @@ class Programme extends AbstractEntity
     public $tagline;
 
     /**
-     * @ORM\Column(type="string", name="showsDetail", length=5000, nullable=true)
+     * @ORM\Column(type="text", name="showsDetail", nullable=true)
      */
     public $description;
 

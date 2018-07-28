@@ -39,40 +39,6 @@ class ImagesService extends AbstractService
         return $fileName;
     }
 
-    public function convertAll()
-    {
-        // fetch all images that don't have a fileName
-        $uncoverted = $this->entityManager->getImageRepo()
-            ->findAllUnconverted(Query::HYDRATE_OBJECT);
-
-        $convertedCount = 0;
-
-        foreach ($uncoverted as $originalImage) {
-            try {
-                /** @var DbImage $originalImage */
-
-                $ext = $this->imageTypeToExtension($originalImage->type);
-
-                $uuid = ID::makeNewID(DbImage::class);
-                $fileName = \strtolower($uuid->toString() . '.' . $ext);
-
-                $this->saveImage($fileName, $originalImage->data);
-
-                $originalImage->id = $uuid;
-                $originalImage->uuid = (string)$uuid;
-                $originalImage->fileName = $fileName;
-
-                $this->entityManager->persist($originalImage);
-                $convertedCount++;
-            } catch (\Throwable $exception) {
-                // do nothing, move along
-            }
-        }
-
-        $this->entityManager->flush();
-        return $convertedCount . '/' . \count($uncoverted);
-    }
-
     public function saveImage(string $fileName, $imageData): void
     {
         \file_put_contents(self::UPLOADED_FILE_PATH . $fileName, $imageData);

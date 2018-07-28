@@ -17,15 +17,6 @@ class ImageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    public function findAllUnconverted(
-        int $resultType = Query::HYDRATE_ARRAY
-    ) {
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl')
-            ->where('tbl.fileName IS NULL');
-        return $qb->getQuery()->getResult($resultType);
-    }
-
     public function findByLegacyId(
         int $legacyId,
         $resultType = Query::HYDRATE_ARRAY
