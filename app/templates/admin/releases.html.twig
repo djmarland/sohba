@@ -1,0 +1,75 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1>Releases</h1>
+    <p class="unit">
+        This page lets you download new versions of the website and launch them
+    </p>
+
+    {% include '_partials/message.html.twig' with {'message' : message} %}
+
+    <h2 class="unit">Download new release</h2>
+    <form method="post" class="form">
+        <label class="form__label-row">
+            Name of release:
+            <input name="name" required class="form__input" />
+        </label>
+        <label class="form__label-row">
+            URL of application package:
+            <input type="url" name="new-url" required class="form__input" />
+        </label>
+        <label class="form__label-row">
+            Super Admin Password:
+            <input type="password" name="password" required class="form__input" />
+        </label>
+        <div class="text--right">
+            <button type="submit" class="button">Fetch</button>
+        </div>
+    </form>
+
+    <h2 class="unit">Current Releases</h2>
+    <table class="table table--striped unit">
+        <thead>
+            <tr>
+                <th class="table__fill-cell">Release name</th>
+                <th><span class="hidden--visually">Release action</span></th>
+                <th><span class="hidden--visually">Delete action</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for release in releases %}
+                <tr>
+                    <td>{{ release }}{% if release is same as(currentRelease) %} (Current){% endif %}</td>
+                    <td>
+                        {% if release is not same as(currentRelease) %}
+                            <form method="post">
+                                <input type="hidden"
+                                       name="do-release"
+                                       value="{{ release }}" />
+                                <button type="submit"
+                                        class="button button--warn"
+                                        onclick="javascript:return window.confirm('Are you sure?')">
+                                    Release
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if release is not same as(currentRelease) %}
+                            <form method="post">
+                                <input type="hidden"
+                                       name="delete-release"
+                                       value="{{ release }}" />
+                                <button type="submit"
+                                        class="button button--danger"
+                                        onclick="javascript:return window.confirm('Are you sure?')">
+                                    Remove
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

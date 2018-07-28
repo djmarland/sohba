@@ -7,14 +7,14 @@ use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HomeAction extends AbstractAdminController
+class TechInfoAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
         DateTimeImmutable $now
     ): Response {
         return $this->renderAdminSite(
-            'home.html.twig',
+            'tech-info.html.twig',
             [],
             $request
         );

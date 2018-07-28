@@ -10,16 +10,7 @@
     <div class="text--prose">
         <h1>{{ prose.title }}</h1>
 
-        {% if sent %}
-            <p class="message message--success">
-                Thank you. Your request was sent successfully. Keep listening.
-            </p>
-        {% endif %}
-        {% if fail %}
-            <p class="message message--error">
-                {{ fail }}
-            </p>
-        {% endif %}
+        {% include '_partials/message.html.twig' with {'message' : message} %}
 
         {{ prose.htmlContent|raw }}
     </div>

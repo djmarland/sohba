@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Presenter\Message\OkMessage;
 use App\Service\PeopleService;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,10 +30,7 @@ class PeopleAction extends AbstractAdminController
             if ($request->get('delete-person')) {
                 $personId = (int)$request->get('delete-person');
                 $peopleService->deletePerson($personId);
-                $message = [
-                    'type' => 'ok',
-                    'message' => 'Person was deleted',
-                ];
+                $message = new OkMessage('Person was deleted');
             }
         }
 

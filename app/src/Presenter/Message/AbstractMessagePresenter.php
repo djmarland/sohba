@@ -5,7 +5,7 @@ namespace App\Presenter\Message;
 
 abstract class AbstractMessagePresenter implements \JsonSerializable
 {
-    protected const TYPE = null;
+    protected const TYPE = 'info';
     private $message;
 
     public function __construct(string $message)
@@ -13,11 +13,21 @@ abstract class AbstractMessagePresenter implements \JsonSerializable
         $this->message = $message;
     }
 
+    public function getType(): string
+    {
+        return static::TYPE;
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
     public function jsonSerialize()
     {
         return [
             'type' => static::TYPE,
-            'message' => $this->message
+            'message' => $this->message,
         ];
     }
 }

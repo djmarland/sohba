@@ -25,4 +25,7 @@
   &--danger {
     background-color: $color-important;
   }
+  &--warn {
+    background-color: $color-warning;
+  }
 }

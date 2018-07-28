@@ -100,6 +100,16 @@ $collection->add('admin_show', new Route('/admin/shows/{showId}', [
     '_controller' => Controller\Admin\ShowAction::class,
 ]));
 
+$collection->add('admin_technical', new Route('/admin/technical-info', [
+    '_controller' => Controller\Admin\TechInfoAction::class,
+]));
+$collection->add('admin_kv', new Route('/admin/key-value', [
+    '_controller' => Controller\Admin\KeyValueAction::class,
+]));
+$collection->add('admin_releases', new Route('/admin/releases', [
+    '_controller' => Controller\Admin\ReleasesAction::class,
+]));
+
 
 $collection->add('page', new Route('/{page}', [
     '_controller' => Controller\Page\ShowAction::class,

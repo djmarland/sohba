@@ -7,14 +7,14 @@ use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HomeAction extends AbstractAdminController
+class KeyValueAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
         DateTimeImmutable $now
     ): Response {
         return $this->renderAdminSite(
-            'home.html.twig',
+            'key-value.html.twig',
             [],
             $request
         );

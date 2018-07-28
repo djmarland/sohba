@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Domain\Entity\Programme;
+use App\Presenter\Message\ErrorMessage;
+use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
 use App\Service\PeopleService;
 use App\Service\ProgrammesService;
@@ -33,15 +35,9 @@ class ShowAction extends AbstractAdminController
         if ($request->getMethod() === 'POST') {
             try {
                 $this->handlePost($request, $show, $programmesService, $peopleService);
-                $message = [
-                    'type' => 'ok',
-                    'message' => 'Saved ',
-                ];
+                $message = new OkMessage('Saved');
             } catch (\Exception $e) {
-                $message = [
-                    'type' => 'error',
-                    'message' => $e->getMessage(),
-                ];
+                $message = new ErrorMessage($e->getMessage());
             }
 
             // re-fetch the latest

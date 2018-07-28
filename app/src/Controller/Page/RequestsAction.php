@@ -5,6 +5,8 @@ namespace App\Controller\Page;
 
 use App\Controller\AbstractController;
 use App\Domain\Exception\CaptchaException;
+use App\Presenter\Message\ErrorMessage;
+use App\Presenter\Message\OkMessage;
 use App\Service\PageService;
 use App\Service\RequestsService;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,25 +22,27 @@ class RequestsAction extends AbstractController
         PageService $pageService
     ): Response {
 
-        $sent = false;
-        $fail = false;
+        $message = null;
         if ($request->getMethod() === 'POST') {
             try {
                 $requestsService->handleSubmission($request);
-                $sent = true;
+                $message = new OkMessage(
+                    'Thank you. Your request was sent successfully. Keep listening.'
+                ); // todo - use key value
             } catch (CaptchaException $e) {
-                $fail = $e->getMessage();
+                $message = new ErrorMessage($e->getMessage());
             } catch (\Throwable $e) {
-                $fail = 'Sorry, there was an error sending your request. Please call 023 8078 5151. ' .
-                    '(' . $e->getMessage() . ')';
+                $message = new ErrorMessage(
+                    'Sorry, there was an error sending your request. Please call 023 8078 5151. ' .
+                    '(' . $e->getMessage() . ')'
+                ); // todo - use key value
             }
         }
 
         return $this->renderMainSite(
             'page/requests.html.twig',
             [
-                'sent' => $sent,
-                'fail' => $fail,
+                'message' => $message,
                 'prose' => $pageService->findByUrl(self::SPECIAL_PAGE_URL),
             ]
         );

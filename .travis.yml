@@ -50,8 +50,6 @@ script:
 after_success:
   - cd app/
   - composer install --no-interaction --no-dev --optimize-autoloader
-  - php bin/console cache:clear
-  - php bin/console cache:warmup
   - cd ../static
   - yarn install --production --ignore-scripts --prefer-offline
   - cd ../
@@ -62,7 +60,7 @@ before_deploy:
   - git config --local user.email $GITHUB_EMAIL
   - git tag "$(date +'%Y%m%d%H%M%S')"
   # zip up the application
-  - tar -cf sohba.tar app/config app/public app/src app/templates app/vendor app/var app/composer.json public_html/static
+  - tar -cf sohba.tar app/config app/public app/src app/templates app/vendor app/composer.json public_html/static
 
 deploy:
   # GitHub - Add zip to release

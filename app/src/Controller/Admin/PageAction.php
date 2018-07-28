@@ -9,6 +9,8 @@ use App\Controller\Page\RequestsAction;
 use App\Controller\Page\SportsAction;
 use App\Controller\Schedules\AbstractSchedulesAction;
 use App\Domain\Entity\Page;
+use App\Presenter\Message\ErrorMessage;
+use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
 use App\Service\PageService;
 use DateTimeImmutable;
@@ -45,15 +47,9 @@ class PageAction extends AbstractAdminController
         if ($request->getMethod() === 'POST') {
             try {
                 $this->handlePost($request, $page, $pageService);
-                $message = [
-                    'type' => 'ok',
-                    'message' => 'Saved',
-                ];
+                $message = new OkMessage('Saved');
             } catch (\Exception $e) {
-                $message = [
-                    'type' => 'error',
-                    'message' => $e->getMessage(),
-                ];
+                $message = new ErrorMessage($e->getMessage());
             }
 
             // re-fetch the latest
@@ -74,6 +70,7 @@ class PageAction extends AbstractAdminController
         $parts = array_map(function ($part) {
             return $part . '$';
         }, array_keys(self::RESERVED_URLS));
+        $parts[] = 'admin';
 
         $urlRegex = '^(?!' . implode('|', $parts) . ')[a-z0-9-]+$';
 

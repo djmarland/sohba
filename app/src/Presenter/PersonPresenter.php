@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Presenter;
 
-use App\Domain\Entity\Image;
 use App\Domain\Entity\Person;
 
 class PersonPresenter

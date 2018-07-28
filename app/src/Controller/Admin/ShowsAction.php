@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 
 use App\Domain\Entity\Page;
 use App\Domain\Entity\PageCategory;
+use App\Presenter\Message\AbstractMessagePresenter;
+use App\Presenter\Message\OkMessage;
 use App\Service\PageService;
 use App\Service\ProgrammesService;
 use DateTimeImmutable;
@@ -32,10 +34,7 @@ class ShowsAction extends AbstractAdminController
             if ($request->get('delete-show')) {
                 $showId = (int)$request->get('delete-show');
                 $programmesService->deleteProgramme($showId);
-                $message = [
-                    'type' => 'ok',
-                    'message' => 'Show was deleted',
-                ];
+                $message = new OkMessage('Show was deleted');
             }
         }
 
@@ -48,7 +47,7 @@ class ShowsAction extends AbstractAdminController
         );
     }
 
-    private function getData(ProgrammesService $programmesService, ?array $message)
+    private function getData(ProgrammesService $programmesService, ?AbstractMessagePresenter $message)
     {
         return [
             'regular' => $programmesService->getAllRegular(),
