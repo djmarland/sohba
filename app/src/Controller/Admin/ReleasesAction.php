@@ -51,7 +51,7 @@ class ReleasesAction extends AbstractAdminController
             if ($request->get('do-release')) {
                 $release = $request->get('do-release');
 
-                //$appConfigSymlink, $appConfigReleasesDir
+                //appConfigSymlink, appConfigReleasesDir
                 // todo
                 $message = new WarningMessage('FAKE do release' . $release);
             }
@@ -105,20 +105,22 @@ class ReleasesAction extends AbstractAdminController
         return new OkMessage('Release successfully downloaded');
     }
 
-    private function recursiveDelete($dirPath): void {
-        if (is_dir($dirPath)) {
-            $objects = scandir($dirPath, SCANDIR_SORT_ASCENDING );
-            foreach ($objects as $object) {
-                if ($object !== '.' && $object !== '..') {
-                    if (filetype($dirPath . '/' . $object) === 'dir') {
-                        $this->recursiveDelete($dirPath . '/' . $object);
-                    } else {
-                        unlink($dirPath . '/' . $object);
-                    }
+    private function recursiveDelete($dirPath): void
+    {
+        if (!is_dir($dirPath)) {
+            return;
+        }
+        $objects = scandir($dirPath, SCANDIR_SORT_ASCENDING);
+        foreach ($objects as $object) {
+            if ($object !== '.' && $object !== '..') {
+                if (filetype($dirPath . '/' . $object) === 'dir') {
+                    $this->recursiveDelete($dirPath . '/' . $object);
+                } else {
+                    unlink($dirPath . '/' . $object);
                 }
             }
-            reset($objects);
-            rmdir($dirPath);
         }
+        reset($objects);
+        rmdir($dirPath);
     }
 }
