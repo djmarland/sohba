@@ -12,7 +12,8 @@
 
   a {
     color: $color-primary-light;
-    &:hover, &:active {
+    &:hover,
+    &:active {
       color: $color-hover;
     }
   }

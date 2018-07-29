@@ -4,14 +4,13 @@ import Message from "../Components/Message";
 import TickIcon from "../Components/Icons/TickIcon";
 import DeleteIcon from "../Components/Icons/DeleteIcon";
 
-const isCorrectFileType = file => (/^(jpg|jpeg|png)$/i).test(file);
+const isCorrectFileType = file => /^(jpg|jpeg|png)$/i.test(file);
 
 class Container extends React.Component {
-
   state = {
     message: null,
     loading: false,
-    filter: '',
+    filter: "",
     images: []
   };
 
@@ -27,9 +26,11 @@ class Container extends React.Component {
 
     this.setState({ loading: true, message: null });
     reader.onload = e => {
-
       const res = e.currentTarget.result;
-      const fileType = res.split(":")[1].split("/")[1].split(";")[0];
+      const fileType = res
+        .split(":")[1]
+        .split("/")[1]
+        .split(";")[0];
       if (!isCorrectFileType(fileType)) {
         this.setState({
           loading: false,
@@ -80,19 +81,15 @@ class Container extends React.Component {
   }
 
   renderImage(image) {
-
     let edit = null;
     if (this.props.allowEdit === true) {
       edit = (
         <div className="images__edit">
           <form method="post" className="form">
-            <input
-              type="hidden"
-              name="update-image"
-              value={image.id}
-            />
-            <label htmlFor={`field-title-${image.id}`}
-                   className="hidden--visually"
+            <input type="hidden" name="update-image" value={image.id} />
+            <label
+              htmlFor={`field-title-${image.id}`}
+              className="hidden--visually"
             >
               Image title
             </label>
@@ -109,7 +106,7 @@ class Container extends React.Component {
                 type="submit"
                 title="Edit image title"
               >
-                <TickIcon/>
+                <TickIcon />
               </button>
             </div>
           </form>
@@ -121,31 +118,32 @@ class Container extends React.Component {
               ) {
                 e.preventDefault();
               }
-            }}>
-            <input
-              type="hidden"
-              name="delete-image"
-              value={image.id}
-            />
+            }}
+          >
+            <input type="hidden" name="delete-image" value={image.id} />
             <button
               className="button button--icon button--danger"
               type="submit"
               title="Delete category"
             >
-              <DeleteIcon/>
+              <DeleteIcon />
             </button>
           </form>
         </div>
       );
     }
 
-    const modifier = (this.props.onSelect) ? 'images__image--selectable' : null;
+    const modifier = this.props.onSelect ? "images__image--selectable" : null;
 
     return (
       <li key={image.id} className="images__item">
-        <div className={`images__image ${modifier}`}
-             onClick={() => {this.imageClick(image)}}>
-          <img src={image.src}/>
+        <div
+          className={`images__image ${modifier}`}
+          onClick={() => {
+            this.imageClick(image);
+          }}
+        >
+          <img src={image.src} />
         </div>
         {edit}
       </li>
@@ -155,12 +153,10 @@ class Container extends React.Component {
   render() {
     let fileDrop = null;
     if (this.state.loading) {
-      fileDrop = (
-        <Message type={Message.TYPE_INFO} message="Uploading..."/>
-      );
+      fileDrop = <Message type={Message.TYPE_INFO} message="Uploading..." />;
     } else {
       fileDrop = (
-        <FileDrop onFileReceived={this.handleReceivedFile.bind(this)}/>
+        <FileDrop onFileReceived={this.handleReceivedFile.bind(this)} />
       );
     }
 
@@ -178,29 +174,29 @@ class Container extends React.Component {
     if (this.state.filter.length > 0) {
       images = images.filter(
         i => ~i.title.toLowerCase().indexOf(this.state.filter.toLowerCase())
-      )
+      );
     }
     images = images.map(this.renderImage.bind(this));
-
 
     return (
       <React.Fragment>
         {message}
         {fileDrop}
         <div className="unit">
-          <input className="form__input" type="text"
-                 value={this.state.filter}
-                 onChange={(ev) => {
-                   this.setState({
-                     filter : ev.target.value
-                   })
-                 }}
-                 placeholder="Filter..." />
+          <input
+            className="form__input"
+            type="text"
+            value={this.state.filter}
+            onChange={ev => {
+              this.setState({
+                filter: ev.target.value
+              });
+            }}
+            placeholder="Filter..."
+          />
         </div>
         <div className="modal-content-target">
-          <ul className="images">
-            {images}
-          </ul>
+          <ul className="images">{images}</ul>
         </div>
       </React.Fragment>
     );

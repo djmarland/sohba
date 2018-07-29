@@ -2,7 +2,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  &__detail, &__image {
+  &__detail,
+  &__image {
     width: 50%;
   }
   &__image {

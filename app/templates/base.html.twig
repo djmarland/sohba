@@ -6,6 +6,26 @@
         <title>{% block title %}{% endblock %}Southampton Hospital Radio</title>
         <link rel="stylesheet" href="{{ baseAssetManifest['app.css'] }}" />
         {% block headScripts %}{% endblock %}
+        {% block headIcons %}
+            <link rel="apple-touch-icon" sizes="180x180"
+                  href="{{ baseAssetManifest['apple-icon-180x180.png'] }}" />
+            <link rel="icon" type="image/png" sizes="192x192"
+                  href="{{ baseAssetManifest['android-icon-192x192.png'] }}" />
+            <link rel="icon" type="image/png" sizes="96x96"
+                  href="{{ baseAssetManifest['favicon-96x96.png'] }}" />
+            <meta name="msapplication-TileColor" content="#305370" />
+            <meta name="theme-color" content="#305370" />
+        {% endblock %}
+        <style>
+            @media (min-width: 48rem) {
+                .masthead {
+                    background-image: url("{{ baseAssetManifest['header-bg.png'] }}");
+                }
+            }
+            .live-cricket__ball {
+                background-image: url("{{ baseAssetManifest['cricketball.png'] }}");
+            }
+        </style>
     </head>
     <body>
         <div class="page-wrap">

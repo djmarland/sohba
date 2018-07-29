@@ -4,9 +4,6 @@
   display: flex;
   align-items: center;
 
-  @media (min-width: 48rem) {
-    background-image: url('/design/header-bg.png') ;
-  }
   &--admin {
     background-color: #bd656d;
   }
@@ -16,7 +13,10 @@
     flex: 1;
     padding: $grid-unit;
     line-height: 1;
-    &:link, &:visited, &:hover, &:active {
+    &:link,
+    &:visited,
+    &:hover,
+    &:active {
       color: $color-masthead-text;
     }
   }

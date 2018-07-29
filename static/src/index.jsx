@@ -10,7 +10,7 @@ import PersonDetail from "./Pages/PersonDetail";
 import ShowsList from "./Pages/ShowsList";
 
 // static assets
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../scss/app.scss";
 import "../img";
 import ShowDetail from "./Pages/ShowDetail";

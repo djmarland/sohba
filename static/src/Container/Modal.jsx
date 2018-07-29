@@ -4,7 +4,7 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      isOpen: false
     };
   }
 
@@ -27,15 +27,11 @@ class Modal extends React.Component {
         <div className="modal">
           <div className="modal__panel">
             <div className="modal__close">
-              <button className="button"
-                      onClick={this.close.bind(this)}
-              >
+              <button className="button" onClick={this.close.bind(this)}>
                 Close
               </button>
             </div>
-            <div className="modal__content">
-              {this.props.children}
-            </div>
+            <div className="modal__content">{this.props.children}</div>
           </div>
         </div>
       );

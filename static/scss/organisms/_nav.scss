@@ -23,7 +23,8 @@
   a {
     color: $color-nav-link;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: $color-nav-link-hover;
       background: $color-nav-link-hover-background;
     }

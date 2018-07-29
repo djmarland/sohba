@@ -34,7 +34,7 @@
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode=development --watch --watch-aggregate-timeout=300 --watch-poll=1000",
     "client": "webpack --config webpack.config.js --mode=production",
-    "pretty": "prettier --write --no-config '**/*.{js,jsx}'"
+    "pretty": "prettier --write --no-config '**/*.{js,jsx,scss}'"
   },
   "browserslist": [
     ">2%",

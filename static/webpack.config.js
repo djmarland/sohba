@@ -10,7 +10,7 @@ const settings = {
     app: path.resolve(__dirname, "./src/index.jsx")
   },
   output: {
-    path: path.resolve(__dirname, "../public_html/static"),
+    path: path.resolve(__dirname, "../app/public/static"),
     publicPath: "/static/",
     filename: "[chunkhash:10].[name].js"
   },
@@ -28,7 +28,11 @@ const settings = {
       },
       {
         test: /\.(png|svg|ico)$/,
-        use: "file-loader?name=[hash:10].[name].[ext]"
+        loader: "file-loader",
+        options: {
+          name: "[hash:10].[name].[ext]",
+          sourceMap: true
+        }
       },
       {
         test: /\.s?css$/,
@@ -66,7 +70,7 @@ const settings = {
     new ManifestPlugin({
       fileName: path.resolve(
         __dirname,
-        "../public_html/static/assets-manifest.json"
+        "../app/public/static/assets-manifest.json"
       )
     })
   ]

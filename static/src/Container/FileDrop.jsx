@@ -1,5 +1,5 @@
-import React from 'react';
-import Message from '../Components/Message';
+import React from "react";
+import Message from "../Components/Message";
 import UploadIcon from "../Components/Icons/UploadIcon";
 
 export default class FileDrop extends React.Component {
@@ -7,8 +7,8 @@ export default class FileDrop extends React.Component {
     super();
     this.state = {
       isDragActive: false,
-      messageType : null,
-      messageText : null
+      messageType: null,
+      messageText: null
     };
   }
 
@@ -36,15 +36,15 @@ export default class FileDrop extends React.Component {
     this.setState({
       isDragActive: false,
       isDragReject: false,
-      messageType : null,
-      messageText : null
+      messageType: null,
+      messageText: null
     });
 
     const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
     if (droppedFiles.length > 1) {
       this.setState({
-        messageType : Message.TYPE_ERROR,
-        messageText : 'Only upload one file at a time'
+        messageType: Message.TYPE_ERROR,
+        messageText: "Only upload one file at a time"
       });
       return;
     }
@@ -60,8 +60,8 @@ export default class FileDrop extends React.Component {
 
     this.setState({
       isDragActive: true,
-      messageType : null,
-      messageText : null
+      messageType: null,
+      messageText: null
     });
   }
 
@@ -74,24 +74,25 @@ export default class FileDrop extends React.Component {
     }
 
     this.setState({
-      isDragActive: false,
+      isDragActive: false
     });
   }
 
   render() {
-    let elClass = 'filedrop unit';
+    let elClass = "filedrop unit";
     if (this.state.isDragActive) {
-      elClass += ' filedrop--drag';
+      elClass += " filedrop--drag";
     }
 
     return (
       <div className="unit">
-        <div className={elClass}
-             onClick={this.handleClick.bind(this)}
-             onDragEnter={this.handleDragEnter.bind(this)}
-             onDragLeave={this.handleDragLeave.bind(this)}
-             onDrop={this.handleDrop.bind(this)}
-             onDragOver={this.handleDragOver.bind(this)}
+        <div
+          className={elClass}
+          onClick={this.handleClick.bind(this)}
+          onDragEnter={this.handleDragEnter.bind(this)}
+          onDragLeave={this.handleDragLeave.bind(this)}
+          onDrop={this.handleDrop.bind(this)}
+          onDragOver={this.handleDragOver.bind(this)}
         >
           <span className="filedrop__icon">
             <UploadIcon />
@@ -99,14 +100,18 @@ export default class FileDrop extends React.Component {
           <div className="filedrop__text">
             Drag and drop file (or click to choose).
           </div>
-          <input ref="fileInputEl" style={ {display: 'none'} } type="file" onChange={this.handleDrop.bind(this)} />
+          <input
+            ref="fileInputEl"
+            style={{ display: "none" }}
+            type="file"
+            onChange={this.handleDrop.bind(this)}
+          />
         </div>
         <Message
           message={this.state.messageText}
           type={this.state.messageType}
         />
       </div>
-
-    )
+    );
   }
 }

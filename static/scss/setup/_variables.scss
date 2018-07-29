@@ -27,7 +27,7 @@ $color-show-regular: #c9edfc;
 $color-show-football: #f7c4c8;
 $color-show-cricket: #ccf0cc;
 $color-show-special: #98cbc7;
-$color-show-event: #f7e8c4 ;
+$color-show-event: #f7e8c4;
 
 $color-keyline: #93939c;
 
@@ -49,17 +49,8 @@ $max-content-width: 1280px;
 $grid-unit: 16px;
 
 // Fonts
-$font-body: -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  "Roboto",
-  "Oxygen",
-  "Ubuntu",
-  "Cantarell",
-  "Fira Sans",
-  "Droid Sans",
-  "Helvetica Neue",
-  sans-serif-light,
-  sans-serif;
+$font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif-light, sans-serif;
 
 $font-heading: inherit;

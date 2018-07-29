@@ -60,7 +60,7 @@ before_deploy:
   - git config --local user.email $GITHUB_EMAIL
   - git tag "$(date +'%Y%m%d%H%M%S')"
   # zip up the application
-  - tar -cf sohba.tar app/config app/public app/src app/templates app/vendor app/composer.json public_html/static
+  - tar -cf sohba.tar app/config app/public app/src app/templates app/vendor app/composer.json
 
 deploy:
   # GitHub - Add zip to release

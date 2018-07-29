@@ -31,18 +31,22 @@ class Container extends React.Component {
     const people = this.state.people.map(person => {
       const isOnCommittee = person.isOnCommittee ? (
         <div className="icon icon--indicator">
-          <TickIcon/>
+          <TickIcon />
         </div>
       ) : null;
-      const committeeTitle = person.isOnCommittee ?
-        person.committeeTitle : null;
+      const committeeTitle = person.isOnCommittee
+        ? person.committeeTitle
+        : null;
 
-      const committeeOrder = person.isOnCommittee ?
-        person.committeeOrder : null;
+      const committeeOrder = person.isOnCommittee
+        ? person.committeeOrder
+        : null;
 
-
-      return (<tr key={person.legacyId}>
-          <td><a href={`/admin/people/${person.legacyId}`}>{person.name}</a></td>
+      return (
+        <tr key={person.legacyId}>
+          <td>
+            <a href={`/admin/people/${person.legacyId}`}>{person.name}</a>
+          </td>
           <td>{isOnCommittee}</td>
           <td>{committeeTitle}</td>
           <td>{committeeOrder}</td>
@@ -55,16 +59,17 @@ class Container extends React.Component {
                 }
               }}
             >
-              <input type="hidden"
-                     name="delete-person"
-                     value={person.legacyId}
+              <input
+                type="hidden"
+                name="delete-person"
+                value={person.legacyId}
               />
               <button
                 className="button button--icon button--danger"
                 type="submit"
                 title="Delete person"
               >
-                <DeleteIcon/>
+                <DeleteIcon />
               </button>
             </form>
           </td>
@@ -80,28 +85,31 @@ class Container extends React.Component {
           <form method="post" className="form">
             <label className="form__label-row">
               Name
-              <input type="text"
-                     name="new-person-name"
-                     className="form__input"
+              <input
+                type="text"
+                name="new-person-name"
+                className="form__input"
               />
             </label>
-            <button type="submit" className="button">Create</button>
+            <button type="submit" className="button">
+              Create
+            </button>
           </form>
         </div>
 
         <table className="table table--striped">
           <thead>
-          <tr>
-            <th>Name</th>
-            <th className="table__icon-cell">Exec?</th>
-            <th>Exec Title</th>
-            <th>Exec order</th>
-            <th className="table__icon-cell"><span className="hidden--visually">Actions</span></th>
-          </tr>
+            <tr>
+              <th>Name</th>
+              <th className="table__icon-cell">Exec?</th>
+              <th>Exec Title</th>
+              <th>Exec order</th>
+              <th className="table__icon-cell">
+                <span className="hidden--visually">Actions</span>
+              </th>
+            </tr>
           </thead>
-          <tbody>
-          {people}
-          </tbody>
+          <tbody>{people}</tbody>
         </table>
       </div>
     );

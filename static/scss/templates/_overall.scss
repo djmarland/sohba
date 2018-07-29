@@ -3,11 +3,8 @@
 
   &__nav {
     padding: $grid-unit;
-    background: $color-primary-dark linear-gradient(
-                    to left,
-                    rgba(0, 0, 0, 0.4) 0,
-                    rgba(0, 0, 0, 0) 50%
-    );
+    background: $color-primary-dark
+      linear-gradient(to left, rgba(0, 0, 0, 0.4) 0, rgba(0, 0, 0, 0) 50%);
   }
 
   &__main {

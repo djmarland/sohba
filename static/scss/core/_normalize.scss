@@ -8,7 +8,9 @@ html {
   overflow-y: scroll;
   box-sizing: border-box;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -26,7 +28,8 @@ a {
   }
 }
 
-img, svg {
+img,
+svg {
   border: 0;
   max-width: 100%;
 }

@@ -9,16 +9,16 @@
 
     &--sports {
       background-image: linear-gradient(
-                      135deg,
-                      rgba($color-show-football, 0.8) 0,
-                      rgba($color-show-cricket, 0.8) 100%
+        135deg,
+        rgba($color-show-football, 0.8) 0,
+        rgba($color-show-cricket, 0.8) 100%
       );
     }
     &--ob {
       background-image: linear-gradient(
-                      135deg,
-                      rgba($color-show-event, 0.8) 0,
-                      rgba($color-show-special, 0.8) 100%
+        135deg,
+        rgba($color-show-event, 0.8) 0,
+        rgba($color-show-special, 0.8) 100%
       );
     }
   }
@@ -34,7 +34,6 @@
   }
 
   @media (min-width: 64rem) {
-
     &__intro,
     &__events {
       display: flex;

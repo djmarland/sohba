@@ -27,7 +27,7 @@ class ShowsList extends React.Component {
 
     this.setState({
       regular: window.HBAContent.regular,
-      events: window.HBAContent.events,
+      events: window.HBAContent.events
     });
   }
 
@@ -39,24 +39,21 @@ class ShowsList extends React.Component {
     const regularShows = this.state.regular.map(show => {
       const href = `/admin/shows/${show.legacyId}`;
 
-      return (<tr key={show.legacyId}>
-          <td><a href={href}>{show.title}</a></td>
+      return (
+        <tr key={show.legacyId}>
+          <td>
+            <a href={href}>{show.title}</a>
+          </td>
           <td>{show.tagLine}</td>
           <td>
-            <form
-              method="post"
-              onSubmit={confirm}
-            >
-              <input type="hidden"
-                     name="delete-show"
-                     value={show.legacyId}
-              />
+            <form method="post" onSubmit={confirm}>
+              <input type="hidden" name="delete-show" value={show.legacyId} />
               <button
                 className="button button--icon button--danger"
                 type="submit"
                 title="Delete show"
               >
-                <DeleteIcon/>
+                <DeleteIcon />
               </button>
             </form>
           </td>
@@ -67,28 +64,25 @@ class ShowsList extends React.Component {
     const events = this.state.events.map(show => {
       const href = `/admin/shows/${show.legacyId}`;
 
-      return (<tr key={show.legacyId}>
+      return (
+        <tr key={show.legacyId}>
           <td>
-            <span className={`broadcast--event-${show.type} icon--indicator`}/>
+            <span className={`broadcast--event-${show.type} icon--indicator`} />
           </td>
-          <td><a href={href}>{show.title}</a></td>
+          <td>
+            <a href={href}>{show.title}</a>
+          </td>
           <td>{show.tagLine}</td>
           <td>{show.typeTitle}</td>
           <td>
-            <form
-              method="post"
-              onSubmit={confirm}
-            >
-              <input type="hidden"
-                     name="delete-show"
-                     value={show.legacyId}
-              />
+            <form method="post" onSubmit={confirm}>
+              <input type="hidden" name="delete-show" value={show.legacyId} />
               <button
                 className="button button--icon button--danger"
                 type="submit"
                 title="Delete show"
               >
-                <DeleteIcon/>
+                <DeleteIcon />
               </button>
             </form>
           </td>
@@ -104,47 +98,42 @@ class ShowsList extends React.Component {
           <form method="post" className="form">
             <label className="form__label-row">
               Name
-              <input type="text"
-                     name="new-show-name"
-                     className="form__input"
-              />
+              <input type="text" name="new-show-name" className="form__input" />
             </label>
-            <button type="submit" className="button">Create</button>
+            <button type="submit" className="button">
+              Create
+            </button>
           </form>
         </div>
 
         <h2 className="unit">Regular shows</h2>
         <table className="table table--striped">
           <thead>
-          <tr>
-            <th className="table__title-cell">Name</th>
-            <th>Tag Line</th>
-            <th className="table__icon-cell">
-              <span className="hidden--visually">Actions</span>
-            </th>
-          </tr>
+            <tr>
+              <th className="table__title-cell">Name</th>
+              <th>Tag Line</th>
+              <th className="table__icon-cell">
+                <span className="hidden--visually">Actions</span>
+              </th>
+            </tr>
           </thead>
-          <tbody>
-          {regularShows}
-          </tbody>
+          <tbody>{regularShows}</tbody>
         </table>
 
         <h2 className="unit">Events</h2>
         <table className="table table--striped">
           <thead>
-          <tr>
-            <th />
-            <th className="table__title-cell">Name</th>
-            <th>Tag Line</th>
-            <th>Type</th>
-            <th className="table__icon-cell">
-              <span className="hidden--visually">Actions</span>
-            </th>
-          </tr>
+            <tr>
+              <th />
+              <th className="table__title-cell">Name</th>
+              <th>Tag Line</th>
+              <th>Type</th>
+              <th className="table__icon-cell">
+                <span className="hidden--visually">Actions</span>
+              </th>
+            </tr>
           </thead>
-          <tbody>
-          {events}
-          </tbody>
+          <tbody>{events}</tbody>
         </table>
       </div>
     );

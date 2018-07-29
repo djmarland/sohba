@@ -63,15 +63,15 @@ class Container extends React.Component {
           onMoveUp={
             i !== 0
               ? () => {
-                this.onCategoryMove(i, -1);
-              }
+                  this.onCategoryMove(i, -1);
+                }
               : null
           }
           onMoveDown={
             i !== numCategories - 1
               ? () => {
-                this.onCategoryMove(i, 1);
-              }
+                  this.onCategoryMove(i, 1);
+                }
               : null
           }
           onCategoryDelete={() => {
@@ -82,7 +82,7 @@ class Container extends React.Component {
     });
 
     const uncategorised = this.state.uncategorised.map(page => (
-      <Page key={page.id} page={page}/>
+      <Page key={page.id} page={page} />
     ));
 
     return (
@@ -92,12 +92,15 @@ class Container extends React.Component {
           <form method="post" className="form">
             <label className="form__label-row">
               Page Title
-              <input type="text"
-                     name="new-page-title"
-                     className="form__input"
+              <input
+                type="text"
+                name="new-page-title"
+                className="form__input"
               />
             </label>
-            <button type="submit" className="button">Create</button>
+            <button type="submit" className="button">
+              Create
+            </button>
           </form>
         </div>
         <div className="t-page-list__new-category">
@@ -105,12 +108,15 @@ class Container extends React.Component {
           <form method="post" className="form">
             <label className="form__label-row">
               Category Title
-              <input type="text"
-                     name="new-category-title"
-                     className="form__input"
+              <input
+                type="text"
+                name="new-category-title"
+                className="form__input"
               />
             </label>
-            <button type="submit" className="button">Create</button>
+            <button type="submit" className="button">
+              Create
+            </button>
           </form>
         </div>
 
@@ -118,22 +124,22 @@ class Container extends React.Component {
           <h2 className="unit">Categories & Pages</h2>
           <table className="table">
             <thead className="hidden--visually">
-            <tr>
-              <td>Category or page name</td>
-              <td>Move up</td>
-              <td>Move down</td>
-              <td>Delete</td>
-            </tr>
+              <tr>
+                <td>Category or page name</td>
+                <td>Move up</td>
+                <td>Move down</td>
+                <td>Delete</td>
+              </tr>
             </thead>
             <tbody>{categories}</tbody>
           </table>
           <h2>Uncategorised pages</h2>
           <table className="table">
             <thead className="hidden--visually">
-            <tr>
-              <td>Page name</td>
-              <td>Delete</td>
-            </tr>
+              <tr>
+                <td>Page name</td>
+                <td>Delete</td>
+              </tr>
             </thead>
             <tbody>{uncategorised}</tbody>
           </table>

@@ -26,7 +26,7 @@ class PersonDetail extends React.Component {
 
   addImage(image) {
     this.setState({
-      image : {
+      image: {
         src: image.src,
         id: image.id
       }
@@ -35,7 +35,6 @@ class PersonDetail extends React.Component {
   }
 
   render() {
-
     if (!this.state.person) {
       return null;
     }
@@ -46,22 +45,26 @@ class PersonDetail extends React.Component {
         <React.Fragment>
           <label className="form__label-row">
             Committee Title
-            <input type="text"
-                   name="exec-title"
-                   className="form__input"
-                   defaultValue={this.state.person.committeeTitle}
-                   required
+            <input
+              type="text"
+              name="exec-title"
+              className="form__input"
+              defaultValue={this.state.person.committeeTitle}
+              required
             />
           </label>
           <label className="form__label-row">
             Committee Order
-            <select className="form__input"
-                    name="exec-position"
-                    required
-                    defaultValue={this.state.person.committeeOrder}
+            <select
+              className="form__input"
+              name="exec-position"
+              required
+              defaultValue={this.state.person.committeeOrder}
             >
               {[...Array(10).keys()].map(k => (
-                <option value={k + 1} key={`order-${k + 1}`}>{k + 1}</option>
+                <option value={k + 1} key={`order-${k + 1}`}>
+                  {k + 1}
+                </option>
               ))}
             </select>
           </label>
@@ -72,15 +75,17 @@ class PersonDetail extends React.Component {
     let image = <p>No image</p>;
     let detach = null;
     if (this.state.image) {
-      image = <img src={this.state.image.src}/>;
+      image = <img src={this.state.image.src} />;
       detach = (
-        <button className="button button--danger"
-                onClick={(ev) => {
-                  ev.preventDefault();
-                  this.setState({
-                    image: null
-                  });
-                }}>
+        <button
+          className="button button--danger"
+          onClick={ev => {
+            ev.preventDefault();
+            this.setState({
+              image: null
+            });
+          }}
+        >
           Detach
         </button>
       );
@@ -92,67 +97,68 @@ class PersonDetail extends React.Component {
       </Modal>
     );
 
-
     return (
       <React.Fragment>
         {this.message}
         <form method="post" className="form">
-
           <div className="t-person-edit">
-
             <div className="t-person-edit__detail">
               <h2 className="unit">Basic details</h2>
 
               <label className="form__label-row">
                 Name
-                <input type="text"
-                       name="name"
-                       className="form__input"
-                       defaultValue={this.state.person.name}
-                       required
+                <input
+                  type="text"
+                  name="name"
+                  className="form__input"
+                  defaultValue={this.state.person.name}
+                  required
                 />
               </label>
 
               <label className="form__label-row">
-                <input type="checkbox"
-                       className="form__input"
-                       checked={this.state.showExec}
-                       name="on-exec"
-                       value="1"
-                       onChange={() => {
-                         this.setState({
-                           showExec: !this.state.showExec
-                         });
-                       }}/> On Exec Committee?
+                <input
+                  type="checkbox"
+                  className="form__input"
+                  checked={this.state.showExec}
+                  name="on-exec"
+                  value="1"
+                  onChange={() => {
+                    this.setState({
+                      showExec: !this.state.showExec
+                    });
+                  }}
+                />{" "}
+                On Exec Committee?
               </label>
               {execDetail}
             </div>
             <div className="t-person-edit__image">
-
               <h2 className="unit">Associated Image</h2>
 
-              <input type="hidden"
-                     name="image-id"
-                     value={this.state.image ? this.state.image.id : 0}
+              <input
+                type="hidden"
+                name="image-id"
+                value={this.state.image ? this.state.image.id : 0}
               />
-              <div className="t-person-edit__image-box">
-                {image}
-              </div>
+              <div className="t-person-edit__image-box">{image}</div>
               <div className="t-person-edit__image-actions">
-                <button className="button"
-                        onClick={(ev) => {
-                          ev.preventDefault();
-                          this.refs.pickerModal.open();
-                        }}
+                <button
+                  className="button"
+                  onClick={ev => {
+                    ev.preventDefault();
+                    this.refs.pickerModal.open();
+                  }}
                 >
                   Choose
                 </button>
                 {detach}
               </div>
-
             </div>
             <div className="t-person-edit__submit">
-              <button className="button" type="submit">Save</button>
+              <button className="button" type="submit">
+                Save
+              </button>
             </div>
           </div>
         </form>

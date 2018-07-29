@@ -1,5 +1,4 @@
 .calendar {
-
   display: inline-block;
   max-width: 400px;
   width: 100%;
@@ -16,7 +15,8 @@
       margin-bottom: $grid-unit;
     }
 
-    th, a {
+    th,
+    a {
       padding: $grid-unit/4;
     }
     abbr {
@@ -24,7 +24,8 @@
     }
     a {
       display: block;
-      &:hover, &:active {
+      &:hover,
+      &:active {
         background: $color-hover;
         color: $color-text;
       }

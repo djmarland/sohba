@@ -15,11 +15,7 @@ services:
             $appConfigCaptchaKey: '%env(APP_CAPTCHA_SECRET)%'
             $appConfigRequestFromAddress: '%env(APP_REQUEST_FROM_ADDRESS)%'
             $appConfigRequestToAddress: '%env(APP_REQUEST_TO_ADDRESS)%'
-            $appConfigReleasesDir: '%env(APP_RELEASES_DIR)%'
-            $appConfigSymlink: '%env(APP_SYMLINK)%'
-            $appConfigSuperAdminPassword: '%env(APP_SUPER_ADMIN_PASSWORD)%'
             $appConfigSkipCapture: '%skipCaptcha%'
-            $appConfigCacheDir: '%kernel.cache_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

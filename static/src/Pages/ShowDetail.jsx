@@ -28,7 +28,7 @@ class ShowDetail extends React.Component {
 
   addImage(image) {
     this.setState({
-      image : {
+      image: {
         src: image.src,
         id: image.id
       }
@@ -37,7 +37,6 @@ class ShowDetail extends React.Component {
   }
 
   render() {
-
     if (!this.state.show) {
       return null;
     }
@@ -45,15 +44,17 @@ class ShowDetail extends React.Component {
     let image = <p>No image</p>;
     let detach = null;
     if (this.state.image) {
-      image = <img src={this.state.image.src}/>;
+      image = <img src={this.state.image.src} />;
       detach = (
-        <button className="button button--danger"
-                onClick={(ev) => {
-                  ev.preventDefault();
-                  this.setState({
-                    image: null
-                  });
-                }}>
+        <button
+          className="button button--danger"
+          onClick={ev => {
+            ev.preventDefault();
+            this.setState({
+              image: null
+            });
+          }}
+        >
           Detach
         </button>
       );
@@ -66,13 +67,18 @@ class ShowDetail extends React.Component {
     );
 
     const typeButtons = this.state.types.map(type => (
-      <label className={`form__checkbox-box broadcast--event-${type.id}`} key={`type-${type.id}`}>
-        <input type="radio"
-               name="type"
-               value={type.id}
-               className="form__input"
-               defaultChecked={this.state.show.type === type.id}
-        /> {type.title}
+      <label
+        className={`form__checkbox-box broadcast--event-${type.id}`}
+        key={`type-${type.id}`}
+      >
+        <input
+          type="radio"
+          name="type"
+          value={type.id}
+          className="form__input"
+          defaultChecked={this.state.show.type === type.id}
+        />{" "}
+        {type.title}
       </label>
     ));
 
@@ -80,72 +86,71 @@ class ShowDetail extends React.Component {
       <React.Fragment>
         {this.message}
         <form method="post" className="form">
-
           <div className="t-person-edit">
-
             <div className="t-person-edit__detail">
               <h2 className="unit">Basic details</h2>
               <p className="unit text--right">
-                <a href={`/programmes/${this.state.show.legacyId}`}
-                   target="_blank">View show page ⇗</a>
+                <a
+                  href={`/programmes/${this.state.show.legacyId}`}
+                  target="_blank"
+                >
+                  View show page ⇗
+                </a>
               </p>
 
               <label className="form__label-row">
                 Show name:
-                <input type="text"
-                       name="name"
-                       className="form__input"
-                       defaultValue={this.state.show.title}
-                       required
+                <input
+                  type="text"
+                  name="name"
+                  className="form__input"
+                  defaultValue={this.state.show.title}
+                  required
                 />
               </label>
 
               <label className="form__label-row">
                 Tag line / Short Summary:
-                <input type="text"
-                       name="tagline"
-                       className="form__input"
-                       defaultValue={this.state.show.tagLine}
+                <input
+                  type="text"
+                  name="tagline"
+                  className="form__input"
+                  defaultValue={this.state.show.tagLine}
                 />
               </label>
 
               <h3 className="unit">Show type</h3>
-              <div className="form__checkbox-row">
-                {typeButtons}
-              </div>
-
+              <div className="form__checkbox-row">{typeButtons}</div>
             </div>
             <div className="t-person-edit__image">
-
               <h2 className="unit">Associated Image</h2>
 
-              <input type="hidden"
-                     name="image-id"
-                     value={this.state.image ? this.state.image.id : 0}
+              <input
+                type="hidden"
+                name="image-id"
+                value={this.state.image ? this.state.image.id : 0}
               />
-              <div className="t-person-edit__image-box">
-                {image}
-              </div>
+              <div className="t-person-edit__image-box">{image}</div>
               <div className="t-person-edit__image-actions">
-                <button className="button"
-                        onClick={(ev) => {
-                          ev.preventDefault();
-                          this.refs.pickerModal.open();
-                        }}
+                <button
+                  className="button"
+                  onClick={ev => {
+                    ev.preventDefault();
+                    this.refs.pickerModal.open();
+                  }}
                 >
                   Choose
                 </button>
                 {detach}
               </div>
-
             </div>
-
 
             <div className="t-person-edit__full">
               <h2 className="unit">Full show detail</h2>
               <RichTextEditor
                 initialContent={this.state.show.detail}
-                fieldName="html-content"/>
+                fieldName="html-content"
+              />
             </div>
 
             <div className="t-person-edit__full">
@@ -153,7 +158,9 @@ class ShowDetail extends React.Component {
             </div>
 
             <div className="t-person-edit__submit">
-              <button className="button" type="submit">Save</button>
+              <button className="button" type="submit">
+                Save
+              </button>
             </div>
           </div>
         </form>

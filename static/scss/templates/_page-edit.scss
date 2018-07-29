@@ -2,7 +2,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  &__basic, &__nav {
+  &__basic,
+  &__nav {
     width: 50%;
   }
   &__nav {

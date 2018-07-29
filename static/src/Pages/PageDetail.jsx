@@ -37,7 +37,6 @@ class PageDetail extends React.Component {
   }
 
   render() {
-
     if (!this.state.page) {
       return null;
     }
@@ -47,24 +46,28 @@ class PageDetail extends React.Component {
       pageUrl = (
         <label className="form__label-row">
           Page URL (after www.sohba.org/)
-          <input type="text"
-                 name="url"
-                 className="form__input"
-                 defaultValue={this.state.page.urlPath}
-                 pattern={this.urlRegex}
-                 required
+          <input
+            type="text"
+            name="url"
+            className="form__input"
+            defaultValue={this.state.page.urlPath}
+            pattern={this.urlRegex}
+            required
           />
         </label>
       );
     }
 
     const categories = this.categories.map(category => (
-      <option key={category.legacyId} value={category.legacyId}>{category.title}</option>
+      <option key={category.legacyId} value={category.legacyId}>
+        {category.title}
+      </option>
     ));
 
-
     const specialPages = this.specialPages.map(page => (
-      <option key={page.value} value={page.value}>{page.title}</option>
+      <option key={page.value} value={page.value}>
+        {page.title}
+      </option>
     ));
 
     let navigationContent = null;
@@ -73,12 +76,15 @@ class PageDetail extends React.Component {
         <React.Fragment>
           <label className="form__label-row">
             Navigation Category
-            <select name="nav-category"
-                    className="form__input"
-                    defaultValue={this.state.page.category ?
-                      this.state.page.category.legacyId : ""
-                    }
-                    required
+            <select
+              name="nav-category"
+              className="form__input"
+              defaultValue={
+                this.state.page.category
+                  ? this.state.page.category.legacyId
+                  : ""
+              }
+              required
             >
               {categories}
             </select>
@@ -97,12 +103,13 @@ class PageDetail extends React.Component {
 
           <label className="form__label-row">
             Navigation Position
-            <input type="number"
-                   name="nav-position"
-                   min="1"
-                   className="form__input"
-                   defaultValue={this.state.page.navPosition}
-                   required
+            <input
+              type="number"
+              name="nav-position"
+              min="1"
+              className="form__input"
+              defaultValue={this.state.page.navPosition}
+              required
             />
           </label>
         </React.Fragment>
@@ -115,30 +122,33 @@ class PageDetail extends React.Component {
         <form method="post" className="form">
           <div className="t-page-edit">
             <div className="t-page-edit__basic">
-
               <h2 className="unit">Basic details</h2>
 
               <p className="t-page-edit__pop">
-                <a href={`/${this.state.page.legacyId}`}
-                   target="_blank">View page ⇗</a>
+                <a href={`/${this.state.page.legacyId}`} target="_blank">
+                  View page ⇗
+                </a>
               </p>
 
               <label className="form__label-row">
                 Full Page Title
-                <input type="text"
-                       name="title"
-                       className="form__input"
-                       defaultValue={this.state.page.title}
-                       required
+                <input
+                  type="text"
+                  name="title"
+                  className="form__input"
+                  defaultValue={this.state.page.title}
+                  required
                 />
               </label>
 
               <label className="form__label-row">
                 Special Page type
-                <select name="special"
-                        className="form__input"
-                        onChange={this.changeType.bind(this)}
-                        value={this.state.specialType}>
+                <select
+                  name="special"
+                  className="form__input"
+                  onChange={this.changeType.bind(this)}
+                  value={this.state.specialType}
+                >
                   <option value="">--None (set a URL)--</option>
                   {specialPages}
                 </select>
@@ -147,18 +157,20 @@ class PageDetail extends React.Component {
               {pageUrl}
             </div>
             <div className="t-page-edit__nav">
-
               <h2 className="unit">Navigation details</h2>
 
               <label className="form__label-row">
-                <input type="checkbox"
-                       className="form__input"
-                       checked={this.state.showNavigation}
-                       onChange={() => {
-                         this.setState({
-                           showNavigation: !this.state.showNavigation
-                         });
-                       }}/> Include in navigation
+                <input
+                  type="checkbox"
+                  className="form__input"
+                  checked={this.state.showNavigation}
+                  onChange={() => {
+                    this.setState({
+                      showNavigation: !this.state.showNavigation
+                    });
+                  }}
+                />{" "}
+                Include in navigation
               </label>
 
               {navigationContent}
@@ -170,20 +182,24 @@ class PageDetail extends React.Component {
               </label>
               <RichTextEditor
                 initialContent={this.state.page.htmlContent}
-                fieldName="html-content"/>
+                fieldName="html-content"
+              />
             </div>
-            <div className="t-page-edit__content" style={{display:"none"}}>
+            <div className="t-page-edit__content" style={{ display: "none" }}>
               <h2 className="unit">Legacy Page content</h2>
               <label className="form__label-row">
                 Enter the content for the page (legacy format - to be replaced)
                 <textarea
                   name="content"
                   className="form__input form__input--textarea"
-                  defaultValue={this.state.page.legacyContent}/>
+                  defaultValue={this.state.page.legacyContent}
+                />
               </label>
             </div>
             <div className="t-page-edit__submit">
-              <button className="button" type="submit">Save</button>
+              <button className="button" type="submit">
+                Save
+              </button>
             </div>
           </div>
         </form>

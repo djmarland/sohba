@@ -2,7 +2,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  &__new-page, &__new-category {
+  &__new-page,
+  &__new-category {
     width: 50%;
   }
   &__new-category {

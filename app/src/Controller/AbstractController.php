@@ -70,7 +70,7 @@ abstract class AbstractController extends SymfonyAbstractController
     protected function getAssetManifest()
     {
         return json_decode(
-            file_get_contents(__DIR__ . '/../../../public_html/static/assets-manifest.json'),
+            file_get_contents(__DIR__ . '/../../public/static/assets-manifest.json'),
             true
         );
     }

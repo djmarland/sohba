@@ -2,9 +2,10 @@ public_html/*
 
 !public_html/.htaccess
 !public_html/app.php
+!public_html/static
 
 /.env
 /build
 /uploaded_files
 app/build/
-releases
+app/public/static

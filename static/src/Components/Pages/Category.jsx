@@ -15,7 +15,7 @@ export default props => {
         title="Move Category Up"
         onClick={props.onMoveUp}
       >
-        <UpIcon/>
+        <UpIcon />
       </button>
     );
   }
@@ -26,13 +26,13 @@ export default props => {
         title="Move Category Down"
         onClick={props.onMoveDown}
       >
-        <DownIcon/>
+        <DownIcon />
       </button>
     );
   }
 
   const pages = props.category.pagesInCategory.map(page => (
-    <Page key={page.id} page={page}/>
+    <Page key={page.id} page={page} />
   ));
 
   return (
@@ -45,8 +45,9 @@ export default props => {
               name="update-category"
               value={props.category.id}
             />
-            <label htmlFor={`field-title-${props.category.id}`}
-                   className="hidden--visually"
+            <label
+              htmlFor={`field-title-${props.category.id}`}
+              className="hidden--visually"
             >
               Category title
             </label>
@@ -63,7 +64,7 @@ export default props => {
                 type="submit"
                 title="Edit category title"
               >
-                <TickIcon/>
+                <TickIcon />
               </button>
             </div>
           </form>
@@ -94,7 +95,7 @@ export default props => {
               type="submit"
               title="Delete category"
             >
-              <DeleteIcon/>
+              <DeleteIcon />
             </button>
           </form>
         </td>
