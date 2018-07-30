@@ -13,9 +13,18 @@ class HomeAction extends AbstractAdminController
         Request $request,
         DateTimeImmutable $now
     ): Response {
+        $earliestDate = new DateTimeImmutable('2014-04-02');
+
+        $latestDate = $now; // todo - latest is latest special listing or today
+
         return $this->renderAdminSite(
             'home.html.twig',
-            [],
+            [
+                'pageData' => \json_encode([
+                    'earliestDate' => $earliestDate->format('c'),
+                    'latestDate' => $latestDate->format('c'),
+                ], JSON_PRETTY_PRINT),
+            ],
             $request
         );
     }

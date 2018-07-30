@@ -1,6 +1,15 @@
 {% extends "admin/base.html.twig" %}
 
 {% block body %}
-    <h1>Admin home</h1>
-    <div id="app" data-container="AdminHome"></div>
+    <h1>Calendar</h1>
+    <p>
+        Highlighted Days have changes to the regular schedule. Click a day to make changes.
+    </p>
+    <div id="app" data-container="EditCalendar"></div>
+{% endblock %}
+
+{% block footScripts %}
+    <script>
+      window.HBAContent = {{ pageData | raw }};
+    </script>
 {% endblock %}

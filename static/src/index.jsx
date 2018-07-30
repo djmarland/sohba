@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render as ReactDomRender } from "react-dom";
 
-import AdminHome from "./Pages/AdminHome";
+import EditCalendar from "./Pages/EditCalendar";
 import ImagesList from "./Pages/ImagesList";
 import PagesList from "./Pages/PagesList";
 import PageDetail from "./Pages/PageDetail";
@@ -20,8 +20,8 @@ import NormalListings from "./Pages/NormalListings";
 const appContainer = document.getElementById("app");
 if (appContainer) {
   switch (appContainer.dataset.container) {
-    case "AdminHome":
-      ReactDomRender(<AdminHome />, appContainer);
+    case "EditCalendar":
+      ReactDomRender(<EditCalendar />, appContainer);
       break;
     case "ImagesList":
       ReactDomRender(<ImagesList />, appContainer);

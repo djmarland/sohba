@@ -75,7 +75,7 @@ $collection->add('page_outside_broadcasts', new Route(
 
 
 // Admin
-$collection->add('admin_home', new Route('/admin2', [
+$collection->add('admin_home', new Route('/admin/home', [
     '_controller' => Controller\Admin\HomeAction::class,
 ]));
 $collection->add('admin_pages', new Route('/admin/pages', [
