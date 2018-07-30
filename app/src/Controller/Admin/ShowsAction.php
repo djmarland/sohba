@@ -10,6 +10,7 @@ use App\Presenter\Message\OkMessage;
 use App\Service\PageService;
 use App\Service\ProgrammesService;
 use DateTimeImmutable;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,6 +36,19 @@ class ShowsAction extends AbstractAdminController
                 $showId = (int)$request->get('delete-show');
                 $programmesService->deleteProgramme($showId);
                 $message = new OkMessage('Show was deleted');
+            } elseif ($request->getContent()) {
+                $data = \json_decode($request->getContent(), true);
+
+                $programmesService->newProgramme(
+                    $data['showName'],
+                    $data['showType']
+                );
+
+                $programmes = $data['includeAll'] ?
+                    $programmesService->getAll() : $programmesService->getAllRegular();
+                return new JsonResponse(
+                    $programmes
+                );
             }
         }
 

@@ -40,6 +40,10 @@
     &--compact {
       padding: ($grid-unit / 4) ($grid-unit / 2);
     }
+    &--inline {
+      display: inline-block;
+      width: auto;
+    }
 
     &--textarea {
       height: 200px;

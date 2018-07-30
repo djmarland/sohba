@@ -17,6 +17,14 @@ class ProgrammesService extends AbstractService
         );
     }
 
+    public function getAll(): array
+    {
+        return $this->mapMany(
+            $this->entityManager->getProgrammeRepo()->findAll(),
+            $this->programmeMapper
+        );
+    }
+
     public function getAllActive(): array
     {
         return $this->mapMany(
@@ -65,11 +73,12 @@ class ProgrammesService extends AbstractService
         return $groupedResults;
     }
 
-    public function newProgramme(string $name): int
+    public function newProgramme(string $name, int $type = Programme::PROGRAMME_TYPE_REGULAR): int
     {
         $page = new DbProgramme(
             ID::makeNewID(DbProgramme::class),
-            $name
+            $name,
+            $type
         );
 
         $this->entityManager->persist($page);

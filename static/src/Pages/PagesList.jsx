@@ -96,6 +96,7 @@ class Container extends React.Component {
                 type="text"
                 name="new-page-title"
                 className="form__input"
+                required
               />
             </label>
             <button type="submit" className="button">
@@ -112,6 +113,7 @@ class Container extends React.Component {
                 type="text"
                 name="new-category-title"
                 className="form__input"
+                required
               />
             </label>
             <button type="submit" className="button">

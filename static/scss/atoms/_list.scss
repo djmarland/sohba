@@ -25,3 +25,12 @@
     margin: $grid-unit/2 0;
   }
 }
+
+.list--line {
+  @extend .list--unstyled;
+  display: flex;
+  margin-left: -$grid-unit;
+  > li {
+    margin-left: $grid-unit;
+  }
+}

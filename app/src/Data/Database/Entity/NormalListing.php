@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data\Database\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -33,6 +34,11 @@ class NormalListing extends AbstractEntity
     public $timeInt;
 
     /**
+     * @ORM\Column(type="time_immutable", nullable=true)
+     */
+    public $time;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Programme")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE", name="nlistings_show", referencedColumnName="showsPKID")
      */
@@ -40,9 +46,17 @@ class NormalListing extends AbstractEntity
 
     public function __construct(
         UuidInterface $id,
-        int $timeInt
+        int $day,
+        DateTimeImmutable $time,
+        Programme $programme
     ) {
         parent::__construct($id);
+        $this->day = $day;
+        $this->time = $time;
+
+        $timeInt = (int)$time->format('Hi');
+
         $this->timeInt = $timeInt;
+        $this->programme = $programme;
     }
 }

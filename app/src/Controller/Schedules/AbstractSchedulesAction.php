@@ -64,7 +64,6 @@ abstract class AbstractSchedulesAction extends AbstractController
         int $dayNum,
         string $title
     ): Response {
-
         return $this->renderMainSite(
             'schedules/show.html.twig',
             [

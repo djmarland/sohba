@@ -1,0 +1,23 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1>Normal Listings - {{ dayTitle }}</h1>
+    <nav class="unit">
+        <ol class="list--line">
+            {% for day in dayNav %}
+                <li>
+                    <a href="{{ day.link }}" class="link--button{% if day.active %} link--button-active{% endif %}">
+                        {{ day.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ol>
+    </nav>
+    <div id="app" data-container="NormalListings"></div>
+
+{% endblock %}
+{% block footScripts %}
+    <script>
+      window.HBAContent = {{ pageData | raw }};
+    </script>
+{% endblock %}

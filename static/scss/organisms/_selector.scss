@@ -9,14 +9,22 @@
   }
 
   &__from,
-  &__to {
+  &__to,
+  &__main,
+  &__source {
     flex: 1;
+  }
+
+  &__source {
+    max-width: 40%;
   }
 
   &__list {
     @extend .list--unstyled;
-    height: 400px;
-    overflow-y: auto;
+    &--limited {
+      height: 400px;
+      overflow-y: auto;
+    }
   }
 
   &__item {
@@ -30,5 +38,8 @@
   }
   &__item-title {
     flex: 1;
+    &--label {
+      margin-left: $grid-unit;
+    }
   }
 }

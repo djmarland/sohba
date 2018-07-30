@@ -99,6 +99,14 @@ $collection->add('admin_shows', new Route('/admin/shows', [
 $collection->add('admin_show', new Route('/admin/shows/{showId}', [
     '_controller' => Controller\Admin\ShowAction::class,
 ]));
+$collection->add('admin_normal', new Route('/admin/normal-listings/{day}', [
+    '_controller' => Controller\Admin\NormalListingsDayAction::class,
+], [
+    'day' => '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)',
+]));
+$collection->add('admin_normal_bounce', new Route('/admin/normal-listings', [
+    '_controller' => Controller\Admin\NormalListingsAction::class,
+]));
 
 $collection->add('admin_technical', new Route('/admin/technical-info', [
     '_controller' => Controller\Admin\TechInfoAction::class,

@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Functions\DateTimes;
 
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 
 /**
  * The standard formatting for this application to display a whole date
@@ -33,6 +35,25 @@ function formatShortDateForDisplay(DateTimeInterface $date): string
 function formatMonthForDisplay(DateTimeInterface $date): string
 {
     return $date->format('F Y');
+}
+
+function dayNameToDate(string $dayName): DateTimeImmutable
+{
+    return DateTimeImmutable::createFromFormat('l', $dayName, new DateTimeZone('Z'));
+}
+
+function dayNumToDate(int $dayNum): DateTimeImmutable
+{
+    $date = new DateTimeImmutable('now', new DateTimeZone('Z'));
+    return $date->setISODate(1, 1, $dayNum);
+}
+
+function isoWeekdayToPHPWeekDay(int $dayNum): int
+{
+    if ($dayNum === 7) {
+        return 0;
+    }
+    return $dayNum;
 }
 
 function weekdayFromDayNum(int $dayNum): string

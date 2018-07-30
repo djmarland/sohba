@@ -50,9 +50,11 @@ class Programme extends AbstractEntity
 
     public function __construct(
         UuidInterface $id,
-        string $title
+        string $title,
+        int $type
     ) {
         parent::__construct($id);
         $this->title = $title;
+        $this->type = $type;
     }
 }

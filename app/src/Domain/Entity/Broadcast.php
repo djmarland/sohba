@@ -36,9 +36,16 @@ class Broadcast extends Entity implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return [
+        $data = [
             'id' => $this->id,
+            'time' => $this->time,
         ];
+
+        if ($this->programme) {
+            $data['programme'] = $this->programme;
+        }
+
+        return $data;
     }
 
     public function getProgramme(): ?Programme

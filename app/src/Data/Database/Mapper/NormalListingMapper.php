@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Data\Database\Mapper;
 
 use App\Domain\Entity\Broadcast;
+use App\Domain\ValueObject\Time;
 
 class NormalListingMapper implements MapperInterface
 {
@@ -20,9 +21,19 @@ class NormalListingMapper implements MapperInterface
 
     public function map(array $item): Broadcast
     {
+        if ($item['time'] instanceof \DateTimeImmutable) {
+            // todo schema - remove this check and make the column not NULLABLE
+            $time = new Time(
+                (int)$item['time']->format('H'),
+                (int)$item['time']->format('i')
+            );
+        } else {
+            $time = $this->timeIntMapper->map($item['timeInt']);
+        }
+
         return new Broadcast(
             $item['id'],
-            $this->timeIntMapper->map($item['timeInt']),
+            $time,
             null,
             null,
             null,

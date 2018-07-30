@@ -3,22 +3,26 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Data\Database\Entity\NormalListing as DbNormalListing;
+use App\Data\ID;
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
 use App\Domain\Entity\SpecialDay;
 use App\Domain\ValueObject\Time;
+use function App\Functions\DateTimes\isoWeekdayToPHPWeekDay;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
 
 use function App\Functions\DateTimes\weekdayFromDayNum;
+use Doctrine\ORM\Query;
 
 class SchedulesService extends AbstractService
 {
     public function getShowsForDay(int $dayNumber): array
     {
         return $this->mapMany(
-            $this->entityManager->getNormalListingRepo()->findAllForDay($dayNumber),
+            $this->entityManager->getNormalListingRepo()->findAllForDay(isoWeekdayToPHPWeekDay($dayNumber)),
             $this->normalBroadcastMapper
         );
     }
@@ -36,6 +40,7 @@ class SchedulesService extends AbstractService
         $results = $this->entityManager->getNormalListingRepo()
             ->findAllForLegacyProgrammeId($programme->getLegacyId());
 
+        // todo schema - adjust with updates
         return array_map(
             function ($result) {
                 return [
@@ -69,7 +74,7 @@ class SchedulesService extends AbstractService
         if ($specialDay) {
             $broadcasts = $this->getShowsForSpecialDay($specialDay);
         } else {
-            $broadcasts = $this->getShowsForDay((int)$dateTime->format('w'));
+            $broadcasts = $this->getShowsForDay((int)$dateTime->format('N'));
         }
         $now = null;
         $next = null;
@@ -124,5 +129,37 @@ class SchedulesService extends AbstractService
                 ->findNextForLegacyProgrammeId($programme->getLegacyId(), $now),
             $this->specialBroadcastMapper
         );
+    }
+
+    public function updateNormalListings(int $day, array $newListings): void
+    {
+        $this->entityManager->beginTransaction();
+        try {
+            $this->entityManager->getNormalListingRepo()->deleteAllForDay(
+                isoWeekdayToPHPWeekDay($day)
+            );
+            foreach ($newListings as $listing) {
+                $entity = new DbNormalListing(
+                    ID::makeNewID(DbNormalListing::class),
+                    isoWeekdayToPHPWeekDay($day), // only 0th as far as the database is concerned
+                    $listing['time'],
+                    $this->entityManager->getProgrammeRepo()->findByLegacyId(
+                        $listing['programme'],
+                        Query::HYDRATE_OBJECT
+                    )
+                );
+                $this->entityManager->persist($entity);
+            }
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+        } catch (\Exception $e) {
+            $this->entityManager->rollback();
+            throw $e;
+        }
+    }
+
+    public function migrateNormalListings()
+    {
+        $this->entityManager->getNormalListingRepo()->migrateTimes();
     }
 }

@@ -7,3 +7,14 @@
     color: $color-text;
   }
 }
+
+.link--button {
+  @extend .link--inverse;
+  display: inline-block;
+  padding: ($grid-unit / 2) ($grid-unit);
+
+  &-active {
+    background: $color-hover;
+    color: $color-text;
+  }
+}

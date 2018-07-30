@@ -5,6 +5,7 @@ namespace App\Data;
 
 use App\Data\Database\Entity\Image;
 use App\Data\Database\Entity\KeyValue;
+use App\Data\Database\Entity\NormalListing;
 use App\Data\Database\Entity\Page;
 use App\Data\Database\Entity\PageCategory;
 use App\Data\Database\Entity\Person;
@@ -18,6 +19,7 @@ class ID
 {
     private const ENTITY_MAPPINGS = [
         Image::class => '1111',
+        NormalListing::class => '0000',
         Page::class => 'a0a0',
         PageCategory::class => 'ca0e',
         Person::class => '0666',

@@ -1,5 +1,5 @@
 .button {
-  padding: ($grid-unit / 2);
+  padding: ($grid-unit / 2) ($grid-unit);
   border: none;
   background: $color-grey-dark
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);

@@ -11,7 +11,6 @@ class Container extends React.Component {
 
   componentDidMount() {
     this.setState({
-      message: window.HBAContent.message || null,
       people: window.HBAContent.people || [],
       selectedPeople: window.HBAContent.selectedPeople || []
     });
@@ -109,14 +108,18 @@ class Container extends React.Component {
                 placeholder="Filter..."
               />
             </div>
-            <ul className="selector__list">{allPeople}</ul>
+            <ul className="selector__list selector__list--limited">
+              {allPeople}
+            </ul>
           </div>
           <div className="selector__arrow">
             <RightIcon />
           </div>
           <div className="selector__to">
             <h3 className="selector__title e unit">Currently attached</h3>
-            <ul className="selector__list">{selectedPeople}</ul>
+            <ul className="selector__list selector__list--limited">
+              {selectedPeople}
+            </ul>
           </div>
         </div>
       </React.Fragment>
