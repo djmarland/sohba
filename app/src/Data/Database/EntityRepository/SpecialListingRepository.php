@@ -75,7 +75,7 @@ class SpecialListingRepository extends AbstractEntityRepository
             ->select('DISTINCT(tbl.dateUtc)')
             ->orderBy('tbl.dateUtc', 'ASC');
 
-        return array_map(function($result) {
+        return array_map(function ($result) {
             return reset($result);
         }, $qb->getQuery()->getResult(Query::HYDRATE_ARRAY));
     }
@@ -95,12 +95,12 @@ class SpecialListingRepository extends AbstractEntityRepository
                 continue;
             }
 
-            $time = str_pad((string) $result->timeInt, 4, '0', STR_PAD_LEFT);
-            $date = str_pad((string) $result->specialDay->dateInt, 8, '0', STR_PAD_LEFT);
+            $time = str_pad((string)$result->timeInt, 4, '0', STR_PAD_LEFT);
+            $date = str_pad((string)$result->specialDay->dateInt, 8, '0', STR_PAD_LEFT);
 
             $dateTime = DateTimeImmutable::createFromFormat(
                 'dmY-Hi',
-                $date. '-' . $time,
+                $date . '-' . $time,
                 new \DateTimeZone('Europe/London')
             );
             $dateTime = $dateTime->setTimezone(new \DateTimeZone('UTC'));

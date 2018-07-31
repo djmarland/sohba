@@ -18,8 +18,8 @@ class CalendarDateAction extends AbstractAdminController
             'calendar.html.twig',
             [
                 'pageData' => \json_encode([
-                    'earliestDate' => $earliestDate->format('c'),
-                    'latestDate' => $latestDate->format('c'),
+//                    'earliestDate' => $earliestDate->format('c'),
+//                    'latestDate' => $latestDate->format('c'),
                 ], JSON_PRETTY_PRINT),
             ],
             $request

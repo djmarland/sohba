@@ -27,7 +27,7 @@ class CalendarAction extends AbstractAdminController
                 'pageData' => \json_encode([
                     'earliestDate' => $earliestDate->format('c'),
                     'latestDate' => $latestDate->format('c'),
-                    'highlightDates' => array_map(function(DateTimeImmutable $date) {
+                    'highlightDates' => array_map(function (DateTimeImmutable $date) {
                         return $date->format('Y-m-d');
                     }, $specialDates),
                 ], JSON_PRETTY_PRINT),
