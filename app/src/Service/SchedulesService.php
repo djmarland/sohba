@@ -60,6 +60,13 @@ class SchedulesService extends AbstractService
         );
     }
 
+    public function getSpecialListingDates(?DateTimeInterface $after = null): array
+    {
+        return array_map(function ($result) {
+            return new DateTimeImmutable($result);
+        }, $this->entityManager->getSpecialListingRepo()->findDates($after));
+    }
+
     public function getAllSpecialDaysAfter(DateTimeInterface $date): array
     {
         return $this->mapMany(
@@ -161,5 +168,11 @@ class SchedulesService extends AbstractService
     public function migrateNormalListings()
     {
         $this->entityManager->getNormalListingRepo()->migrateTimes();
+    }
+
+    public function migrate()
+    {
+        // todo - temporary. remove me
+        $this->entityManager->getSpecialListingRepo()->migrate();
     }
 }

@@ -75,7 +75,7 @@
 
             {% if calendars %}
                 <h2 class="t-schedules__heading">Full calendar</h2>
-                <p>Highlighted days have changes from the usual schedule</p>
+                <p class="unit">Highlighted days have changes from the usual schedule</p>
                 {% for calendar in calendars %}
                     {% include '_presenters/calendar-month.html.twig' with {'calendar':calendar} only %}
                 {% endfor %}

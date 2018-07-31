@@ -1,0 +1,26 @@
+.t-calendar {
+  &__year {
+    margin-bottom: $grid-unit;
+  }
+  &__year-title {
+    font-weight: lighter;
+    margin-bottom: $grid-unit;
+  }
+
+  &__months {
+    @extend .list--unstyled;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -$grid-unit;
+  }
+
+  &__month {
+    width: 25%;
+    padding-left: $grid-unit;
+
+    &--generate {
+      min-height: 240px;
+      display: flex;
+    }
+  }
+}

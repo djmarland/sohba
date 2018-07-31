@@ -3,7 +3,7 @@
   max-width: 400px;
   width: 100%;
   text-align: center;
-  margin: $grid-unit $grid-unit 0 0;
+  margin: 0 0 $grid-unit 0;
   vertical-align: top;
 
   &__table {
@@ -12,7 +12,11 @@
     caption {
       padding: $grid-unit/2;
       background: $color-grey-lightest;
-      margin-bottom: $grid-unit;
+      margin-bottom: $grid-unit / 2;
+    }
+
+    th, td {
+      width: (100% / 7);
     }
 
     th,

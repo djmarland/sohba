@@ -3,26 +3,33 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Service\SchedulesService;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HomeAction extends AbstractAdminController
+class CalendarAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
+        SchedulesService $schedulesService,
         DateTimeImmutable $now
     ): Response {
-        $earliestDate = new DateTimeImmutable('2014-04-02');
+        $schedulesService->migrate(); // todo - remove
 
-        $latestDate = $now; // todo - latest is latest special listing or today
+        $specialDates = $schedulesService->getSpecialListingDates();
+        $earliestDate = reset($specialDates);
+        $latestDate = max(end($specialDates), $now);
 
         return $this->renderAdminSite(
-            'home.html.twig',
+            'calendar.html.twig',
             [
                 'pageData' => \json_encode([
                     'earliestDate' => $earliestDate->format('c'),
                     'latestDate' => $latestDate->format('c'),
+                    'highlightDates' => array_map(function(DateTimeImmutable $date) {
+                        return $date->format('Y-m-d');
+                    }, $specialDates),
                 ], JSON_PRETTY_PRINT),
             ],
             $request

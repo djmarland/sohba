@@ -75,9 +75,21 @@ $collection->add('page_outside_broadcasts', new Route(
 
 
 // Admin
-$collection->add('admin_home', new Route('/admin/home', [
-    '_controller' => Controller\Admin\HomeAction::class,
+$collection->add('admin_home', new Route('/admin', [
+    '_controller' => Controller\Admin\CalendarAction::class,
 ]));
+$collection->add('admin_calendar', new Route('/admin/calendar', [
+    '_controller' => Controller\Admin\CalendarAction::class,
+]));
+$collection->add('admin_calendar_date', new Route('/admin/calendar/{year}-{month}-{day}', [
+    '_controller' => Controller\Admin\CalendarDateAction::class,
+], [
+        'year' => '20[0-9][0-9]',
+        'month' => '[01][0-9]',
+        'day' => '[0123][0-9]',
+    ]
+));
+
 $collection->add('admin_pages', new Route('/admin/pages', [
     '_controller' => Controller\Admin\PagesAction::class,
 ]));

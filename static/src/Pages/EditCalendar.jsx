@@ -1,8 +1,14 @@
 import * as React from "react";
-import isAfter from "date-fns/is_after";
-import isEqual from "date-fns/is_equal";
 import startOfMonth from "date-fns/start_of_month";
-import subMonths from "date-fns/sub_months";
+import addMonths from "date-fns/add_months";
+import getMonth from "date-fns/get_month";
+import getYear from "date-fns/get_year";
+import dateFormat from "date-fns/format";
+import {
+  findDayInLastMonthOfYear,
+  findDayInMonth,
+  makeCalendar
+} from "../Helpers/Calendar";
 
 const monthDisplayOptions = {
   month: "long",
@@ -13,73 +19,87 @@ class EditCalendar extends React.Component {
   state = {};
 
   componentDidMount() {
+    this.highlightDates = window.HBAContent.highlightDates || [];
+
     this.setState({
       earliestDate: startOfMonth(new Date(window.HBAContent.earliestDate)),
       latestDate: startOfMonth(new Date(window.HBAContent.latestDate))
     });
   }
 
-  getYearsList() {
-    let counter = this.state.latestDate;
-    let currentYear = null;
-    let currentYearData = {
-      year: null,
-      months: []
-    };
-    const years = [];
+  makeDays(days, weekKey) {
+    return days.map((day, i) => {
+      const dayKey = `${dayKey}-w${i}`;
 
-    while (
-      isAfter(counter, this.state.earliestDate)
-      || isEqual(counter, this.state.earliestDate)
-      ) {
-
-      const year = counter.getFullYear();
-      if (currentYear !== null && currentYear !== year) {
-        years.push({...currentYearData});
-        currentYearData = {
-          year: currentYear,
-          months: []
-        };
+      let content = null;
+      if (day) {
+        const dateFormatted = dateFormat(day, 'YYYY-MM-DD');
+        content = (
+          <a href={`/admin/calendar/${dateFormatted}`}
+            className={(this.highlightDates.find(d => (d === dateFormatted))) ?
+              'calendar__day--highlight' : ''}>
+            {day.getDate()}
+            </a>
+        );
       }
+      return (
+        <td key={dayKey}>{content}</td>
+      )
+    })
+  }
 
-      currentYear = year;
-      currentYearData.year = year;
-      currentYearData.months.push(counter);
+  makeWeeks(weeks, monthKey) {
+    return weeks.map((week, i) => {
+      const weekKey = `${monthKey}-w${i}`;
 
-      counter = subMonths(counter, 1);
-    }
-
-    years.push(currentYearData);
-
-    return years;
+      return (
+        <tr key={weekKey}>
+          {this.makeDays(week, weekKey)}
+        </tr>
+      );
+    });
   }
 
   makeMonths(monthList, showGenerate) {
-    const list = monthList.map(month => (
-      <li key={`${month.getFullYear()}${month.getMonth()}`}>
-        <div className="calendar">
-          <table className="calendar__table">
-            <caption>{month.toLocaleString("en-GB", monthDisplayOptions)}</caption>
-            <thead>
-            <tr>
-              <th><abbr title="Monday">M</abbr></th>
-              <th><abbr title="Tuesday">T</abbr></th>
-              <th><abbr title="Wednesday">W</abbr></th>
-              <th><abbr title="Thursday">T</abbr></th>
-              <th><abbr title="Friday">F</abbr></th>
-              <th><abbr title="Saturday">S</abbr></th>
-              <th><abbr title="Sunday">S</abbr></th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </li>
-    ));
+    const list = monthList.map(month => {
+      const monthDate = findDayInMonth(month);
+      const monthkey = `${monthDate.getFullYear()}${monthDate.getMonth()}`;
+
+      return (
+        <li
+          key={monthkey}
+          className="t-calendar__month"
+        >
+          <div className="calendar">
+            <table className="calendar__table">
+              <caption>
+                {monthDate.toLocaleString("en-GB", monthDisplayOptions)}
+              </caption>
+              <thead>
+              <tr>
+                <th><abbr title="Monday">M</abbr></th>
+                <th><abbr title="Tuesday">T</abbr></th>
+                <th><abbr title="Wednesday">W</abbr></th>
+                <th><abbr title="Thursday">T</abbr></th>
+                <th><abbr title="Friday">F</abbr></th>
+                <th><abbr title="Saturday">S</abbr></th>
+                <th><abbr title="Sunday">S</abbr></th>
+              </tr>
+              </thead>
+              <tbody>
+              {this.makeWeeks(month, monthkey)}
+              </tbody>
+            </table>
+          </div>
+        </li>
+      );
+    });
     if (showGenerate) {
       list.unshift(
-        <li key="genrate">
+        <li
+          key="generate"
+          className="t-calendar__month t-calendar__month--generate"
+        >
           GENERATE!!
         </li>
       );
@@ -88,28 +108,77 @@ class EditCalendar extends React.Component {
     return list;
   }
 
+
+  getPossibleFirstYear(years) {
+    const dayOfLastMonth = findDayInLastMonthOfYear(years[0]);
+
+    if (getMonth(dayOfLastMonth) === 11) { // december, so being making new year
+      const nextMonth = addMonths(dayOfLastMonth, 1);
+      return this.makeYear(nextMonth, [], nextMonth);
+    }
+    return null;
+  }
+
+  makeYear(date, months, generateDate) {
+    const year = getYear(date);
+
+    let generate = null;
+    if (generateDate) {
+      const date = generateDate.toLocaleString("en-GB", monthDisplayOptions);
+
+      generate = (
+        <li
+          key={`generate-${date}`}
+          className="t-calendar__month t-calendar__month--generate"
+        >
+          <button className="unit button button--box" onClick={e => {
+            this.setState({
+              latestDate: generateDate
+            });
+          }}>Generate<br />{date}</button>
+        </li>
+      );
+    }
+
+    return (
+      <div className="t-calendar__year" key={`year-${year}`}>
+        <h2 className="t-calendar__year-title">{year}</h2>
+        <ul className="t-calendar__months">
+          {generate}
+          {this.makeMonths(months.reverse())}
+        </ul>
+      </div>
+    );
+  }
+
   render() {
     if (!this.state.earliestDate) {
       return null;
     }
 
-    const years = this.getYearsList();
+    // get the full calendar (in reverse year order)
+    const years = makeCalendar(this.state.earliestDate, this.state.latestDate)
+      .reverse();
+    const firstYear = this.getPossibleFirstYear(years);
 
-    let showMakeNew = 0;
+    let showMakeNew = firstYear ? 0 : 1;
     const content = years.map(year => {
-      showMakeNew++;
-      return (
-        <React.Fragment>
-          <h2>{year.year}</h2>
-          <ul>
-            {this.makeMonths(year.months, showMakeNew === 1)}
-          </ul>
-        </React.Fragment>
-      );
+      const yearDate = findDayInLastMonthOfYear(year);
+
+      let generateDate = null;
+      if (showMakeNew-- > 0) {
+        generateDate = addMonths(yearDate, 1);
+      }
+
+      return this.makeYear(yearDate, year, generateDate);
     });
 
+    if (firstYear) {
+      content.unshift(firstYear);
+    }
+
     return (
-      <div>
+      <div className="t-calendar">
         {content}
       </div>
     );

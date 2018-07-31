@@ -28,6 +28,16 @@ class SpecialListing extends AbstractEntity
     public $timeInt;
 
     /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    public $dateTimeUtc;
+
+    /**
+     * @ORM\Column(type="date_immutable", nullable=true)
+     */
+    public $dateUtc;
+
+    /**
      * @ORM\Column(type="string", name="spdNote", length=500, nullable=true)
      */
     public $internalNote;
