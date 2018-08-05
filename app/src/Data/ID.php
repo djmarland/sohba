@@ -11,6 +11,7 @@ use App\Data\Database\Entity\PageCategory;
 use App\Data\Database\Entity\Person;
 use App\Data\Database\Entity\PersonInShow;
 use App\Data\Database\Entity\Programme;
+use App\Data\Database\Entity\SpecialListing;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -25,6 +26,7 @@ class ID
         Person::class => '0666',
         PersonInShow::class => '9876',
         Programme::class => 'edfa',
+        SpecialListing::class => 'face',
         KeyValue::class => 'c0c0',
     ];
 

@@ -44,9 +44,11 @@ class SpecialDay extends AbstractEntity
 
     public function __construct(
         UuidInterface $id,
-        int $dateInt
+        int $dateInt,
+        int $timestamp
     ) {
         parent::__construct($id);
         $this->dateInt = $dateInt;
+        $this->timestamp = $timestamp;
     }
 }

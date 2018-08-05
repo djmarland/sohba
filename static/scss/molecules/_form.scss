@@ -59,7 +59,7 @@
   &__checkbox-row {
     display: flex;
     margin-bottom: $grid-unit;
-    margin-left: $grid-unit / 4;
+    margin-left: -($grid-unit / 4);
   }
 
   &__checkbox-box {
@@ -72,5 +72,19 @@
     > input {
       margin-bottom: $grid-unit / 2;
     }
+  }
+
+
+
+  &__note-row {
+    padding: 0 ($grid-unit / 2) ($grid-unit / 2);
+    display: flex;
+    align-items: center;
+    > #{$root}__input {
+      flex: 1;
+    }
+  }
+  &__note-label {
+    width: 108px;
   }
 }

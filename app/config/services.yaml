@@ -15,7 +15,7 @@ services:
             $appConfigCaptchaKey: '%env(APP_CAPTCHA_SECRET)%'
             $appConfigRequestFromAddress: '%env(APP_REQUEST_FROM_ADDRESS)%'
             $appConfigRequestToAddress: '%env(APP_REQUEST_TO_ADDRESS)%'
-            $appConfigSkipCapture: '%skipCaptcha%'
+            $appConfigSkipCaptcha: '%skipCaptcha%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -35,8 +35,7 @@ services:
     DateTimeZone:
         class: DateTimeZone
         arguments:
-#            - 'UTC' # Always UTC. Only do conversion at the very edge with the user
-            - 'Europe/London' # todo - Temporary, while migrating
+            - 'Europe/London'
 
     # Ensure that injected times are all the same instance
     DateTimeImmutable:

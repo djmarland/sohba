@@ -89,6 +89,13 @@ $collection->add('admin_calendar_date', new Route('/admin/calendar/{year}-{month
         'day' => '[0123][0-9]',
     ]
 ));
+$collection->add('admin_calendar_mont', new Route('/admin/calendar/{year}-{month}', [
+    '_controller' => Controller\Admin\CalendarMonthAction::class,
+], [
+        'year' => '20[0-9][0-9]',
+        'month' => '[01][0-9]',
+    ]
+));
 
 $collection->add('admin_pages', new Route('/admin/pages', [
     '_controller' => Controller\Admin\PagesAction::class,

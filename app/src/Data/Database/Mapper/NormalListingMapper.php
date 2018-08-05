@@ -9,27 +9,19 @@ use App\Domain\ValueObject\Time;
 class NormalListingMapper implements MapperInterface
 {
     private $programmeMapper;
-    private $timeIntMapper;
 
     public function __construct(
-        ProgrammeMapper $programmeMapper,
-        TimeIntMapper $timeIntMapper
+        ProgrammeMapper $programmeMapper
     ) {
         $this->programmeMapper = $programmeMapper;
-        $this->timeIntMapper = $timeIntMapper;
     }
 
     public function map(array $item): Broadcast
     {
-        if ($item['time'] instanceof \DateTimeImmutable) {
-            // todo schema - remove this check and make the column not NULLABLE
-            $time = new Time(
-                (int)$item['time']->format('H'),
-                (int)$item['time']->format('i')
-            );
-        } else {
-            $time = $this->timeIntMapper->map($item['timeInt']);
-        }
+        $time = new Time(
+            (int)$item['time']->format('H'),
+            (int)$item['time']->format('i')
+        );
 
         return new Broadcast(
             $item['id'],

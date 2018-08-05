@@ -28,7 +28,7 @@ class ShowPicker extends React.Component {
       body: JSON.stringify({
         showName: this.state.newShowTitle,
         showType: this.state.showType,
-        includeAll: false // todo - support true with a prop (allowTypes)
+        includeAll: this.props.allowShowType || false
       }),
       headers: {
         "content-type": "application/json"
@@ -58,8 +58,13 @@ class ShowPicker extends React.Component {
       );
     }
     allShows = allShows.map(programme => {
+      let itemClass = 'selector__item';
+      if (this.props.allowShowType) {
+        itemClass = `${itemClass} selector__item--plain broadcast--event-${programme.type}`;
+      }
+
       return (
-        <li className="selector__item" key={`all-${programme.legacyId}`}>
+        <li className={itemClass} key={`all-${programme.legacyId}`}>
           <span className="selector__action">
             <button
               className="button button--icon"
@@ -68,7 +73,7 @@ class ShowPicker extends React.Component {
                 this.props.onSelect(programme.legacyId);
               }}
             >
-              <LeftIcon />
+              <LeftIcon/>
             </button>
           </span>
           <span className="selector__item-title selector__item-title--label">
@@ -80,14 +85,43 @@ class ShowPicker extends React.Component {
 
     let showType = null;
     if (this.props.allowShowType) {
-      showType = "TYPE"; // todo
+      const typeButtons = this.props.types.map(type => {
+        return (
+
+        <label
+          className={`form__checkbox-box broadcast--event-${type.id}`}
+          key={`type-${type.id}`}
+        >
+          <input
+            type="radio"
+            name="type"
+            value={type.id}
+            className="form__input"
+            checked={this.state.showType === type.id}
+            onChange={(e) => {
+              this.setState({
+                showType: parseInt(e.target.value, 10)
+              });
+            }}
+          />{" "}
+          {type.title}
+        </label>
+      );});
+
+      showType = (
+        <React.Fragment>
+          <h4 className="hidden--visually ">Show type</h4>
+          <div className="form__checkbox-row">{typeButtons}</div>
+        </React.Fragment>
+      );
     }
 
     return (
       <React.Fragment>
         <h3 className="selector__title e unit">Quick-make new show</h3>
         <div className="unit">
-          <form onSubmit={e => {}}>
+          <form onSubmit={e => {
+          }}>
             <label className="form__label-row">
               Show title
               <input

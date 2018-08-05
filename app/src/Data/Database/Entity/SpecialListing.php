@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data\Database\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -30,12 +31,12 @@ class SpecialListing extends AbstractEntity
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    public $dateTimeUtc;
+    public $dateTimeUk;
 
     /**
      * @ORM\Column(type="date_immutable", nullable=true)
      */
-    public $dateUtc;
+    public $dateUk;
 
     /**
      * @ORM\Column(type="string", name="spdNote", length=500, nullable=true)
@@ -61,9 +62,16 @@ class SpecialListing extends AbstractEntity
 
     public function __construct(
         UuidInterface $id,
-        int $timeInt
+        DateTimeImmutable $dateTime,
+        Programme $programme
     ) {
         parent::__construct($id);
+        $this->dateTimeUk = $dateTime;
+        $this->dateUk = $dateTime;
+
+        $timeInt = (int)$dateTime->format('Hi'); // todo - remove
+
         $this->timeInt = $timeInt;
+        $this->programme = $programme;
     }
 }

@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 require __DIR__.'/../vendor/autoload.php';
 
+date_default_timezone_set('Europe/London');
+
 (new Dotenv())->load(__DIR__.'/../../.env');
 
 $env = $_SERVER['APP_ENV'] ?? 'prod';

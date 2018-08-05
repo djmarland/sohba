@@ -32,7 +32,7 @@
     padding: ($grid-unit / 4) ($grid-unit / 2);
     display: flex;
     align-items: center;
-    &:nth-child(2n + 1) {
+    &:nth-child(2n + 1):not(.selector__item--plain) {
       background: $color-grey-lightest;
     }
   }

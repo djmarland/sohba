@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Data\Database\Entity\NormalListing as DbNormalListing;
+use App\Data\Database\Entity\SpecialListing as DbSpecialListing;
+use App\Data\Database\Entity\SpecialDay as DbSpecialDay;
 use App\Data\ID;
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
@@ -16,6 +18,7 @@ use DateTimeInterface;
 
 use function App\Functions\DateTimes\weekdayFromDayNum;
 use Doctrine\ORM\Query;
+use Ramsey\Uuid\Uuid;
 
 class SchedulesService extends AbstractService
 {
@@ -31,6 +34,14 @@ class SchedulesService extends AbstractService
     {
         return $this->mapMany(
             $this->entityManager->getSpecialListingRepo()->findAllForLegacySpecialDayId($specialDay->getLegacyId()),
+            $this->specialBroadcastMapper
+        );
+    }
+
+    public function getShowsForSpecialDate(DateTimeImmutable $specialDate): array
+    {
+        return $this->mapMany(
+            $this->entityManager->getSpecialListingRepo()->findAllForDate($specialDate),
             $this->specialBroadcastMapper
         );
     }
@@ -52,6 +63,20 @@ class SchedulesService extends AbstractService
         );
     }
 
+    public function isSpecialDay(DateTimeImmutable $date): bool
+    {
+        $start = $date->setTime(0, 0, 0);
+        $end = $start->add(new DateInterval('P1D'));
+
+        return !empty($this->entityManager->getSpecialListingRepo()->findDates($start, $end));
+    }
+
+    /**
+     * @deprecated
+     * // todo - move to isSpecialDay
+     * @param DateTimeInterface $date
+     * @return SpecialDay|null
+     */
     public function getSpecialDay(DateTimeInterface $date): ?SpecialDay
     {
         return $this->mapSingle(
@@ -60,16 +85,19 @@ class SchedulesService extends AbstractService
         );
     }
 
-    public function getSpecialListingDates(?DateTimeInterface $after = null): array
-    {
+    public function getSpecialListingDates(
+        ?DateTimeInterface $fromInclusive = null,
+        ?DateTimeInterface $toExclusive = null
+    ): array {
         return array_map(function ($result) {
             return new DateTimeImmutable($result);
-        }, $this->entityManager->getSpecialListingRepo()->findDates($after));
+        }, $this->entityManager->getSpecialListingRepo()->findDates($fromInclusive, $toExclusive));
     }
 
     public function getAllSpecialDaysAfter(DateTimeInterface $date): array
     {
         return $this->mapMany(
+            // todo - migrate to getSpecialListingDates
             $this->entityManager->getSpecialDayRepo()->findAllAfterDate($date),
             $this->specialDayMapper
         );
@@ -165,14 +193,66 @@ class SchedulesService extends AbstractService
         }
     }
 
-    public function migrateNormalListings()
+    public function migrateNormalListings(): void
     {
         $this->entityManager->getNormalListingRepo()->migrateTimes();
     }
 
-    public function migrate()
+    public function migrate(): void
     {
         // todo - temporary. remove me
         $this->entityManager->getSpecialListingRepo()->migrate();
+    }
+
+    public function deleteSpecialBetween(DateTimeImmutable $date, DateTimeImmutable $endDate): void
+    {
+        $this->entityManager->getSpecialListingRepo()
+            ->deleteBetween($date, $endDate);
+
+        // todo - temporary, until specialDaysNoLonger needed
+        $this->entityManager->getSpecialDayRepo()
+            ->deleteBetween($date, $endDate);
+    }
+
+    public function updateSpecialListings(DateTimeImmutable $date, array $newListings): void
+    {
+        $from = $date->setTime(0, 0, 0);
+        $end = $date->add(new DateInterval('P1D'));
+        $this->entityManager->beginTransaction();
+        try {
+            $this->deleteSpecialBetween($from, $end);
+
+            // create a special day
+            $special = new DbSpecialDay(
+                Uuid::uuid4(),
+                (int)$date->format('dmY'),
+                (int)$date->setTime(23, 59, 59)->getTimestamp()
+            );
+            $this->entityManager->persist($special);
+
+            foreach ($newListings as $listing) {
+                $entity = new DbSpecialListing(
+                    ID::makeNewID(DbSpecialListing::class),
+                    $listing['time'],
+                    $this->entityManager->getProgrammeRepo()->findByLegacyId(
+                        $listing['programme'],
+                        Query::HYDRATE_OBJECT
+                    )
+                );
+                $entity->internalNote = $listing['internalNote'];
+                $entity->publicNote = $listing['publicNote'];
+
+                // todo - remove this
+                $entity->specialDay = $special;
+
+                $this->entityManager->persist($entity);
+            }
+
+            $this->entityManager->flush();
+            $this->entityManager->commit();
+        } catch (\Exception $e) {
+            $this->entityManager->rollback();
+            throw $e;
+        }
     }
 }

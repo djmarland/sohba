@@ -2,6 +2,7 @@ import * as React from "react";
 import { render as ReactDomRender } from "react-dom";
 
 import EditCalendar from "./Pages/EditCalendar";
+import EditDate from "./Pages/EditDate";
 import ImagesList from "./Pages/ImagesList";
 import PagesList from "./Pages/PagesList";
 import PageDetail from "./Pages/PageDetail";
@@ -22,6 +23,9 @@ if (appContainer) {
   switch (appContainer.dataset.container) {
     case "EditCalendar":
       ReactDomRender(<EditCalendar />, appContainer);
+      break;
+    case "EditDate":
+      ReactDomRender(<EditDate />, appContainer);
       break;
     case "ImagesList":
       ReactDomRender(<ImagesList />, appContainer);

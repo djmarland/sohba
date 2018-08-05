@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    <style>
+        @media print {
+            .print-hide {
+                display: none !important;
+            }
+        }
+
+        .intro {
+            display: block;
+            padding: 16px;
+            border: solid 1px red;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        table:nth-child(2n) {
+            page-break-after:always
+        }
+
+        .time {
+            width: 64px;
+        }
+
+        td {
+            padding: 4px 8px;
+            border-bottom: solid 1px #eee;
+        }
+
+        .caption {
+            border: solid 1px black;
+            padding: 8px;
+            font-weight: bold;
+        }
+
+        .caption__content {
+            display: flex;
+            width: 100%;
+        }
+
+        .caption--special {
+            background: #ddd;
+        }
+
+        .caption__date {
+            flex: 1;
+            text-align: left;
+        }
+
+        .caption__indicator {
+            text-align: right;
+        }
+        .broadcast {
+            display: flex;
+        }
+        .broadcast__title {
+            flex: 1;
+        }
+        .broadcast__extra {
+            text-align: right;
+            padding-left: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="intro print-hide">
+    <p><a href="/admin">Back to calendar</a></p>
+    <p>
+        This is a printable version of the month calendar. Two days will be shown per page.
+        Use the print preview to examine the result or choose individual pages to print.
+    </p>
+</div>
+<h1>Programme Schedule for {{ month.format('F Y') }}</h1>
+{% for day in days %}
+    <table>
+        <caption class="caption{% if day.isSpecial %} caption--special{% endif %}">
+            <div class="caption__content">
+                <span class="caption__date">
+                {{ day.date.format('l jS F Y') }}
+            </span>
+                {% if day.isSpecial %}
+                    <span class="caption__indicator">&#9733;</span>
+                {% endif %}
+            </div>
+        </caption>
+        <tbody>
+        {% for broadcast in day.listings %}
+            <tr>
+                <td class="time">{{ broadcast.time }}</td>
+                <td>
+                    <div class="broadcast">
+                        <span class="broadcast__title">{{ broadcast.programme.title }}</span>
+                        <span class="broadcast__extra">
+                            {% if broadcast.notes %}
+                                ({{ broadcast.notes }})
+                            {% endif %}
+                            {% if broadcast.programme.isEvent %}
+                                &#9733;
+                            {% endif %}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+</body>
+</html>

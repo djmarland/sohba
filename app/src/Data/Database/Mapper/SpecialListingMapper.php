@@ -5,6 +5,7 @@ namespace App\Data\Database\Mapper;
 
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
+use App\Domain\ValueObject\Time;
 
 class SpecialListingMapper implements MapperInterface
 {
@@ -24,9 +25,20 @@ class SpecialListingMapper implements MapperInterface
 
     public function map(array $item): Broadcast
     {
+        // todo schema - remove this check and make the column not NULLABLE
+        if ($item['dateTimeUk'] instanceof \DateTimeImmutable) {
+            $ukTime = $item['dateTimeUk']->setTimezone(new \DateTimeZone('Europe/London'));
+            $time = new Time(
+                (int)$ukTime->format('H'),
+                (int)$ukTime->format('i')
+            );
+        } else {
+            $time = $this->timeIntMapper->map($item['timeInt']);
+        }
+
         return new Broadcast(
             $item['id'],
-            $this->timeIntMapper->map($item['timeInt']),
+            $time,
             !empty($item['publicNote']) ? $item['publicNote'] : null,
             !empty($item['internalNote']) ? $item['internalNote'] : null,
             $this->mapDate($item),

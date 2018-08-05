@@ -109,4 +109,9 @@ class ProgrammesService extends AbstractService
             $imageId
         );
     }
+
+    public function migrate(): void
+    {
+        $this->entityManager->getProgrammeRepo()->migrate(); // todo - remove
+    }
 }

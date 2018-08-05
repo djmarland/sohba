@@ -39,6 +39,8 @@ class Broadcast extends Entity implements \JsonSerializable
         $data = [
             'id' => $this->id,
             'time' => $this->time,
+            'internalNote' => $this->internalNote, // we never use JSON outside admin
+            'publicNote' => $this->publicNote,
         ];
 
         if ($this->programme) {
@@ -91,5 +93,16 @@ class Broadcast extends Entity implements \JsonSerializable
     public function getInternalNote(): ?string
     {
         return $this->internalNote;
+    }
+
+    public function getNotes(): ?string
+    {
+        if (!$this->publicNote && !$this->internalNote) {
+            return null;
+        }
+        return implode(' - ', array_filter([
+            $this->publicNote,
+            $this->internalNote,
+        ]));
     }
 }

@@ -9,6 +9,9 @@ import {
   findDayInMonth,
   makeCalendar
 } from "../Helpers/Calendar";
+import PrintIcon from "../Components/Icons/PrintIcon";
+import DeleteIcon from "../Components/Icons/DeleteIcon";
+import Message from "../Components/Message";
 
 const monthDisplayOptions = {
   month: "long",
@@ -17,8 +20,17 @@ const monthDisplayOptions = {
 
 class EditCalendar extends React.Component {
   state = {};
+  message = null;
 
   componentDidMount() {
+    if (window.HBAContent.message) {
+      this.message = (
+        <Message
+          message={window.HBAContent.message.message}
+          type={window.HBAContent.message.type}
+        />
+      );
+    }
     this.highlightDates = window.HBAContent.highlightDates || [];
 
     this.setState({
@@ -33,19 +45,19 @@ class EditCalendar extends React.Component {
 
       let content = null;
       if (day) {
-        const dateFormatted = dateFormat(day, 'YYYY-MM-DD');
+        const dateFormatted = dateFormat(day, "YYYY-MM-DD");
         content = (
           <a href={`/admin/calendar/${dateFormatted}`}
-            className={(this.highlightDates.find(d => (d === dateFormatted))) ?
-              'calendar__day--highlight' : ''}>
+             className={(this.highlightDates.find(d => (d === dateFormatted))) ?
+               "calendar__day--highlight" : ""}>
             {day.getDate()}
-            </a>
+          </a>
         );
       }
       return (
         <td key={dayKey}>{content}</td>
-      )
-    })
+      );
+    });
   }
 
   makeWeeks(weeks, monthKey) {
@@ -63,7 +75,7 @@ class EditCalendar extends React.Component {
   makeMonths(monthList, showGenerate) {
     const list = monthList.map(month => {
       const monthDate = findDayInMonth(month);
-      const monthkey = `${monthDate.getFullYear()}${monthDate.getMonth()}`;
+      const monthkey = dateFormat(monthDate, "YYYY-MM");
 
       return (
         <li
@@ -74,6 +86,35 @@ class EditCalendar extends React.Component {
             <table className="calendar__table">
               <caption>
                 {monthDate.toLocaleString("en-GB", monthDisplayOptions)}
+                <span className="calendar__action">
+                  <a href={`/admin/calendar/${monthkey}`}
+                     title="Print this month">
+                    <PrintIcon/>
+                  </a>
+                </span>
+                <span className="calendar__action calendar__action--after">
+                  <form
+                    method="post"
+                    onSubmit={e => {
+                      if (!window.confirm(
+                        `Are you sure? The data cannot be recovered`
+                      )) {
+                        e.preventDefault();
+                      }
+                    }}
+                  >
+                    <input
+                      type="hidden"
+                      name="delete-month"
+                      value={monthkey}
+                    />
+                    <button
+                      className="button-reset link--danger"
+                      title="Delete this month">
+                      <DeleteIcon/>
+                    </button>
+                  </form>
+                </span>
               </caption>
               <thead>
               <tr>
@@ -135,7 +176,7 @@ class EditCalendar extends React.Component {
             this.setState({
               latestDate: generateDate
             });
-          }}>Generate<br />{date}</button>
+          }}>Generate<br/>{date}</button>
         </li>
       );
     }
@@ -178,9 +219,12 @@ class EditCalendar extends React.Component {
     }
 
     return (
-      <div className="t-calendar">
-        {content}
-      </div>
+      <React.Fragment>
+        {this.message}
+        <div className="t-calendar">
+          {content}
+        </div>
+      </React.Fragment>
     );
   }
 }

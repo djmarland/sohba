@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\SpecialListing;
+use App\Data\ID;
+use App\Kernel;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Query;
 
 class SpecialListingRepository extends AbstractEntityRepository
@@ -47,6 +50,20 @@ class SpecialListingRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
+    public function findAllForDate(
+        DateTimeImmutable $specialDate,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl', 'programme', 'image')
+            ->where('tbl.dateUk = :dateUk')
+            ->innerJoin('tbl.programme', 'programme')
+            ->leftJoin('programme.image', 'image')
+            ->orderBy('tbl.dateTimeUk', 'ASC')
+            ->setParameter('dateUk', $specialDate);
+        return $qb->getQuery()->getResult($resultType);
+    }
+
     public function findNextForLegacyProgrammeId(
         int $getLegacyId,
         DateTimeImmutable $now,
@@ -65,19 +82,23 @@ class SpecialListingRepository extends AbstractEntityRepository
     }
 
     public function findDates(
-        ?\DateTimeInterface $after = null
+        ?DateTimeInterface $from = null,
+        ?DateTimeInterface $to = null
     ): array {
-        if ($after) {
-            die('todo'); // todo
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('DISTINCT(tbl.dateUk)')
+            ->orderBy('tbl.dateUk', 'ASC');
+
+        if ($from) {
+            $qb = $qb->andWhere('tbl.dateUk >= :from')
+                ->setParameter('from', $from);
+        }
+        if ($to) {
+            $qb = $qb->andWhere('tbl.dateUk < :to')
+                ->setParameter('to', $to);
         }
 
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('DISTINCT(tbl.dateUtc)')
-            ->orderBy('tbl.dateUtc', 'ASC');
-
-        return array_map(function ($result) {
-            return reset($result);
-        }, $qb->getQuery()->getResult(Query::HYDRATE_ARRAY));
+        return array_map('reset', $qb->getQuery()->getResult(Query::HYDRATE_ARRAY));
     }
 
     public function migrate(): void
@@ -86,7 +107,7 @@ class SpecialListingRepository extends AbstractEntityRepository
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'date')
             ->leftJoin('tbl.specialDay', 'date')
-            ->where('tbl.dateTimeUtc IS NULL');
+            ->where('tbl.dateTimeUk IS NULL');
 
         $results = $qb->getQuery()->getResult();
         foreach ($results as $result) {
@@ -98,17 +119,43 @@ class SpecialListingRepository extends AbstractEntityRepository
             $time = str_pad((string)$result->timeInt, 4, '0', STR_PAD_LEFT);
             $date = str_pad((string)$result->specialDay->dateInt, 8, '0', STR_PAD_LEFT);
 
+
             $dateTime = DateTimeImmutable::createFromFormat(
                 'dmY-Hi',
-                $date . '-' . $time,
-                new \DateTimeZone('Europe/London')
+                $date . '-' . $time
             );
-            $dateTime = $dateTime->setTimezone(new \DateTimeZone('UTC'));
 
-            $result->dateTimeUtc = $dateTime;
-            $result->dateUtc = $dateTime;
+            $result->dateTimeUk = $dateTime;
+            $result->dateUk = $dateTime;
+            $this->getEntityManager()->persist($result);
+        }
+
+
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl')
+            ->where('tbl.uuid = :nothing')
+            ->setParameter('nothing', '');
+
+        $results = $qb->getQuery()->getResult();
+        foreach ($results as $result) {
+            /** @var SpecialListing  $result */
+            $newId = ID::makeNewID(SpecialListing::class);
+            $result->id = $newId;
+            $result->uuid = (string)$newId;
+            $result->createdAt = new DateTimeImmutable('2017-01-01T00:00:00Z');
+            $result->updatedAt = new DateTimeImmutable('2017-01-01T00:00:00Z');
             $this->getEntityManager()->persist($result);
         }
         $this->getEntityManager()->flush();
+    }
+
+    public function deleteBetween(DateTimeImmutable $fromInclusive, DateTimeImmutable $toExclusive): void
+    {
+        $sql = 'DELETE FROM ' . SpecialListing::class . ' t WHERE t.dateTimeUk >= :from AND t.dateTimeUk < :to';
+        $query = $this->getEntityManager()
+            ->createQuery($sql)
+            ->setParameter('from', $fromInclusive)
+            ->setParameter('to', $toExclusive);
+        $query->execute();
     }
 }

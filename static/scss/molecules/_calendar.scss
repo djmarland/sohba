@@ -13,26 +13,41 @@
       padding: $grid-unit/2;
       background: $color-grey-lightest;
       margin-bottom: $grid-unit / 2;
+      position: relative;
     }
 
-    th, td {
-      width: (100% / 7);
-    }
-
-    th,
-    a {
-      padding: $grid-unit/4;
-    }
-    abbr {
-      text-decoration: none;
-    }
-    a {
-      display: block;
-      &:hover,
-      &:active {
-        background: $color-hover;
-        color: $color-text;
+    thead, tbody {
+      th, td {
+        width: (100% / 7);
       }
+
+      th,
+      a {
+        padding: $grid-unit/4;
+      }
+      abbr {
+        text-decoration: none;
+      }
+      a {
+        display: block;
+        &:hover,
+        &:active {
+          background: $color-hover;
+          color: $color-text;
+        }
+      }
+    }
+  }
+
+  &__action {
+    position: absolute;
+    display: inline-block;
+    width: 24px;
+    top: $grid-unit / 2;
+    left: $grid-unit / 2;
+    &--after {
+      left: auto;
+      right: $grid-unit / 2;
     }
   }
 

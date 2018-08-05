@@ -42,7 +42,7 @@ abstract class AbstractService
 
     protected $appConfigRequestFromAddress;
     protected $appConfigRequestToAddress;
-    protected $appConfigSkipCapture;
+    protected $appConfigSkipCaptcha;
 
     public function __construct(
         EntityManager $entityManager,
@@ -60,7 +60,7 @@ abstract class AbstractService
         LoggerInterface $logger,
         string $appConfigRequestFromAddress,
         string $appConfigRequestToAddress,
-        bool $appConfigSkipCapture
+        bool $appConfigSkipCaptcha
     ) {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
@@ -76,7 +76,7 @@ abstract class AbstractService
         $this->captcha = $captcha;
         $this->appConfigRequestFromAddress = $appConfigRequestFromAddress;
         $this->appConfigRequestToAddress = $appConfigRequestToAddress;
-        $this->appConfigSkipCapture = $appConfigSkipCapture;
+        $this->appConfigSkipCaptcha = $appConfigSkipCaptcha;
         $this->pageCategoryMapper = $pageCategoryMapper;
     }
 

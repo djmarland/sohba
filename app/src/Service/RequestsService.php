@@ -44,7 +44,7 @@ BODY
 
     private function handleCaptcha(Request $request)
     {
-        if ($this->appConfigSkipCapture) {
+        if ($this->appConfigSkipCaptcha) {
             return;
         }
 

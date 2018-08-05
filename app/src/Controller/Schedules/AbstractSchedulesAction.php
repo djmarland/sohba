@@ -40,10 +40,11 @@ abstract class AbstractSchedulesAction extends AbstractController
     ): Response {
 
         $title = formatDateForDisplay($date);
+        // todo - convert to method that doesn't use the specialDay object
         $specialDay = $this->schedulesService->getSpecialDay($date);
         if (!$specialDay) {
             return $this->renderDay(
-                (int)$date->format('w'),
+                (int)$date->format('N'),
                 $title
             );
         }
@@ -51,7 +52,6 @@ abstract class AbstractSchedulesAction extends AbstractController
         return $this->renderMainSite(
             'schedules/show.html.twig',
             [
-                'specialDay' => $specialDay,
                 'title' => $title,
                 'calendars' => $this->getCalendars(),
                 'broadcasts' => $this->schedulesService->getShowsForSpecialDay($specialDay),
