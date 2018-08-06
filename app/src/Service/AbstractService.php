@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Data\Captcha;
 use App\Data\Database\EntityManager;
+use App\Data\Database\Mapper\ConfigurableContentMapper;
 use App\Data\Database\Mapper\ImageMapper;
 use App\Data\Database\Mapper\MapperInterface;
 use App\Data\Database\Mapper\NormalListingMapper;
@@ -31,6 +32,7 @@ abstract class AbstractService
     protected $programmeMapper;
     protected $imageMapper;
     protected $pageMapper;
+    protected $configurableContentMapper;
     protected $pageCategoryMapper;
     protected $specialDayMapper;
     protected $specialBroadcastMapper;
@@ -46,6 +48,7 @@ abstract class AbstractService
 
     public function __construct(
         EntityManager $entityManager,
+        ConfigurableContentMapper $configurableContentMapper,
         PageMapper $pageMapper,
         PageCategoryMapper $pageCategoryMapper,
         PersonMapper $personMapper,
@@ -64,6 +67,7 @@ abstract class AbstractService
     ) {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
+        $this->configurableContentMapper = $configurableContentMapper;
         $this->programmeMapper = $programmeMapper;
         $this->imageMapper = $imageMapper;
         $this->pageMapper = $pageMapper;

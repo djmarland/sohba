@@ -133,6 +133,11 @@ $collection->add('admin_technical', new Route('/admin/technical-info', [
 $collection->add('admin_kv', new Route('/admin/key-value', [
     '_controller' => Controller\Admin\KeyValueAction::class,
 ]));
+$collection->add('admin_kv_key', new Route('/admin/key-value/{id}', [
+    '_controller' => Controller\Admin\KeyValueKeyAction::class,
+], [
+    'id' => Ramsey\Uuid\Uuid::VALID_PATTERN,
+]));
 
 $collection->add('page', new Route('/{page}', [
     '_controller' => Controller\Page\ShowAction::class,

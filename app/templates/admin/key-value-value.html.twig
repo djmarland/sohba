@@ -1,0 +1,16 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1 class="title">
+        <span class="title__context">
+            <a href="/admin/key-value">Key/Value Store</a>
+        </span>
+        {{ content.key }}
+    </h1>
+    <div id="app" data-container="KeyValue"></div>
+{% endblock %}
+{% block footScripts %}
+    <script>
+      window.HBAContent = {{ pageData | raw }};
+    </script>
+{% endblock %}

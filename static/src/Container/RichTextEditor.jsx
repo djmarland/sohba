@@ -7,13 +7,17 @@ import htmlToDraft from "html-to-draftjs";
 import RichTextImagePicker from "./RichTextImagePicker";
 
 const toolbarOptions = {
-  options: ["inline", "blockType", "list", "link", "history"],
+  options: ["inline", "blockType", "list", "textAlign", "link", "history"],
   inline: {
     options: ["bold", "italic", "underline", "strikethrough"]
   },
   blockType: {
     inDropdown: true,
     options: ["Normal", "H2", "H3", "H4", "H5", "H6", "Blockquote"]
+  },
+  textAlign: {
+    inDropdown: false,
+    options: ['left', 'center', 'right'],
   },
   list: {
     options: ["unordered", "ordered"]

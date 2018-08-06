@@ -40,7 +40,9 @@ abstract class AbstractController extends SymfonyAbstractController
         $pages = $this->pageService->findAllForNavigation();
 
         $data['baseNavPresenter'] = new NavigationPresenter($pages);
-        $data['baseFooterContent'] = $this->configurableContentService->getFooterContent();
+        $data['baseFooterContent'] = $this->configurableContentService->getValue(
+            ConfigurableContentService::KEY_FOOTER_CONTENT
+        );
         $data['baseNowAndNext'] = $this->schedulesService->getNowAndNext($this->now);
         $data['baseAssetManifest'] = $this->getAssetManifest();
         $data['baseShowCricket'] = false;

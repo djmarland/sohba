@@ -2,9 +2,24 @@
 
 {% block body %}
     <h1>Key/Value Store</h1>
-    <p>
+    <p class="unit">
         This page lets you change various values on the website, without needing to
         change any code.
     </p>
-    <p><strong>Coming soon...</strong></p>
+    <table class="table table--striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key in allKeys %}
+            <tr>
+                <td><a href="/admin/key-value/{{ key.id }}">{{ key.key }}</a></td>
+                <td>{{ key.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -16,6 +16,7 @@ import "../scss/app.scss";
 import "../img";
 import ShowDetail from "./Pages/ShowDetail";
 import NormalListings from "./Pages/NormalListings";
+import KeyValue from "./Pages/KeyValue";
 
 // // find out if this page has an app we need to load
 const appContainer = document.getElementById("app");
@@ -29,6 +30,9 @@ if (appContainer) {
       break;
     case "ImagesList":
       ReactDomRender(<ImagesList />, appContainer);
+      break;
+    case "KeyValue":
+      ReactDomRender(<KeyValue />, appContainer);
       break;
     case "NormalListings":
       ReactDomRender(<NormalListings />, appContainer);

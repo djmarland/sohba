@@ -23,22 +23,34 @@ class KeyValue extends AbstractEntity
     public $id;
 
     /**
-     * @ORM\Column(type="string", name="contentKey", length=191)
+     * @ORM\Column(type="string", name="contentKey", length=191, unique=true)
      */
     public $key;
 
     /**
      * @ORM\Column(type="text")
      */
+    public $description;
+
+    /**
+     * @ORM\Column(type="text")
+     */
     public $value;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $isRichText = false;
 
     public function __construct(
         UuidInterface $id,
         string $key,
-        string $value
+        string $value,
+        string $description
     ) {
         parent::__construct($id);
         $this->key = $key;
         $this->value = $value;
+        $this->description = $description;
     }
 }

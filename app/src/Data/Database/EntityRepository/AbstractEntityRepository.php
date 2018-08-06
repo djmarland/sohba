@@ -49,7 +49,7 @@ abstract class AbstractEntityRepository extends EntityRepository
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->where('tbl.id = :id')
-            ->setParameter('id', $uuid);
+            ->setParameter('id', $uuid->getBytes());
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
 

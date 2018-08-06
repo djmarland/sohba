@@ -39,7 +39,5 @@ RewriteRule ^monitor$ "http\:\/\/vs32\.applesources\.net\:8000\/sohbatx" [R=301,
 
     RewriteCond %{REQUEST_FILENAME} !-f
 
-    RewriteCond %{REQUEST_URI} !^/admin/$
-    RewriteCond %{REQUEST_URI} !^/admin$
     RewriteRule ^(.*)$ /app.php [QSA,L]
 </IfModule>
