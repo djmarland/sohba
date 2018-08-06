@@ -23,11 +23,11 @@ class ConfigurableContentService extends AbstractService
     // true means it is richText
     private const ALL_KEYS = [
         self::KEY_FOOTER_CONTENT => true,
-        self::KEY_FACEBOOK_INTRO_TEXT => false,
+        self::KEY_FACEBOOK_INTRO_TEXT => true,
         self::KEY_FACEBOOK_URL => false,
         self::KEY_REQUESTLINE_INTRO => true,
         self::KEY_PHONE_NUMBER => false,
-        self::KEY_TWITTER_INTRO_TEXT => false,
+        self::KEY_TWITTER_INTRO_TEXT => true,
         self::KEY_TWITTER_URL => false,
         self::KEY_WEBSITE_TITLE => false,
         self::KEY_X_TECHNICAL_DETAILS => true,
