@@ -21,6 +21,12 @@
         rgba($color-show-special, 0.8) 100%
       );
     }
+    &--twitter {
+      background: #1da1f2;
+    }
+    &--facebook {
+      background: #4268b3;
+    }
   }
 
   &__panel-header {
@@ -32,10 +38,32 @@
   &__welcome {
     margin-bottom: $grid-unit * 2;
   }
+  &__social-panel {
+    @extend .d;
+    color: $color-white;
+    display: flex;
+    align-items: center;
+    p {
+      @extend .d;
+    }
+    a {
+      color: $color-white;
+      font-weight: bold;
+    }
+  }
+  &__social-icon {
+    display: inline-block;
+    width: 60px;
+    margin-right: $grid-unit;
+  }
+  &__social-text {
+    flex: 1;
+  }
 
   @media (min-width: 64rem) {
     &__intro,
-    &__events {
+    &__events,
+    &__social {
       display: flex;
     }
 
@@ -52,7 +80,8 @@
       flex: 1;
     }
 
-    &__events-panel {
+    &__events-panel,
+    &__social-panel {
       &:first-child {
         flex: 1;
         margin-right: $grid-unit / 2;
