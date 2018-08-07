@@ -48,7 +48,6 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    // todo - this shouldn't exist. Do it properly with entities
     public function updatePage(
         int $legacyId,
         string $title,
@@ -83,7 +82,6 @@ class PageRepository extends AbstractEntityRepository
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.category IS NULL')
-            ->orWhere('tbl.category = 0')// todo - always use NULL, not 0
             ->orderBy('tbl.title', 'ASC');
         return $qb->getQuery()->getResult($resultType);
     }

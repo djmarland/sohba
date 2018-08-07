@@ -17,11 +17,10 @@ class CalendarAction extends AbstractAdminController
         Request $request,
         SchedulesService $schedulesService,
         ProgrammesService $programmesService,
-        // todo - remove
         DateTimeImmutable $now
     ): Response {
-        $schedulesService->migrate(); // todo - remove
-        $programmesService->migrate(); // todo - remove
+        $schedulesService->migrate(); // todo - remove once old calendar is gone
+        $programmesService->migrate(); // todo - remove once old calendar is gone
 
         $message = null;
         // if POST, parse the incoming JSON into appropriate calls

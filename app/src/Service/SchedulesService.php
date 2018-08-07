@@ -9,7 +9,6 @@ use App\Data\Database\Entity\SpecialDay as DbSpecialDay;
 use App\Data\ID;
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
-use App\Domain\Entity\SpecialDay;
 use App\Domain\ValueObject\Time;
 use function App\Functions\DateTimes\isoWeekdayToPHPWeekDay;
 use DateInterval;
@@ -30,14 +29,6 @@ class SchedulesService extends AbstractService
         );
     }
 
-    public function getShowsForSpecialDay(SpecialDay $specialDay): array
-    {
-        return $this->mapMany(
-            $this->entityManager->getSpecialListingRepo()->findAllForLegacySpecialDayId($specialDay->getLegacyId()),
-            $this->specialBroadcastMapper
-        );
-    }
-
     public function getShowsForSpecialDate(DateTimeImmutable $specialDate): array
     {
         return $this->mapMany(
@@ -51,7 +42,6 @@ class SchedulesService extends AbstractService
         $results = $this->entityManager->getNormalListingRepo()
             ->findAllForLegacyProgrammeId($programme->getLegacyId());
 
-        // todo schema - adjust with updates
         return array_map(
             function ($result) {
                 return [
@@ -71,20 +61,6 @@ class SchedulesService extends AbstractService
         return !empty($this->entityManager->getSpecialListingRepo()->findDates($start, $end));
     }
 
-    /**
-     * @deprecated
-     * // todo - move to isSpecialDay
-     * @param DateTimeInterface $date
-     * @return SpecialDay|null
-     */
-    public function getSpecialDay(DateTimeInterface $date): ?SpecialDay
-    {
-        return $this->mapSingle(
-            $this->entityManager->getSpecialDayRepo()->findForDate($date),
-            $this->specialDayMapper
-        );
-    }
-
     public function getSpecialListingDates(
         ?DateTimeInterface $fromInclusive = null,
         ?DateTimeInterface $toExclusive = null
@@ -94,20 +70,11 @@ class SchedulesService extends AbstractService
         }, $this->entityManager->getSpecialListingRepo()->findDates($fromInclusive, $toExclusive));
     }
 
-    public function getAllSpecialDaysAfter(DateTimeInterface $date): array
-    {
-        return $this->mapMany(
-            // todo - migrate to getSpecialListingDates
-            $this->entityManager->getSpecialDayRepo()->findAllAfterDate($date),
-            $this->specialDayMapper
-        );
-    }
-
     public function getNowAndNext(DateTimeImmutable $dateTime): array
     {
-        $specialDay = $this->getSpecialDay($dateTime);
-        if ($specialDay) {
-            $broadcasts = $this->getShowsForSpecialDay($specialDay);
+        if ($this->isSpecialDay($dateTime)) {
+            $midnight = $dateTime->setTime(0, 0, 0);
+            $broadcasts = $this->getShowsForSpecialDate($midnight);
         } else {
             $broadcasts = $this->getShowsForDay((int)$dateTime->format('N'));
         }
@@ -139,7 +106,7 @@ class SchedulesService extends AbstractService
         return [$now, $next];
     }
 
-    public function findUpcomingSports(DateTimeImmutable $now, ?int $limit = null)
+    public function findUpcomingSports(DateTimeImmutable $now, ?int $limit = null): array
     {
         return $this->mapMany(
             $this->entityManager->getSpecialListingRepo()
@@ -148,7 +115,7 @@ class SchedulesService extends AbstractService
         );
     }
 
-    public function findUpcomingOutsideBroadcasts($now, ?int $limit = null)
+    public function findUpcomingOutsideBroadcasts($now, ?int $limit = null): array
     {
         return $this->mapMany(
             $this->entityManager->getSpecialListingRepo()
@@ -193,11 +160,6 @@ class SchedulesService extends AbstractService
         }
     }
 
-    public function migrateNormalListings(): void
-    {
-        $this->entityManager->getNormalListingRepo()->migrateTimes();
-    }
-
     public function migrate(): void
     {
         // todo - temporary. remove me
@@ -222,7 +184,7 @@ class SchedulesService extends AbstractService
         try {
             $this->deleteSpecialBetween($from, $end);
 
-            // create a special day
+            // create a special day - temporary todo - remove
             $special = new DbSpecialDay(
                 Uuid::uuid4(),
                 (int)$date->format('dmY'),

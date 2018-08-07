@@ -97,6 +97,7 @@ class ProgrammeRepository extends AbstractEntityRepository
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
+
             ->where('tbl.uuid = :nothing')
             ->setParameter('nothing', '');
 

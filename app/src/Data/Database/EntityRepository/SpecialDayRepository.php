@@ -8,13 +8,15 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Query;
 
+/**
+ * @deprecated todo - delete me
+ */
 class SpecialDayRepository extends AbstractEntityRepository
 {
     public function findForDate(
         DateTimeInterface $dateTime,
         $resultType = Query::HYDRATE_ARRAY
     ) {
-        // todo - store a real date object in the database rather than an int
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.dateInt = :value')
@@ -26,7 +28,6 @@ class SpecialDayRepository extends AbstractEntityRepository
         DateTimeInterface $dateTime,
         $resultType = Query::HYDRATE_ARRAY
     ) {
-        // todo - store a real date object in the database rather than using timestamp
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.timestamp > :timestamp')

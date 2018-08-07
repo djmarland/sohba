@@ -48,7 +48,7 @@ class CalendarMonthPresenter
                     $dateIncrement < $startOfNextMonth) {
                     $day = new CalendarDayPresenter(
                         $dateIncrement,
-                        isset($specialDayFlags[$dateIncrement->format('Y-m-d')])
+                        \in_array($dateIncrement->format('Y-m-d'), $specialDayFlags, true)
                     );
                 }
                 $week[] = $day;

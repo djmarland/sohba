@@ -28,7 +28,7 @@ class RequestsAction extends AbstractController
                 $requestsService->handleSubmission($request);
                 $message = new OkMessage(
                     'Thank you. Your request was sent successfully. Keep listening.'
-                ); // todo - use key value
+                );
             } catch (CaptchaException $e) {
                 $message = new ErrorMessage($e->getMessage());
             } catch (\Throwable $e) {
@@ -36,7 +36,7 @@ class RequestsAction extends AbstractController
                     'Sorry, there was an error sending your request. ' .
                     'Please try again or phone us to make your request. ' .
                     '(' . $e->getMessage() . ')'
-                ); // todo - use key value
+                );
             }
         }
 

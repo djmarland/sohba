@@ -4,13 +4,11 @@ declare(strict_types=1);
 namespace App\Controller\Schedules;
 
 use App\Controller\AbstractController;
-use App\Domain\Entity\SpecialDay;
 use App\Presenter\CalendarMonthPresenter;
 use App\Service\ConfigurableContentService;
 use App\Service\PageService;
 use App\Service\SchedulesService;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 use function App\Functions\DateTimes\formatDateForDisplay;
@@ -36,15 +34,14 @@ abstract class AbstractSchedulesAction extends AbstractController
     }
 
     protected function renderDate(
-        DateTimeInterface $date
+        DateTimeImmutable $date
     ): Response {
+        $midnight = $date->setTime(0, 0, 0);
 
-        $title = formatDateForDisplay($date);
-        // todo - convert to method that doesn't use the specialDay object
-        $specialDay = $this->schedulesService->getSpecialDay($date);
-        if (!$specialDay) {
+        $title = formatDateForDisplay($midnight);
+        if (!$this->schedulesService->isSpecialDay($midnight)) {
             return $this->renderDay(
-                (int)$date->format('N'),
+                (int)$midnight->format('N'),
                 $title
             );
         }
@@ -54,7 +51,7 @@ abstract class AbstractSchedulesAction extends AbstractController
             [
                 'title' => $title,
                 'calendars' => $this->getCalendars(),
-                'broadcasts' => $this->schedulesService->getShowsForSpecialDay($specialDay),
+                'broadcasts' => $this->schedulesService->getShowsForSpecialDate($midnight),
                 'prose' => $this->getIntroduction(),
             ]
         );
@@ -67,7 +64,6 @@ abstract class AbstractSchedulesAction extends AbstractController
         return $this->renderMainSite(
             'schedules/show.html.twig',
             [
-                'specialDay' => null,
                 'title' => $title,
                 'calendars' => $this->getCalendars(),
                 'broadcasts' => $this->schedulesService->getShowsForDay($dayNum),
@@ -83,10 +79,10 @@ abstract class AbstractSchedulesAction extends AbstractController
             $this->now->format('Y-m-') . '01T00:00:00Z'
         );
 
-        $specialDays = $this->schedulesService->getAllSpecialDaysAfter($startOfMonth);
-        $specialFlags = $this->mapSpecialDaysToBooleanList($specialDays);
-        $allDates = \array_keys($specialFlags);
-        $end = new DateTimeImmutable(\end($allDates) . 'T23:59:59Z');
+        $specialFlags = \array_map(function (DateTimeImmutable $date) {
+            return $date->format('Y-m-d');
+        }, $this->schedulesService->getSpecialListingDates($startOfMonth));
+        $end = new DateTimeImmutable(\end($specialFlags) . 'T23:59:59Z');
 
         $months = [];
         while ($startOfMonth < $end) {
@@ -94,17 +90,6 @@ abstract class AbstractSchedulesAction extends AbstractController
             $startOfMonth = $startOfMonth->add(new \DateInterval('P1M'));
         }
         return $months;
-    }
-
-    private function mapSpecialDaysToBooleanList(array $specialDays): array
-    {
-        $days = [];
-        foreach ($specialDays as $specialDay) {
-            /** @var SpecialDay $specialDay */
-            $days[$specialDay->getDate()->format('Y-m-d')] = true;
-        }
-        ksort($days);
-        return $days;
     }
 
     private function getIntroduction()

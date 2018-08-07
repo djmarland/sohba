@@ -16,10 +16,6 @@ class NormalListingsAction extends AbstractAdminController
         SchedulesService $schedulesService,
         DateTimeImmutable $now
     ): Response {
-
-        // todo schema - remove this migration script
-        $schedulesService->migrateNormalListings();
-
         // redirect to the current day
         $dayName = strtolower($now->format('l'));
         return new RedirectResponse('/admin/normal-listings/' . $dayName, 302);

@@ -11,22 +11,21 @@ class SpecialListingMapper implements MapperInterface
 {
     private $programmeMapper;
     private $timeIntMapper;
-    private $specialDayMapper;
 
     public function __construct(
         ProgrammeMapper $programmeMapper,
-        SpecialDayMapper $specialDayMapper,
         TimeIntMapper $timeIntMapper
     ) {
         $this->programmeMapper = $programmeMapper;
         $this->timeIntMapper = $timeIntMapper;
-        $this->specialDayMapper = $specialDayMapper;
     }
 
     public function map(array $item): Broadcast
     {
+        $date = null;
         // todo schema - remove this check and make the column not NULLABLE
         if ($item['dateTimeUk'] instanceof \DateTimeImmutable) {
+            $date = $item['dateTimeUk'];
             $ukTime = $item['dateTimeUk']->setTimezone(new \DateTimeZone('Europe/London'));
             $time = new Time(
                 (int)$ukTime->format('H'),
@@ -41,7 +40,7 @@ class SpecialListingMapper implements MapperInterface
             $time,
             !empty($item['publicNote']) ? $item['publicNote'] : null,
             !empty($item['internalNote']) ? $item['internalNote'] : null,
-            $this->mapDate($item),
+            $date,
             $this->mapProgramme($item)
         );
     }
@@ -50,14 +49,6 @@ class SpecialListingMapper implements MapperInterface
     {
         if (array_key_exists('programme', $item) && isset($item['programme'])) {
             return $this->programmeMapper->map($item['programme']);
-        }
-        return null;
-    }
-
-    private function mapDate(array $item)
-    {
-        if (array_key_exists('specialDay', $item)) {
-            return $this->specialDayMapper->map($item['specialDay'])->getDate();
         }
         return null;
     }

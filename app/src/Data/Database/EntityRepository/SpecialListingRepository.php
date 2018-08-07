@@ -5,27 +5,12 @@ namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\SpecialListing;
 use App\Data\ID;
-use App\Kernel;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Query;
 
 class SpecialListingRepository extends AbstractEntityRepository
 {
-    public function findAllForLegacySpecialDayId(
-        int $specialDayId,
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl', 'programme', 'image')
-            ->where('IDENTITY(tbl.specialDay) = :specialDayId')
-            ->innerJoin('tbl.programme', 'programme')
-            ->leftJoin('programme.image', 'image')
-            ->orderBy('tbl.timeInt', 'ASC')
-            ->setParameter('specialDayId', $specialDayId);
-        return $qb->getQuery()->getResult($resultType);
-    }
-
     public function findListingsOfTypesAfter(
         array $programmeTypes,
         DateTimeImmutable $after,
@@ -33,14 +18,12 @@ class SpecialListingRepository extends AbstractEntityRepository
         $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl', 'programme', 'spd')
-            ->innerJoin('tbl.specialDay', 'spd')
+            ->select('tbl', 'programme')
             ->innerJoin('tbl.programme', 'programme')
-            ->where('spd.timestamp >= :after')
+            ->where('tbl.dateTimeUk >= :after')
             ->andWhere('programme.type IN (:types)')
-            ->orderBy('spd.timestamp', 'ASC')
-            ->addOrderBy('tbl.timeInt', 'ASC')
-            ->setParameter('after', $after->getTimestamp())
+            ->orderBy('tbl.dateTimeUk', 'ASC')
+            ->setParameter('after', $after)
             ->setParameter('types', $programmeTypes);
 
         if ($limit) {
@@ -70,12 +53,11 @@ class SpecialListingRepository extends AbstractEntityRepository
         $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl', 'spd')
-            ->innerJoin('tbl.specialDay', 'spd')
-            ->where('spd.timestamp >= :after')
+            ->select('tbl')
+            ->where('tbl.dateUk >= :after')
             ->andWhere('IDENTITY(tbl.programme) = :programmeId')
             ->setMaxResults(1)
-            ->setParameter('after', $now->getTimestamp())
+            ->setParameter('after', $now)
             ->setParameter('programmeId', $getLegacyId);
 
         return $qb->getQuery()->getOneOrNullResult($resultType);

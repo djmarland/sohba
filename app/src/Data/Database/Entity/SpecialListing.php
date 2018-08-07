@@ -50,7 +50,7 @@ class SpecialListing extends AbstractEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="SpecialDay")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE", name="spdDateID", referencedColumnName="sdPKID")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE", name="spdDateID", referencedColumnName="sdPKID")
      */
     public $specialDay;
 

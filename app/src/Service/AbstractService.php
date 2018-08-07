@@ -13,7 +13,6 @@ use App\Data\Database\Mapper\PageCategoryMapper;
 use App\Data\Database\Mapper\PageMapper;
 use App\Data\Database\Mapper\PersonMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
-use App\Data\Database\Mapper\SpecialDayMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
 use App\Data\Database\Mapper\TimeIntMapper;
 use Psr\Log\LoggerInterface;
@@ -34,7 +33,6 @@ abstract class AbstractService
     protected $pageMapper;
     protected $configurableContentMapper;
     protected $pageCategoryMapper;
-    protected $specialDayMapper;
     protected $specialBroadcastMapper;
     protected $normalBroadcastMapper;
     protected $timeIntMapper;
@@ -53,7 +51,6 @@ abstract class AbstractService
         PageCategoryMapper $pageCategoryMapper,
         PersonMapper $personMapper,
         ProgrammeMapper $programmeMapper,
-        SpecialDayMapper $specialDayMapper,
         SpecialListingMapper $specialBroadcastMapper,
         NormalListingMapper $normalBroadcastMapper,
         TimeIntMapper $timeIntMapper,
@@ -71,7 +68,6 @@ abstract class AbstractService
         $this->programmeMapper = $programmeMapper;
         $this->imageMapper = $imageMapper;
         $this->pageMapper = $pageMapper;
-        $this->specialDayMapper = $specialDayMapper;
         $this->specialBroadcastMapper = $specialBroadcastMapper;
         $this->normalBroadcastMapper = $normalBroadcastMapper;
         $this->timeIntMapper = $timeIntMapper;
