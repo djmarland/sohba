@@ -9,6 +9,7 @@
   &__item {
     margin: 0 0 $grid-unit $grid-unit;
     flex: 0 0 calc(25% - #{$grid-unit});
+    min-width: 180px;
     background: $color-grey-lightest;
     padding: $grid-unit / 2;
     display: flex;

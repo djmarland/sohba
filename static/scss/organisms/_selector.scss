@@ -1,22 +1,33 @@
 .selector {
   display: flex;
+  flex-wrap: wrap;
 
   &__arrow {
-    width: 108px;
     padding: $grid-unit;
     color: $color-grey-lightest;
     align-self: center;
+    display: none;
+    @media (min-width: 64em) {
+      width: 108px;
+      display: block;
+    }
   }
 
   &__from,
   &__to,
   &__main,
   &__source {
-    flex: 1;
+    width: 100%;
+    @media (min-width: 64em) {
+      width: auto;
+      flex: 1;
+    }
   }
 
-  &__source {
-    max-width: 40%;
+  @media (min-width: 64em) {
+    &__source {
+      max-width: 40%;
+    }
   }
 
   &__list {

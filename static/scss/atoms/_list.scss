@@ -29,8 +29,11 @@
 .list--line {
   @extend .list--unstyled;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-left: -$grid-unit;
   > li {
     margin-left: $grid-unit;
+    margin-bottom: $grid-unit;
   }
 }

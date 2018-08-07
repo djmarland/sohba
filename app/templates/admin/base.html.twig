@@ -38,6 +38,20 @@
     </header>
     <main class="t-overall">
         <div class="t-overall__main">
+            <div id="ie-message" class="message message--error">
+                HBA Admin does not work in Internet Explorer.
+                Please use any other modern browser, such as Edge, Chrome, Firefox, Safari or Opera.
+            </div>
+            <script>
+              if (!/MSIE|Trident/.test(window.navigator.userAgent) ) {
+                document.getElementById('ie-message').remove();
+              }
+            </script>
+            <noscript>
+                <div class="message message--error">
+                    HBA Admin is quite interactive, so requires you have JavaScript enabled to function
+                </div>
+            </noscript>
             {% block body %}{% endblock %}
         </div>
         <nav id="nav" class="t-overall__nav">

@@ -1,13 +1,16 @@
 .t-page-edit {
   display: flex;
   flex-wrap: wrap;
+  margin-left: -$grid-unit;
 
   &__basic,
   &__nav {
-    width: 50%;
-  }
-  &__nav {
-    padding-left: $grid-unit * 2;
+    width: 100%;
+    padding-left: $grid-unit;
+    margin-bottom: $grid-unit;
+    @media (min-width: 60em) {
+      width: 50%;
+    }
   }
 
   &__pop {
@@ -16,7 +19,8 @@
   }
 
   &__content {
-    margin-top: $grid-unit;
+    padding-left: $grid-unit;
+    margin-bottom: $grid-unit;
     width: 100%;
     textarea {
       max-width: 780px;
@@ -25,7 +29,8 @@
   }
 
   &__submit {
-    margin-top: $grid-unit;
+    margin-bottom: $grid-unit;
+    padding-left: $grid-unit;
     width: 100%;
     text-align: right;
   }
