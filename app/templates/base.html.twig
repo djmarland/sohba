@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <title>{% block title %}{% endblock %}Southampton Hospital Radio</title>
+        <title>{% block title %}{% endblock %}{{ baseSiteTitle }}</title>
         <link rel="stylesheet" href="{{ baseAssetManifest['app.css'] }}" />
         {% block headScripts %}{% endblock %}
         {% block headIcons %}
@@ -31,7 +31,7 @@
         <div class="page-wrap">
             <header class="masthead">
                 <a href="/" class="masthead__text">
-                    Southampton Hospital Radio
+                    {{ baseSiteTitle }}
                 </a>
                 <a href="#nav" class="masthead__menu-link" title="Show navigation">
                     <svg viewBox="0 0 24 24">

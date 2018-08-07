@@ -39,21 +39,28 @@ abstract class AbstractController extends SymfonyAbstractController
     ): Response {
         $pages = $this->pageService->findAllForNavigation();
 
+        $data['baseSiteTitle'] = $this->configurableContentService->getValue(
+            ConfigurableContentService::KEY_WEBSITE_TITLE
+        );
+        ;
         $data['baseNavPresenter'] = new NavigationPresenter($pages);
         $data['baseFooterContent'] = $this->configurableContentService->getValue(
             ConfigurableContentService::KEY_FOOTER_CONTENT
         );
         $data['baseNowAndNext'] = $this->schedulesService->getNowAndNext($this->now);
         $data['baseAssetManifest'] = $this->getAssetManifest();
-        $data['baseShowCricket'] = false;
+        $data['baseShowCricket'] = null;
         if ($request && $request->get('crickettest')) {
-            $data['baseShowCricket'] = true;
+            $data['baseShowCricket'] = $this->configurableContentService->getValue(
+                ConfigurableContentService::KEY_CRICKET_STREAM_URL
+            );
         } elseif (isset($data['baseNowAndNext'][0]) &&
             $data['baseNowAndNext'][0]->getProgramme()->isCricket()
         ) {
-            $data['baseShowCricket'] = true;
+            $data['baseShowCricket'] = $this->configurableContentService->getValue(
+                ConfigurableContentService::KEY_CRICKET_STREAM_URL
+            );
         }
-
         return $this->render($template, $data, $originalResponse);
     }
 

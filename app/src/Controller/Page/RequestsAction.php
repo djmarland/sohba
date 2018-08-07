@@ -33,7 +33,8 @@ class RequestsAction extends AbstractController
                 $message = new ErrorMessage($e->getMessage());
             } catch (\Throwable $e) {
                 $message = new ErrorMessage(
-                    'Sorry, there was an error sending your request. Please call 023 8078 5151. ' .
+                    'Sorry, there was an error sending your request. ' .
+                    'Please try again or phone us to make your request. ' .
                     '(' . $e->getMessage() . ')'
                 ); // todo - use key value
             }

@@ -10,6 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class ConfigurableContentService extends AbstractService
 {
+    public const KEY_CRICKET_STREAM_URL = 'CRICKET_STREAM_URL';
     public const KEY_FACEBOOK_INTRO_TEXT = 'FACEBOOK_INTRO_TEXT';
     public const KEY_FACEBOOK_URL = 'FACEBOOK_URL';
     public const KEY_FOOTER_CONTENT = 'FOOTER_CONTENT';
@@ -22,6 +23,7 @@ class ConfigurableContentService extends AbstractService
 
     // true means it is richText
     private const ALL_KEYS = [
+        self::KEY_CRICKET_STREAM_URL => false,
         self::KEY_FOOTER_CONTENT => true,
         self::KEY_FACEBOOK_INTRO_TEXT => true,
         self::KEY_FACEBOOK_URL => false,
