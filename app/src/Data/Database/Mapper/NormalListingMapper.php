@@ -18,14 +18,9 @@ class NormalListingMapper implements MapperInterface
 
     public function map(array $item): Broadcast
     {
-        $time = new Time(
-            (int)$item['time']->format('H'),
-            (int)$item['time']->format('i')
-        );
-
         return new Broadcast(
             $item['id'],
-            $time,
+            new Time($item['time']),
             null,
             null,
             null,

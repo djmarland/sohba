@@ -50,6 +50,15 @@ class Programme extends AbstractEntity
      */
     public $image;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Person")
+     * @ORM\JoinTable(
+     *     joinColumns={@ORM\JoinColumn(referencedColumnName="showsPKID")},
+     *     inverseJoinColumns={@ORM\JoinColumn(referencedColumnName="peoplePKID")}
+     * )
+     */
+    public $people;
+
     public function __construct(
         string $title,
         int $type

@@ -28,8 +28,9 @@ class SchedulesService extends AbstractService
 
     public function getShowsForSpecialDate(DateTimeImmutable $specialDate): array
     {
+        $midnight = $specialDate->setTime(0, 0, 0);
         return $this->mapMany(
-            $this->entityManager->getSpecialListingRepo()->findAllForDate($specialDate),
+            $this->entityManager->getSpecialListingRepo()->findAllForDate($midnight),
             $this->specialBroadcastMapper
         );
     }
@@ -43,7 +44,7 @@ class SchedulesService extends AbstractService
             function ($result) {
                 return [
                     'day' => weekdayFromDayNum($result['day']),
-                    'time' => $this->timeIntMapper->map($result['timeInt']),
+                    'time' => new Time($result['time']),
                 ];
             },
             $results
@@ -70,14 +71,13 @@ class SchedulesService extends AbstractService
     public function getNowAndNext(DateTimeImmutable $dateTime): array
     {
         if ($this->isSpecialDay($dateTime)) {
-            $midnight = $dateTime->setTime(0, 0, 0);
-            $broadcasts = $this->getShowsForSpecialDate($midnight);
+            $broadcasts = $this->getShowsForSpecialDate($dateTime);
         } else {
             $broadcasts = $this->getShowsForDay((int)$dateTime->format('N'));
         }
         $now = null;
         $next = null;
-        $time = new Time((int)$dateTime->format('H'), (int)$dateTime->format('i'));
+        $time = new Time($dateTime);
 
         foreach ($broadcasts as $i => $broadcast) {
             /** @var $broadcast Broadcast */

@@ -70,25 +70,4 @@ class PageRepository extends AbstractEntityRepository
             ->setParameter('id', $legacyId);
         $query->execute();
     }
-
-    public function migrate(): void
-    {
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl')
-
-            ->where('tbl.uuid = :nothing')
-            ->setParameter('nothing', '');
-
-        $results = $qb->getQuery()->getResult();
-        foreach ($results as $result) {
-            /** @var Page  $result */
-            $newId = ID::makeNewID(Page::class);
-            $result->id = $newId;
-            $result->uuid = (string)$newId;
-            $result->createdAt = new \DateTimeImmutable('2017-01-01T00:00:00Z');
-            $result->updatedAt = new \DateTimeImmutable('2017-01-01T00:00:00Z');
-            $this->getEntityManager()->persist($result);
-        }
-        $this->getEntityManager()->flush();
-    }
 }

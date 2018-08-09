@@ -31,11 +31,6 @@ class NormalListing extends AbstractEntity
     public $day;
 
     /**
-     * @ORM\Column(type="integer", name="nlistings_startTime")
-     */
-    public $timeInt;
-
-    /**
      * @ORM\Column(type="time_immutable", nullable=true)
      */
     public $time;
@@ -54,10 +49,6 @@ class NormalListing extends AbstractEntity
         parent::__construct();
         $this->day = $day;
         $this->time = $time;
-
-        $timeInt = (int)$time->format('Hi');
-
-        $this->timeInt = $timeInt;
         $this->programme = $programme;
     }
 }

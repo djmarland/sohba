@@ -56,25 +56,6 @@ class EntityManager extends EntityManagerDecorator
         return $this->classCache[$entityName];
     }
 
-    public function getAll()
-    {
-        $entityFiles = \scandir(__DIR__ . '/Entity/');
-        $results = \array_map(
-            function ($className) {
-                $fullEntityName = __NAMESPACE__ . '\\Entity\\' . \str_replace('.php', '', $className);
-                if (\class_exists($fullEntityName) && \is_subclass_of($fullEntityName, AbstractEntity::class)) {
-                    return $this->getRepository($fullEntityName);
-                }
-
-                return null;
-            },
-            $entityFiles
-        );
-
-        return \array_filter($results);
-    }
-
-
     public function getImageRepo(): EntityRepository\ImageRepository
     {
         return $this->getRepository(Entity\Image::class);

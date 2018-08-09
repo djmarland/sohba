@@ -17,8 +17,6 @@ class PeopleAction extends AbstractAdminController
         DateTimeImmutable $now
     ): Response {
 
-        $peopleService->migrate();
-
         $message = null;
 
         // if POST, parse the incoming JSON into appropriate calls

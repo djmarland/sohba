@@ -19,6 +19,8 @@ class ShowsAction extends AbstractAdminController
         DateTimeImmutable $now
     ): Response {
 
+        $programmesService->migratePeopleInShows();
+
         $message = null;
 
         // if POST, parse the incoming JSON into appropriate calls

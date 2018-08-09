@@ -26,11 +26,6 @@ class SpecialListing extends AbstractEntity
     public $pkid;
 
     /**
-     * @ORM\Column(type="integer", name="spdStartTime")
-     */
-    public $timeInt;
-
-    /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     public $dateTimeUk;
@@ -63,10 +58,6 @@ class SpecialListing extends AbstractEntity
         parent::__construct();
         $this->dateTimeUk = $dateTime;
         $this->dateUk = $dateTime;
-
-        $timeInt = (int)$dateTime->format('Hi'); // todo - remove
-
-        $this->timeInt = $timeInt;
         $this->programme = $programme;
     }
 }

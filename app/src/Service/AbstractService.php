@@ -15,7 +15,6 @@ use App\Data\Database\Mapper\PageMapper;
 use App\Data\Database\Mapper\PersonMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
-use App\Data\Database\Mapper\TimeIntMapper;
 use Doctrine\ORM\Query;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidInterface;
@@ -38,7 +37,6 @@ abstract class AbstractService
     protected $pageCategoryMapper;
     protected $specialBroadcastMapper;
     protected $normalBroadcastMapper;
-    protected $timeIntMapper;
     protected $personMapper;
     protected $mailer;
     protected $captcha;
@@ -56,7 +54,6 @@ abstract class AbstractService
         ProgrammeMapper $programmeMapper,
         SpecialListingMapper $specialBroadcastMapper,
         NormalListingMapper $normalBroadcastMapper,
-        TimeIntMapper $timeIntMapper,
         ImageMapper $imageMapper,
         Swift_Mailer $mailer,
         Captcha $captcha,
@@ -73,7 +70,6 @@ abstract class AbstractService
         $this->pageMapper = $pageMapper;
         $this->specialBroadcastMapper = $specialBroadcastMapper;
         $this->normalBroadcastMapper = $normalBroadcastMapper;
-        $this->timeIntMapper = $timeIntMapper;
         $this->personMapper = $personMapper;
         $this->mailer = $mailer;
         $this->captcha = $captcha;

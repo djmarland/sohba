@@ -9,20 +9,10 @@ class Time implements \JsonSerializable
     private $minutes;
 
     public function __construct(
-        int $hours,
-        int $minutes
+        \DateTimeImmutable $dateTime
     ) {
-        if ($hours < 0 ||
-            $minutes < 0 ||
-            $hours > 23 ||
-            $minutes > 59
-        ) {
-            throw new \InvalidArgumentException(
-                'Hours: ' . $hours . ', Mins: ' . $minutes . ' is an invalid Time'
-            );
-        }
-        $this->hours = $hours;
-        $this->minutes = $minutes;
+        $this->hours = (int)$dateTime->format('H');
+        $this->minutes = (int)$dateTime->format('i');
     }
 
     public function getHours(): int

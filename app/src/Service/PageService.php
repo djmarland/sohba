@@ -156,11 +156,4 @@ class PageService extends AbstractService
 
         return $page->pkid;
     }
-
-    // todo - remove
-    public function migrate(): void
-    {
-        $this->entityManager->getPageRepo()->migrate();
-        $this->entityManager->getPageCategoryRepo()->migrate();
-    }
 }

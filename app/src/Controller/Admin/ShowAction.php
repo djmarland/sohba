@@ -81,20 +81,20 @@ class ShowAction extends AbstractAdminController
 
         $imageId = (int)$request->get('image-id') ?: null;
 
+        $people = trim((string)$request->get('people'));
+
+        $peopleIds = array_map(function ($id) {
+            return (int)trim($id);
+        }, array_filter(explode(',', $people)));
+
         $programmesService->updateProgramme(
             $programme,
             $name,
             $tagLine,
             $type,
             $description,
-            $imageId
+            $imageId,
+            $peopleIds
         );
-
-        $people = trim((string)$request->get('people'));
-
-        $peopleIds = array_map(function ($id) {
-            return (int)trim($id);
-        }, array_filter(explode(',', $people)));
-        $peopleService->setPeopleForProgramme($peopleIds, $programme);
     }
 }

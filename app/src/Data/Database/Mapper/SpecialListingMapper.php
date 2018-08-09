@@ -10,30 +10,18 @@ use App\Domain\ValueObject\Time;
 class SpecialListingMapper implements MapperInterface
 {
     private $programmeMapper;
-    private $timeIntMapper;
 
     public function __construct(
-        ProgrammeMapper $programmeMapper,
-        TimeIntMapper $timeIntMapper
+        ProgrammeMapper $programmeMapper
     ) {
         $this->programmeMapper = $programmeMapper;
-        $this->timeIntMapper = $timeIntMapper;
     }
 
     public function map(array $item): Broadcast
     {
-        $date = null;
-        // todo schema - remove this check and make the column not NULLABLE
-        if ($item['dateTimeUk'] instanceof \DateTimeImmutable) {
-            $date = $item['dateTimeUk'];
-            $ukTime = $item['dateTimeUk']->setTimezone(new \DateTimeZone('Europe/London'));
-            $time = new Time(
-                (int)$ukTime->format('H'),
-                (int)$ukTime->format('i')
-            );
-        } else {
-            $time = $this->timeIntMapper->map($item['timeInt']);
-        }
+        $date = $item['dateTimeUk'];
+        $ukTime = $item['dateTimeUk']->setTimezone(new \DateTimeZone('Europe/London'));
+        $time = new Time($ukTime);
 
         return new Broadcast(
             $item['id'],

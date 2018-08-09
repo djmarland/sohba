@@ -17,8 +17,6 @@ class PagesAction extends AbstractAdminController
         PageService $pageService,
         DateTimeImmutable $now
     ): Response {
-        $pageService->migrate(); // todo - remove after migration
-
         // if POST, parse the incoming JSON into appropriate calls
         if ($request->getMethod() === 'POST') {
             if ($request->get('update-category')) {
@@ -56,7 +54,7 @@ class PagesAction extends AbstractAdminController
         );
     }
 
-    private function getData(PageService $pageService)
+    private function getData(PageService $pageService): array
     {
         $categories = [];
         foreach ($pageService->findAllPageCategories() as $i => $category) {
