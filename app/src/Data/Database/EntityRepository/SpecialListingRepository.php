@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\SpecialListing;
-use App\Data\ID;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Query;
@@ -81,54 +80,6 @@ class SpecialListingRepository extends AbstractEntityRepository
         }
 
         return array_map('reset', $qb->getQuery()->getResult(Query::HYDRATE_ARRAY));
-    }
-
-    public function migrate(): void
-    {
-
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl', 'date')
-            ->leftJoin('tbl.specialDay', 'date')
-            ->where('tbl.dateTimeUk IS NULL');
-
-        $results = $qb->getQuery()->getResult();
-        foreach ($results as $result) {
-            if (!$result->specialDay) {
-                $this->getEntityManager()->remove($result);
-                continue;
-            }
-
-            $time = str_pad((string)$result->timeInt, 4, '0', STR_PAD_LEFT);
-            $date = str_pad((string)$result->specialDay->dateInt, 8, '0', STR_PAD_LEFT);
-
-
-            $dateTime = DateTimeImmutable::createFromFormat(
-                'dmY-Hi',
-                $date . '-' . $time
-            );
-
-            $result->dateTimeUk = $dateTime;
-            $result->dateUk = $dateTime;
-            $this->getEntityManager()->persist($result);
-        }
-
-
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl')
-            ->where('tbl.uuid = :nothing')
-            ->setParameter('nothing', '');
-
-        $results = $qb->getQuery()->getResult();
-        foreach ($results as $result) {
-            /** @var SpecialListing  $result */
-            $newId = ID::makeNewID(SpecialListing::class);
-            $result->id = $newId;
-            $result->uuid = (string)$newId;
-            $result->createdAt = new DateTimeImmutable('2017-01-01T00:00:00Z');
-            $result->updatedAt = new DateTimeImmutable('2017-01-01T00:00:00Z');
-            $this->getEntityManager()->persist($result);
-        }
-        $this->getEntityManager()->flush();
     }
 
     public function deleteBetween(DateTimeImmutable $fromInclusive, DateTimeImmutable $toExclusive): void

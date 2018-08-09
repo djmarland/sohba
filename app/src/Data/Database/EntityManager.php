@@ -115,14 +115,6 @@ class EntityManager extends EntityManagerDecorator
         return $this->getRepository(Entity\Programme::class);
     }
 
-    /**
-     * @deprecated
-     */
-    public function getSpecialDayRepo(): EntityRepository\SpecialDayRepository
-    {
-        return $this->getRepository(Entity\SpecialDay::class);
-    }
-
     public function getSpecialListingRepo(): EntityRepository\SpecialListingRepository
     {
         return $this->getRepository(Entity\SpecialListing::class);

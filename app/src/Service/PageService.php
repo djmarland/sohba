@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Data\ID;
 use App\Domain\Entity\Page;
 use App\Data\Database\Entity\PageCategory as DbPageCategory;
 use App\Data\Database\Entity\Page as DbPage;
 use App\Domain\Entity\PageCategory;
 use Doctrine\ORM\Query;
+use Ramsey\Uuid\UuidInterface;
 
 class PageService extends AbstractService
 {
@@ -68,7 +68,6 @@ class PageService extends AbstractService
     public function newPageCategory(string $title)
     {
         $category = new DbPageCategory(
-            ID::makeNewID(DbPageCategory::class),
             $title,
             9999
         );
@@ -78,7 +77,7 @@ class PageService extends AbstractService
 
     public function updateCategoryPosition(int $catId, int $position): void
     {
-        $this->entityManager->getPageCategoryRepo()->updateCategoryPosition($catId, $position);
+        $this->entityManager->getPageCategoryRepo()->updateCategoryPositionByLegacyId($catId, $position);
     }
 
     public function findAllInCategory(PageCategory $category): array
@@ -93,20 +92,43 @@ class PageService extends AbstractService
         Page $page,
         string $title,
         string $url,
-        string $legacyContent,
         string $htmlContent,
         ?int $navPosition,
-        ?int $navCategoryId
+        $navCategoryId = null // todo - type hint for UUID
     ): void {
-        $this->entityManager->getPageRepo()->updatePage(
-            $page->getLegacyId(),
-            $title,
-            $url,
-            !empty($legacyContent) ? $legacyContent : '',
-            !empty($htmlContent) ? $htmlContent : null,
-            $navPosition,
-            $navCategoryId
+        /** @var DbPage $entity */
+        $entity = $this->entityManager->getPersonRepo()->getByID(
+            $page->getId(),
+            Query::HYDRATE_OBJECT
         );
+        if (!$entity) {
+            throw new \InvalidArgumentException('Tried to update a page that does not exist');
+        }
+
+        // todo - remove the int support
+        if ($navCategoryId instanceof UuidInterface) {
+            $category = $this->entityManager->getPageCategoryRepo()->getByID(
+                $navCategoryId,
+                Query::HYDRATE_OBJECT
+            );
+        } elseif (\is_int($navCategoryId)) {
+            // todo - remove this bit
+            $category = $this->entityManager->getPageCategoryRepo()->findByLegacyId(
+                $navCategoryId,
+                Query::HYDRATE_OBJECT
+            );
+        } else {
+            $category = null;
+        }
+
+        $entity->title = $title;
+        $entity->urlPath = $url;
+        $entity->htmlContent = $htmlContent;
+        $entity->order = $navPosition;
+        $entity->category = $category;
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
     }
 
     public function findAllUncategorised()
@@ -123,18 +145,22 @@ class PageService extends AbstractService
         $url = preg_replace('/[^a-z0-9-]/s', '', $url);
 
         $page = new DbPage(
-            ID::makeNewID(DbPage::class),
             $title,
+            $url,
+            '',
             0
         );
-
-        // todo - things that can't be null should be in the constructor (e.g. content)
-        $page->urlPath = $url;
-        $page->content = '';
 
         $this->entityManager->persist($page);
         $this->entityManager->flush();
 
         return $page->pkid;
+    }
+
+    // todo - remove
+    public function migrate(): void
+    {
+        $this->entityManager->getPageRepo()->migrate();
+        $this->entityManager->getPageCategoryRepo()->migrate();
     }
 }

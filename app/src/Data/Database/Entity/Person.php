@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace App\Data\Database\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Data\Database\EntityRepository\PersonRepository")
  * @ORM\Table(
  *     name="tblPeople",
+ *     indexes={
+ *       @ORM\Index(name="people_uuid", columns={"id"})
+ *     },
  *     options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  * )
  */
@@ -49,10 +51,9 @@ class Person extends AbstractEntity
     public $image;
 
     public function __construct(
-        UuidInterface $id,
         string $name
     ) {
-        parent::__construct($id);
+        parent::__construct();
         $this->name = $name;
     }
 }

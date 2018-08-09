@@ -185,17 +185,6 @@ class PageDetail extends React.Component {
                 fieldName="html-content"
               />
             </div>
-            <div className="t-page-edit__content" style={{ display: "none" }}>
-              <h2 className="unit">Legacy Page content</h2>
-              <label className="form__label-row">
-                Enter the content for the page (legacy format - to be replaced)
-                <textarea
-                  name="content"
-                  className="form__input form__input--textarea"
-                  defaultValue={this.state.page.legacyContent}
-                />
-              </label>
-            </div>
             <div className="t-page-edit__submit">
               <button className="button" type="submit">
                 Save

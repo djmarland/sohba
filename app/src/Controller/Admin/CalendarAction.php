@@ -19,9 +19,6 @@ class CalendarAction extends AbstractAdminController
         ProgrammesService $programmesService,
         DateTimeImmutable $now
     ): Response {
-        $schedulesService->migrate(); // todo - remove once old calendar is gone
-        $programmesService->migrate(); // todo - remove once old calendar is gone
-
         $message = null;
         // if POST, parse the incoming JSON into appropriate calls
         if ($request->getMethod() === 'POST' && $request->get('delete-month')) {

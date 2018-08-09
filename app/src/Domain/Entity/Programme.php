@@ -73,6 +73,14 @@ class Programme extends Entity implements \JsonSerializable
         return $types;
     }
 
+    public static function isValidType(int $type)
+    {
+        return \array_key_exists($type, \array_merge(
+            [self::PROGRAMME_TYPE_REGULAR => 'Regular'],
+            self::PROGRAMME_EVENT_TYPES
+        ));
+    }
+
     public function jsonSerialize()
     {
         $data = [

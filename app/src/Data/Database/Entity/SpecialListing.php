@@ -5,12 +5,14 @@ namespace App\Data\Database\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Data\Database\EntityRepository\SpecialListingRepository")
  * @ORM\Table(
  *     name="tblSpecialListings",
+ *     indexes={
+ *       @ORM\Index(name="sl_uuid", columns={"id"})
+ *     },
  *     options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  * )
  */
@@ -49,23 +51,16 @@ class SpecialListing extends AbstractEntity
     public $publicNote;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SpecialDay")
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE", name="spdDateID", referencedColumnName="sdPKID")
-     */
-    public $specialDay;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Programme")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE", name="spdShow", referencedColumnName="showsPKID")
      */
     public $programme;
 
     public function __construct(
-        UuidInterface $id,
         DateTimeImmutable $dateTime,
         Programme $programme
     ) {
-        parent::__construct($id);
+        parent::__construct();
         $this->dateTimeUk = $dateTime;
         $this->dateUk = $dateTime;
 

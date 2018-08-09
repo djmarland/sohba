@@ -5,12 +5,14 @@ namespace App\Data\Database\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Data\Database\EntityRepository\NormalListingRepository")
  * @ORM\Table(
  *     name="tblNormalListings",
+ *     indexes={
+ *       @ORM\Index(name="nl_uuid", columns={"id"})
+ *     },
  *     options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  * )
  */
@@ -45,12 +47,11 @@ class NormalListing extends AbstractEntity
     public $programme;
 
     public function __construct(
-        UuidInterface $id,
         int $day,
         DateTimeImmutable $time,
         Programme $programme
     ) {
-        parent::__construct($id);
+        parent::__construct();
         $this->day = $day;
         $this->time = $time;
 

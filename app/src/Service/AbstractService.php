@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Data\Captcha;
+use App\Data\Database\Entity\Image;
 use App\Data\Database\EntityManager;
 use App\Data\Database\Mapper\ConfigurableContentMapper;
 use App\Data\Database\Mapper\ImageMapper;
@@ -15,7 +16,9 @@ use App\Data\Database\Mapper\PersonMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
 use App\Data\Database\Mapper\TimeIntMapper;
+use Doctrine\ORM\Query;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\UuidInterface;
 use Swift_Mailer;
 
 abstract class AbstractService
@@ -96,5 +99,30 @@ abstract class AbstractService
             },
             $results
         );
+    }
+
+    protected function getAssociatedImageEntity($imageId): ?Image // todo - add typehint for UUID
+    {
+        if ($imageId === null) {
+            return null;
+        }
+
+        if ($imageId instanceof UuidInterface) {
+            $image = $this->entityManager->getImageRepo()->getByID(
+                $imageId,
+                Query::HYDRATE_OBJECT
+            );
+        } else {
+            // todo - remove this bit
+            $image = $this->entityManager->getImageRepo()->findByLegacyId(
+                $imageId,
+                Query::HYDRATE_OBJECT
+            );
+        }
+
+        if ($image) {
+            return $image;
+        }
+        throw new \InvalidArgumentException('Tried to use an image that does not exist');
     }
 }

@@ -5,8 +5,6 @@ namespace App\Service;
 
 use App\Data\Database\Entity\NormalListing as DbNormalListing;
 use App\Data\Database\Entity\SpecialListing as DbSpecialListing;
-use App\Data\Database\Entity\SpecialDay as DbSpecialDay;
-use App\Data\ID;
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
 use App\Domain\ValueObject\Time;
@@ -17,7 +15,6 @@ use DateTimeInterface;
 
 use function App\Functions\DateTimes\weekdayFromDayNum;
 use Doctrine\ORM\Query;
-use Ramsey\Uuid\Uuid;
 
 class SchedulesService extends AbstractService
 {
@@ -142,7 +139,6 @@ class SchedulesService extends AbstractService
             );
             foreach ($newListings as $listing) {
                 $entity = new DbNormalListing(
-                    ID::makeNewID(DbNormalListing::class),
                     isoWeekdayToPHPWeekDay($day), // only 0th as far as the database is concerned
                     $listing['time'],
                     $this->entityManager->getProgrammeRepo()->findByLegacyId(
@@ -160,19 +156,9 @@ class SchedulesService extends AbstractService
         }
     }
 
-    public function migrate(): void
-    {
-        // todo - temporary. remove me
-        $this->entityManager->getSpecialListingRepo()->migrate();
-    }
-
     public function deleteSpecialBetween(DateTimeImmutable $date, DateTimeImmutable $endDate): void
     {
         $this->entityManager->getSpecialListingRepo()
-            ->deleteBetween($date, $endDate);
-
-        // todo - temporary, until specialDaysNoLonger needed
-        $this->entityManager->getSpecialDayRepo()
             ->deleteBetween($date, $endDate);
     }
 
@@ -184,17 +170,8 @@ class SchedulesService extends AbstractService
         try {
             $this->deleteSpecialBetween($from, $end);
 
-            // create a special day - temporary todo - remove
-            $special = new DbSpecialDay(
-                Uuid::uuid4(),
-                (int)$date->format('dmY'),
-                (int)$date->setTime(23, 59, 59)->getTimestamp()
-            );
-            $this->entityManager->persist($special);
-
             foreach ($newListings as $listing) {
                 $entity = new DbSpecialListing(
-                    ID::makeNewID(DbSpecialListing::class),
                     $listing['time'],
                     $this->entityManager->getProgrammeRepo()->findByLegacyId(
                         $listing['programme'],
@@ -203,9 +180,6 @@ class SchedulesService extends AbstractService
                 );
                 $entity->internalNote = $listing['internalNote'];
                 $entity->publicNote = $listing['publicNote'];
-
-                // todo - remove this
-                $entity->specialDay = $special;
 
                 $this->entityManager->persist($entity);
             }

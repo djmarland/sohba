@@ -49,31 +49,4 @@ class PersonRepository extends AbstractEntityRepository
             ->setParameter('legacyId', $legacyId);
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
-
-    public function updatePerson(
-        int $legacyId,
-        string $name,
-        bool $onExec,
-        ?string $committeeTitle,
-        ?int $committeePosition,
-        ?int $imageId
-    ): void {
-        $sql = 'UPDATE ' . Person::class . ' t 
-            SET t.name = :name,
-                t.isOnCommittee = :isOnCommittee,
-                t.committeeTitle = :committeeTitle,
-                t.committeeOrder = :committeeOrder,
-                t.image = :imageId
-            WHERE t.pkid = :id';
-        $query = $this->getEntityManager()
-            ->createQuery($sql)
-            ->setParameter('id', $legacyId)
-            ->setParameter('name', $name)
-            ->setParameter('isOnCommittee', $onExec)
-            ->setParameter('committeeTitle', $committeeTitle)
-            ->setParameter('committeeOrder', $committeePosition)
-            ->setParameter('imageId', $imageId)
-        ;
-        $query->execute();
-    }
 }

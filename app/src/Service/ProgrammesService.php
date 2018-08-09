@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Data\Database\Entity\Programme as DbProgramme;
-use App\Data\ID;
 use App\Domain\Entity\Programme;
+use Doctrine\ORM\Query;
 
 class ProgrammesService extends AbstractService
 {
@@ -76,7 +76,6 @@ class ProgrammesService extends AbstractService
     public function newProgramme(string $name, int $type = Programme::PROGRAMME_TYPE_REGULAR): int
     {
         $page = new DbProgramme(
-            ID::makeNewID(DbProgramme::class),
             $name,
             $type
         );
@@ -98,20 +97,28 @@ class ProgrammesService extends AbstractService
         string $tagLine,
         int $type,
         string $description,
-        ?int $imageId
+        $imageId = null // todo - add typehint for UUID
     ): void {
-        $this->entityManager->getProgrammeRepo()->updateProgramme(
-            $page->getLegacyId(),
-            $name,
-            $tagLine,
-            $type,
-            $description,
-            $imageId
-        );
-    }
 
-    public function migrate(): void
-    {
-        $this->entityManager->getProgrammeRepo()->migrate(); // todo - remove
+        /** @var DbProgramme $entity */
+        $entity = $this->entityManager->getProgrammeRepo()->getByID(
+            $page->getId(),
+            Query::HYDRATE_OBJECT
+        );
+        if (!$entity) {
+            throw new \InvalidArgumentException('Tried to update a programme that does not exist');
+        }
+        if (!Programme::isValidType($type)) {
+            throw new \InvalidArgumentException('Invalid Type provided');
+        }
+
+        $entity->title = $name;
+        $entity->tagline = $tagLine;
+        $entity->type = $type;
+        $entity->description = $description;
+        $entity->image = $this->getAssociatedImageEntity($imageId);
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
     }
 }

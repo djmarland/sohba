@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\Page;
+use App\Data\ID;
 use Doctrine\ORM\Query;
 
 class PageRepository extends AbstractEntityRepository
@@ -48,35 +49,6 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    public function updatePage(
-        int $legacyId,
-        string $title,
-        string $url,
-        string $legacyContent,
-        ?string $htmlContent,
-        ?int $navPosition,
-        ?int $navCategoryId
-    ): void {
-        $sql = 'UPDATE ' . Page::class . ' t 
-            SET t.title = :title,
-                t.urlPath = :url,
-                t.content = :content,
-                t.htmlContent = :htmlContent,
-                t.order = :order,
-                t.category = :category
-            WHERE t.pkid = :id';
-        $query = $this->getEntityManager()
-            ->createQuery($sql)
-            ->setParameter('id', $legacyId)
-            ->setParameter('title', $title)
-            ->setParameter('url', $url)
-            ->setParameter('content', $legacyContent)
-            ->setParameter('htmlContent', $htmlContent)
-            ->setParameter('order', $navPosition)
-            ->setParameter('category', $navCategoryId);
-        $query->execute();
-    }
-
     public function findAllUncategorised(int $resultType = Query::HYDRATE_ARRAY): array
     {
         $qb = $this->createQueryBuilder('tbl')
@@ -97,5 +69,26 @@ class PageRepository extends AbstractEntityRepository
             ->createQuery($sql)
             ->setParameter('id', $legacyId);
         $query->execute();
+    }
+
+    public function migrate(): void
+    {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl')
+
+            ->where('tbl.uuid = :nothing')
+            ->setParameter('nothing', '');
+
+        $results = $qb->getQuery()->getResult();
+        foreach ($results as $result) {
+            /** @var Page  $result */
+            $newId = ID::makeNewID(Page::class);
+            $result->id = $newId;
+            $result->uuid = (string)$newId;
+            $result->createdAt = new \DateTimeImmutable('2017-01-01T00:00:00Z');
+            $result->updatedAt = new \DateTimeImmutable('2017-01-01T00:00:00Z');
+            $this->getEntityManager()->persist($result);
+        }
+        $this->getEntityManager()->flush();
     }
 }

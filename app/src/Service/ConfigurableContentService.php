@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Data\Database\Entity\KeyValue;
-use App\Data\ID;
 use App\Domain\Entity\ConfigurableContent;
+use Doctrine\ORM\Query;
 use Ramsey\Uuid\UuidInterface;
 
 class ConfigurableContentService extends AbstractService
@@ -67,7 +67,7 @@ class ConfigurableContentService extends AbstractService
 
         if (!empty($missingKeys)) {
             foreach ($missingKeys as $key) {
-                $kv = new KeyValue(ID::makeNewID(KeyValue::class), $key, '', '');
+                $kv = new KeyValue($key, '', '');
                 $kv->isRichText = self::ALL_KEYS[$key];
                 $this->entityManager->persist($kv);
             }
@@ -107,10 +107,19 @@ class ConfigurableContentService extends AbstractService
         string $description,
         string $value
     ): void {
-        $this->entityManager->getKeyValueRepo()->updateEntry(
+        /** @var KeyValue $entity */
+        $entity = $this->entityManager->getKeyValueRepo()->getByID(
             $content->getId(),
-            $description,
-            $value
+            Query::HYDRATE_OBJECT
         );
+        if (!$entity) {
+            throw new \InvalidArgumentException('Tried to update a page that does not exist');
+        }
+
+        $entity->description = $description;
+        $entity->value = $value;
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
     }
 }

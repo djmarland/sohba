@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\NormalListing;
-use App\Data\ID;
 use Doctrine\ORM\Query;
 
 class NormalListingRepository extends AbstractEntityRepository

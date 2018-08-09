@@ -53,10 +53,7 @@ class PeopleService extends AbstractService
 
     public function newPerson(string $name): int
     {
-        $page = new DbPerson(
-            ID::makeNewID(DbPerson::class),
-            $name
-        );
+        $page = new DbPerson($name);
 
         $this->entityManager->persist($page);
         $this->entityManager->flush();
@@ -78,22 +75,31 @@ class PeopleService extends AbstractService
     }
 
     public function updatePerson(
-        Person $page,
+        Person $person,
         string $name,
         bool $onExec,
         ?string $committeeTitle,
         ?int $committeePosition,
-        ?int $imageId
+        $imageId = null // todo - add typehint for UUID
     ): void {
-        $this->entityManager->getPersonRepo()->updatePerson(
-            $page->getLegacyId(),
-            $name,
-            $onExec,
-            $committeeTitle,
-            $committeePosition,
-            $imageId
+        $entity = $this->entityManager->getPersonRepo()->getByID(
+            $person->getId(),
+            Query::HYDRATE_OBJECT
         );
+        if (!$entity) {
+            throw new \InvalidArgumentException('Tried to update a person that does not exist');
+        }
+
+        $entity->name = $name;
+        $entity->isOnCommittee = $onExec;
+        $entity->committeeTitle = $committeeTitle;
+        $entity->committeeOrder = $committeePosition;
+        $entity->image = $this->getAssociatedImageEntity($imageId);
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
     }
+
 
     public function setPeopleForProgramme(array $peopleIds, Programme $programme): void
     {
@@ -111,13 +117,31 @@ class PeopleService extends AbstractService
                 Query::HYDRATE_OBJECT
             );
 
-            $personInShow = new DbPersonInShow(
-                ID::makeNewID(DbPersonInShow::class)
-            );
-            $personInShow->person =$personEntity;
+            $personInShow = new DbPersonInShow();
+            $personInShow->person = $personEntity;
             $personInShow->programme = $programmeEntity;
 
             $this->entityManager->persist($personInShow);
+        }
+        $this->entityManager->flush();
+    }
+
+    public function migrate(): void
+    {
+        $qb = $this->entityManager->getPersonRepo()->createQueryBuilder('tbl')
+            ->select('tbl')
+            ->where('tbl.uuid = :nothing')
+            ->setParameter('nothing', '');
+
+        $results = $qb->getQuery()->getResult();
+        foreach ($results as $result) {
+            /** @var \App\Data\Database\Entity\Person $result */
+            $newId = ID::makeNewID(\App\Data\Database\Entity\Person::class);
+            $result->id = $newId;
+            $result->uuid = (string)$newId;
+            $result->createdAt = new \DateTimeImmutable('2017-01-01T00:00:00Z');
+            $result->updatedAt = new \DateTimeImmutable('2017-01-01T00:00:00Z');
+            $this->entityManager->persist($result);
         }
         $this->entityManager->flush();
     }

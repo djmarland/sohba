@@ -4,13 +4,15 @@ declare(strict_types=1);
 namespace App\Data\Database\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Data\Database\EntityRepository\PageRepository")
  * @ORM\Table(
  *     name="tblPages",
- *     indexes={@ORM\Index(name="page_url_path", columns={"url_path"})},
+ *     indexes={
+ *       @ORM\Index(name="page_uuid", columns={"id"}),
+ *       @ORM\Index(name="page_url_path", columns={"url_path"})
+ *     },
  *     options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  * )
  */
@@ -29,17 +31,12 @@ class Page extends AbstractEntity
     public $title;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     public $urlPath;
 
     /**
-     * @ORM\Column(type="text", name="content")
-     */
-    public $content;
-
-    /**
-     * @ORM\Column(type="text", name="html_content", nullable=true)
+     * @ORM\Column(type="text", name="html_content")
      */
     public $htmlContent;
 
@@ -55,12 +52,15 @@ class Page extends AbstractEntity
     public $category = null;
 
     public function __construct(
-        UuidInterface $id,
         string $title,
+        string $urlPath,
+        string $htmlContent,
         int $order
     ) {
-        parent::__construct($id);
+        parent::__construct();
         $this->title = $title;
         $this->order = $order;
+        $this->urlPath = $urlPath;
+        $this->htmlContent = $htmlContent;
     }
 }

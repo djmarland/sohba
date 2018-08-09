@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace App\Data\Database\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Data\Database\EntityRepository\PageCategoryRepository")
  * @ORM\Table(
  *     name="tblPageCategories",
+ *     indexes={
+ *       @ORM\Index(name="page_category_uuid", columns={"id"})
+ *     },
  *     options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"},
  * )
  */
@@ -33,11 +35,10 @@ class PageCategory extends AbstractEntity
     public $order;
 
     public function __construct(
-        UuidInterface $id,
         string $title,
         int $order
     ) {
-        parent::__construct($id);
+        parent::__construct();
         $this->title = $title;
         $this->order = $order;
     }

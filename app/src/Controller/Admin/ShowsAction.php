@@ -3,11 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Domain\Entity\Page;
-use App\Domain\Entity\PageCategory;
 use App\Presenter\Message\AbstractMessagePresenter;
 use App\Presenter\Message\OkMessage;
-use App\Service\PageService;
 use App\Service\ProgrammesService;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\JsonResponse;
