@@ -11,14 +11,14 @@ use Ramsey\Uuid\Uuid;
 
 class NavigationPresenterTest extends \Tests\App\BaseTestCase
 {
-    public function testGroupsBrokenOut()
+    public function testGroupsBrokenOut(): void
     {
         $group1 = new PageCategory(
-            $this->createMock(Uuid::class),
+            Uuid::uuid4(),
             $groupTitle1 = $this->faker->text(50)
         );
         $group2 = new PageCategory(
-            $this->createMock(Uuid::class),
+            Uuid::uuid4(),
             $groupTitle2 = $this->faker->text(50)
         );
 
