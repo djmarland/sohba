@@ -5,7 +5,6 @@ namespace App\Controller\Page;
 
 use App\Controller\AbstractController;
 use App\Service\PageService;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

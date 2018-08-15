@@ -9,7 +9,6 @@ use App\Data\Database\Entity\NormalListing;
 use App\Data\Database\Entity\Page;
 use App\Data\Database\Entity\PageCategory;
 use App\Data\Database\Entity\Person;
-use App\Data\Database\Entity\PersonInShow;
 use App\Data\Database\Entity\Programme;
 use App\Data\Database\Entity\SpecialListing;
 use InvalidArgumentException;
@@ -24,7 +23,6 @@ class ID
         Page::class => 'a0a0',
         PageCategory::class => 'ca0e',
         Person::class => '0666',
-        PersonInShow::class => '9876',
         Programme::class => 'edfa',
         SpecialListing::class => 'face',
         KeyValue::class => 'c0c0',

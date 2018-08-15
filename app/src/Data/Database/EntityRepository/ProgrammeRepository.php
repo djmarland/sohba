@@ -4,14 +4,25 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\NormalListing;
-use App\Data\Database\Entity\Programme;
-use App\Data\ID;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Ramsey\Uuid\UuidInterface;
 
 class ProgrammeRepository extends AbstractEntityRepository
 {
+    public function getByIDWithPeople(
+        UuidInterface $uuid,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl', 'people', 'image')
+            ->leftJoin('tbl.people', 'people')
+            ->leftJoin('people.image', 'image')
+            ->where('tbl.id = :id')
+            ->setParameter('id', $uuid->getBytes());
+        return $qb->getQuery()->getOneOrNullResult($resultType);
+    }
+
     public function getByIdWithImage(
         UuidInterface $uuid,
         $resultType = Query::HYDRATE_ARRAY
@@ -59,7 +70,7 @@ class ProgrammeRepository extends AbstractEntityRepository
 
     public function findByTypes(
         array $typeIds,
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -67,6 +78,15 @@ class ProgrammeRepository extends AbstractEntityRepository
             ->addOrderBy('tbl.type', 'ASC')
             ->addOrderBy('tbl.title', 'ASC')
             ->setParameter('types', $typeIds);
+        return $qb->getQuery()->getResult($resultType);
+    }
+
+    public function getProgrammesWithPeople(
+        int $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl', 'people')
+            ->innerJoin('tbl.people', 'people');
         return $qb->getQuery()->getResult($resultType);
     }
 }

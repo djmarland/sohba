@@ -84,7 +84,7 @@ class ShowAction extends AbstractController
             return [];
         }
 
-        $peopleProgrammes = $programmesService->getAllByPeople($people, $currentProgramme);
+        $peopleProgrammes = $programmesService->getAllByPeople($currentProgramme);
 
         $peoplePresenters = array_map(function (Person $person) use ($peopleProgrammes) {
             return new PersonPresenter($person, $peopleProgrammes);

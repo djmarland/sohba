@@ -45,20 +45,11 @@ class PeopleService extends AbstractService
 
     public function findForProgramme(Programme $programme): array
     {
-        // todo - use the new ManyToMany map
-        $entity = $this->entityManager->getProgrammeRepo()->getByID(
-            $programme->getId(),
-            Query::HYDRATE_OBJECT
+        $entity = $this->entityManager->getProgrammeRepo()->getByIDWithPeople(
+            $programme->getId()
         );
-        $peopleInProgramme = $this->entityManager->getPersonInShowRepo()
-            ->findPeopleForProgramme($entity);
-
-        $people = array_map(function (array $personInProgramme) {
-            return $personInProgramme['person'];
-        }, $peopleInProgramme);
-
         return $this->mapMany(
-            $people,
+            $entity['people'],
             $this->personMapper
         );
     }

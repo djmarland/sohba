@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Data\Database\Entity\PersonInShow;
 use App\Data\Database\Entity\Programme as DbProgramme;
-use App\Domain\Entity\Person;
 use App\Domain\Entity\Programme;
 use Doctrine\ORM\Query;
 use Ramsey\Uuid\UuidInterface;
@@ -20,7 +18,6 @@ class ProgrammesService extends AbstractService
             $this->programmeMapper
         );
     }
-
 
     public function findById(UuidInterface $id): ?Programme
     {
@@ -66,30 +63,24 @@ class ProgrammesService extends AbstractService
         );
     }
 
-    public function getAllByPeople(array $people = [], ?Programme $exclude = null): array
+    public function getAllByPeople(?Programme $exclude = null): array
     {
-        $peopleEntities = array_map(function (Person $person) {
-            return $this->entityManager->getPersonRepo()->getByID(
-                $person->getId(),
-                Query::HYDRATE_OBJECT
-            );
-        }, $people);
-
-        // todo - use the ManyToMany map
-        $results = $this->entityManager->getPersonInShowRepo()->findAll($peopleEntities);
+        $results = $this->entityManager->getProgrammeRepo()->getProgrammesWithPeople();
         $groupedResults = [];
 
-        foreach ($results as $result) {
-            $personId = $result['person']['id'];
+        foreach ($results as $programme) {
+            foreach ($programme['people'] as $person) {
+                $personId = $person['id'];
 
-            if ($exclude && $exclude->getId()->equals($result['programme']['id'])) {
-                continue;
-            }
+                if ($exclude && $exclude->getId()->equals($programme['id'])) {
+                    continue;
+                }
 
-            if (!isset($groupedResults[(string)$personId])) {
-                $groupedResults[(string)$personId] = [];
+                if (!isset($groupedResults[(string)$personId])) {
+                    $groupedResults[(string)$personId] = [];
+                }
+                $groupedResults[(string)$personId][] = $this->mapSingle($programme, $this->programmeMapper);
             }
-            $groupedResults[(string)$personId][] = $this->mapSingle($result['programme'], $this->programmeMapper);
         }
 
         return $groupedResults;
@@ -123,10 +114,6 @@ class ProgrammesService extends AbstractService
         ?UuidInterface $imageId,
         array $peopleIds = []
     ): void {
-
-        // todo - remove this
-        $this->setPeopleForProgramme($peopleIds, $programme);
-
         /** @var DbProgramme $entity */
         $entity = $this->entityManager->getProgrammeRepo()->getByID(
             $programme->getId(),
@@ -157,53 +144,6 @@ class ProgrammesService extends AbstractService
         }, $peopleIds);
 
         $this->entityManager->persist($entity);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @deprecated todo - remove after replaced with manyToMany
-     */
-    private function setPeopleForProgramme(array $peopleIds, Programme $programme): void
-    {
-        $programmeEntity = $this->entityManager->getProgrammeRepo()->getByID(
-            $programme->getId(),
-            Query::HYDRATE_OBJECT
-        );
-        $this->entityManager->getPersonInShowRepo()->deleteAllForProgramme($programmeEntity);
-
-        foreach ($peopleIds as $personId) {
-            /** @var UuidInterface $personId */
-            $personEntity = $this->entityManager->getPersonRepo()->getByID(
-                $personId,
-                Query::HYDRATE_OBJECT
-            );
-
-            $personInShow = new PersonInShow();
-            $personInShow->person = $personEntity;
-            $personInShow->programme = $programmeEntity;
-
-            $this->entityManager->persist($personInShow);
-        }
-        $this->entityManager->flush();
-    }
-
-    public function migratePeopleInShows(): void
-    {
-        $all = $this->entityManager->getPersonInShowRepo()->findAll([], Query::HYDRATE_OBJECT);
-        $progs = [];
-        foreach ($all as $e) {
-            /** @var PersonInShow $e */
-            $progId = $e->programme->pkid;
-            if (!isset($progs[$progId])) {
-                $progs[$progId] = $e->programme;
-                $progs[$progId]->people = [];
-            }
-            $progs[$progId]->people[] = $e->person;
-        }
-
-        foreach ($progs as $prog) {
-            $this->entityManager->persist($prog);
-        }
         $this->entityManager->flush();
     }
 }
