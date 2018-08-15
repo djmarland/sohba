@@ -7,6 +7,7 @@ use App\Domain\Entity\Page;
 use App\Domain\Entity\PageCategory;
 use App\Service\PageService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,20 +15,21 @@ class PagesAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
+        UuidFactory $uuidFactory,
         PageService $pageService,
         DateTimeImmutable $now
     ): Response {
         // if POST, parse the incoming JSON into appropriate calls
         if ($request->getMethod() === 'POST') {
             if ($request->get('update-category')) {
-                $categoryId = (int)$request->get('update-category');
+                $categoryId = $uuidFactory->fromString($request->get('update-category'));
                 $newTitle = $request->get('category-title');
                 $pageService->updatePageCategoryTitle($categoryId, $newTitle);
             } elseif ($request->get('delete-category')) {
-                $categoryId = (int)$request->get('delete-category');
+                $categoryId = $uuidFactory->fromString($request->get('delete-category'));
                 $pageService->deletePageCategory($categoryId);
             } elseif ($request->get('delete-page')) {
-                $pageId = (int)$request->get('delete-page');
+                $pageId = $uuidFactory->fromString($request->get('delete-page'));
                 $pageService->deletePage($pageId);
             } elseif ($request->get('new-page-title')) {
                 $title = $request->get('new-page-title');
@@ -39,7 +41,10 @@ class PagesAction extends AbstractAdminController
             } elseif ($request->getContent()) {
                 $data = \json_decode($request->getContent());
                 foreach ($data as $catId => $position) {
-                    $pageService->updateCategoryPosition((int)$catId, (int)$position);
+                    $pageService->updateCategoryPosition(
+                        $uuidFactory->fromString($catId),
+                        (int)$position
+                    );
                 }
                 return new Response('Ok');
             }
@@ -60,7 +65,7 @@ class PagesAction extends AbstractAdminController
         foreach ($pageService->findAllPageCategories() as $i => $category) {
             /** @var PageCategory $category */
             $categoryMap = [
-                'id' => $category->getLegacyId(),
+                'id' => $category->getId(),
                 'title' => $category->getTitle(),
                 'position' => $i + 1,
                 'pagesInCategory' => [],
@@ -69,7 +74,7 @@ class PagesAction extends AbstractAdminController
             foreach ($pageService->findAllInCategory($category) as $j => $page) {
                 /** @var Page $page */
                 $categoryMap['pagesInCategory'][] = [
-                    'id' => $page->getLegacyId(),
+                    'id' => (string)$page->getId(),
                     'title' => $page->getTitle(),
                     'position' => (($i + 1) * 100) + ($j + 1),
                 ];
@@ -82,7 +87,7 @@ class PagesAction extends AbstractAdminController
             'uncategorised' => array_map(function ($page) {
               /** @var Page $page */
                 return [
-                    'id' => $page->getLegacyId(),
+                    'id' => (string)$page->getId(),
                     'title' => $page->getTitle(),
                 ];
             }, $pageService->findAllUncategorised()),

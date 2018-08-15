@@ -12,10 +12,10 @@ use Ramsey\Uuid\UuidInterface;
 
 class PageService extends AbstractService
 {
-    public function findByLegacyId(int $legacyId): ?Page
+    public function findById(UuidInterface $id): ?Page
     {
         return $this->mapSingle(
-            $this->entityManager->getPageRepo()->findByLegacyId($legacyId),
+            $this->entityManager->getPageRepo()->getByIdWithCategory($id),
             $this->pageMapper
         );
     }
@@ -44,10 +44,10 @@ class PageService extends AbstractService
         );
     }
 
-    public function updatePageCategoryTitle(int $legacyId, string $newTitle): void
+    public function updatePageCategoryTitle(UuidInterface $id, string $newTitle): void
     {
         $category = $this->entityManager->getPageCategoryRepo()
-            ->findByLegacyId($legacyId, Query::HYDRATE_OBJECT);
+            ->getByID($id, Query::HYDRATE_OBJECT);
 
         /** @var \App\Data\Database\Entity\PageCategory $category */
         $category->title = $newTitle;
@@ -55,14 +55,14 @@ class PageService extends AbstractService
         $this->entityManager->flush();
     }
 
-    public function deletePageCategory(int $categoryId): void
+    public function deletePageCategory(UuidInterface $categoryId): void
     {
-        $this->entityManager->getPageCategoryRepo()->deleteByLegacyId($categoryId);
+        $this->entityManager->getPageCategoryRepo()->deleteById($categoryId, DbPageCategory::class);
     }
 
-    public function deletePage(int $pageId): void
+    public function deletePage(UuidInterface $pageId): void
     {
-        $this->entityManager->getPageRepo()->deleteByLegacyId($pageId);
+        $this->entityManager->getPageRepo()->deleteById($pageId, DbPage::class);
     }
 
     public function newPageCategory(string $title)
@@ -75,15 +75,24 @@ class PageService extends AbstractService
         $this->entityManager->flush();
     }
 
-    public function updateCategoryPosition(int $catId, int $position): void
+    public function updateCategoryPosition(UuidInterface $catId, int $position): void
     {
-        $this->entityManager->getPageCategoryRepo()->updateCategoryPositionByLegacyId($catId, $position);
+        $category = $this->entityManager->getPageCategoryRepo()
+            ->getByID($catId, Query::HYDRATE_OBJECT);
+
+        $category->order = $position;
+        $this->entityManager->persist($category);
+        $this->entityManager->flush();
     }
 
     public function findAllInCategory(PageCategory $category): array
     {
+        $categoryEntity = $this->entityManager->getPageCategoryRepo()->getByID(
+            $category->getId(),
+            Query::HYDRATE_OBJECT
+        );
         return $this->mapMany(
-            $this->entityManager->getPageRepo()->findAllInCategoryId($category->getLegacyId()),
+            $this->entityManager->getPageRepo()->findAllInCategory($categoryEntity),
             $this->pageMapper
         );
     }
@@ -94,10 +103,10 @@ class PageService extends AbstractService
         string $url,
         string $htmlContent,
         ?int $navPosition,
-        $navCategoryId = null // todo - type hint for UUID
+        ?UuidInterface $navCategoryId = null
     ): void {
         /** @var DbPage $entity */
-        $entity = $this->entityManager->getPersonRepo()->getByID(
+        $entity = $this->entityManager->getPageRepo()->getByID(
             $page->getId(),
             Query::HYDRATE_OBJECT
         );
@@ -105,20 +114,12 @@ class PageService extends AbstractService
             throw new \InvalidArgumentException('Tried to update a page that does not exist');
         }
 
-        // todo - remove the int support
-        if ($navCategoryId instanceof UuidInterface) {
+        $category = null;
+        if ($navCategoryId) {
             $category = $this->entityManager->getPageCategoryRepo()->getByID(
                 $navCategoryId,
                 Query::HYDRATE_OBJECT
             );
-        } elseif (\is_int($navCategoryId)) {
-            // todo - remove this bit
-            $category = $this->entityManager->getPageCategoryRepo()->findByLegacyId(
-                $navCategoryId,
-                Query::HYDRATE_OBJECT
-            );
-        } else {
-            $category = null;
         }
 
         $entity->title = $title;

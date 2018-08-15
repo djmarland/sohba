@@ -37,17 +37,17 @@ class ShowsList extends React.Component {
     }
 
     const regularShows = this.state.regular.map(show => {
-      const href = `/admin/shows/${show.legacyId}`;
+      const href = `/admin/shows/${show.id}`;
 
       return (
-        <tr key={show.legacyId}>
+        <tr key={show.id}>
           <td>
             <a href={href}>{show.title}</a>
           </td>
           <td>{show.tagLine}</td>
           <td>
             <form method="post" onSubmit={confirm}>
-              <input type="hidden" name="delete-show" value={show.legacyId} />
+              <input type="hidden" name="delete-show" value={show.id} />
               <button
                 className="button button--icon button--danger"
                 type="submit"
@@ -62,10 +62,10 @@ class ShowsList extends React.Component {
     });
 
     const events = this.state.events.map(show => {
-      const href = `/admin/shows/${show.legacyId}`;
+      const href = `/admin/shows/${show.id}`;
 
       return (
-        <tr key={show.legacyId}>
+        <tr key={show.id}>
           <td>
             <span className={`broadcast--event-${show.type} icon--indicator`} />
           </td>
@@ -76,7 +76,7 @@ class ShowsList extends React.Component {
           <td>{show.typeTitle}</td>
           <td>
             <form method="post" onSubmit={confirm}>
-              <input type="hidden" name="delete-show" value={show.legacyId} />
+              <input type="hidden" name="delete-show" value={show.id} />
               <button
                 className="button button--icon button--danger"
                 type="submit"

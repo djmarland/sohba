@@ -11,6 +11,7 @@ use App\Service\PeopleService;
 use App\Service\ProgrammesService;
 use App\Service\SchedulesService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,14 +20,28 @@ class ShowAction extends AbstractController
 {
     public function __invoke(
         Request $request,
+        UuidFactory $uuidFactory,
         PeopleService $peopleService,
         ProgrammesService $programmesService,
         SchedulesService $schedulesService,
         DateTimeImmutable $now
     ): Response {
+
+        $legacyShowId = $request->get('legacyShowId');
+        if ($legacyShowId) {
+            $programme = $programmesService->findByLegacyId((int)$legacyShowId);
+            if (!$programme) {
+                throw new NotFoundHttpException('No such programme');
+            }
+            return $this->redirectToRoute('programmes_show', [
+                'showId' => (string)$programme->getId(),
+            ], 301);
+        }
+
+
         $showId = $request->get('showId');
 
-        $programme = $programmesService->findByLegacyId((int)$showId);
+        $programme = $programmesService->findById($uuidFactory->fromString($showId));
         if (!$programme) {
             throw new NotFoundHttpException('No such programme');
         }
@@ -37,7 +52,7 @@ class ShowAction extends AbstractController
             $nextOn = $schedulesService->findNextForProgramme($programme, $now);
         }
 
-        $people =  $this->getPeoplePresenters($peopleService, $programmesService, $programme);
+        $people = $this->getPeoplePresenters($peopleService, $programmesService, $programme);
 
         return $this->renderMainSite(
             'programmes/show.html.twig',
@@ -68,11 +83,8 @@ class ShowAction extends AbstractController
         if (empty($people)) {
             return [];
         }
-        $personIds = array_map(function (Person $person) {
-            return $person->getLegacyId();
-        }, $people);
 
-        $peopleProgrammes = $programmesService->getAllByPersonIds($personIds, $currentProgramme);
+        $peopleProgrammes = $programmesService->getAllByPeople($people, $currentProgramme);
 
         $peoplePresenters = array_map(function (Person $person) use ($peopleProgrammes) {
             return new PersonPresenter($person, $peopleProgrammes);

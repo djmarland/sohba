@@ -20,7 +20,6 @@ class ProgrammeMapper implements MapperInterface
     {
         return new Programme(
             $item['id'],
-            $item['pkid'],
             $item['title'],
             $item['type'],
             !empty($item['tagline']) ? $item['tagline'] : null,

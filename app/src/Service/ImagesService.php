@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Data\Database\Entity\Image as DbImage;
 use Doctrine\ORM\Query;
+use Ramsey\Uuid\UuidInterface;
 
 class ImagesService extends AbstractService
 {
@@ -39,10 +40,10 @@ class ImagesService extends AbstractService
         \file_put_contents(self::UPLOADED_FILE_PATH . $fileName, $imageData);
     }
 
-    public function updateImageTitle(int $imageId, string $newTitle): void
+    public function updateImageTitle(UuidInterface $imageId, string $newTitle): void
     {
         $image = $this->entityManager->getImageRepo()
-            ->findByLegacyId($imageId, Query::HYDRATE_OBJECT);
+            ->getByID($imageId, Query::HYDRATE_OBJECT);
 
         /** @var \App\Data\Database\Entity\Image $image */
         $image->title = $newTitle;
@@ -50,16 +51,17 @@ class ImagesService extends AbstractService
         $this->entityManager->flush();
     }
 
-    public function deleteImage(int $imageId): void
+    public function deleteImage(UuidInterface $imageId): void
     {
-        $image = $this->entityManager->getImageRepo()
-            ->findByLegacyId($imageId, Query::HYDRATE_OBJECT);
-
-        $this->entityManager->getImageRepo()->deleteByLegacyId($imageId);
-
         /** @var \App\Data\Database\Entity\Image $image */
-        if ($image->fileName) {
-            \unlink(self::UPLOADED_FILE_PATH . $image->fileName);
+        $image = $this->entityManager->getImageRepo()
+            ->getByID($imageId, Query::HYDRATE_OBJECT);
+
+        $fileName = self::UPLOADED_FILE_PATH . $image->fileName;
+        $this->entityManager->remove($image);
+        $this->entityManager->flush();
+        if (\file_exists($fileName)) {
+            \unlink($fileName);
         }
     }
 

@@ -15,19 +15,16 @@ class NavigationPresenterTest extends \Tests\App\BaseTestCase
     {
         $group1 = new PageCategory(
             $this->createMock(Uuid::class),
-            $this->faker->randomNumber(8),
             $groupTitle1 = $this->faker->text(50)
         );
         $group2 = new PageCategory(
             $this->createMock(Uuid::class),
-            $this->faker->randomNumber(8),
             $groupTitle2 = $this->faker->text(50)
         );
 
         $input = [
             new Page(
                 $this->createMock(Uuid::class),
-                $this->faker->randomNumber(8),
                 $pageTitle1 = $this->faker->text(50),
                 $this->createMock(RichText::class),
                 $this->faker->text(20),
@@ -36,7 +33,6 @@ class NavigationPresenterTest extends \Tests\App\BaseTestCase
             ),
             new Page(
                 $this->createMock(Uuid::class),
-                $this->faker->randomNumber(8),
                 $pageTitle2 = $this->faker->text(50),
                 $this->createMock(RichText::class),
                 $this->faker->text(20),
@@ -45,7 +41,6 @@ class NavigationPresenterTest extends \Tests\App\BaseTestCase
             ),
             new Page(
                 $this->createMock(Uuid::class),
-                $this->faker->randomNumber(8),
                 $pageTitle3 = $this->faker->text(50),
                 $this->createMock(RichText::class),
                 $this->faker->text(20),

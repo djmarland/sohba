@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 use App\Presenter\Message\OkMessage;
 use App\Service\PeopleService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,6 +15,7 @@ class PeopleAction extends AbstractAdminController
     public function __invoke(
         Request $request,
         PeopleService $peopleService,
+        UuidFactory $uuidFactory,
         DateTimeImmutable $now
     ): Response {
 
@@ -28,7 +30,7 @@ class PeopleAction extends AbstractAdminController
             }
 
             if ($request->get('delete-person')) {
-                $personId = (int)$request->get('delete-person');
+                $personId = $uuidFactory->fromString($request->get('delete-person'));
                 $peopleService->deletePerson($personId);
                 $message = new OkMessage('Person was deleted');
             }

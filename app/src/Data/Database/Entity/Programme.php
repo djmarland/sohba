@@ -53,8 +53,8 @@ class Programme extends AbstractEntity
     /**
      * @ORM\ManyToMany(targetEntity="Person")
      * @ORM\JoinTable(
-     *     joinColumns={@ORM\JoinColumn(referencedColumnName="showsPKID")},
-     *     inverseJoinColumns={@ORM\JoinColumn(referencedColumnName="peoplePKID")}
+     *     joinColumns={@ORM\JoinColumn(referencedColumnName="showsPKID", onDelete="CASCADE")},
+     *     inverseJoinColumns={@ORM\JoinColumn(referencedColumnName="peoplePKID", onDelete="CASCADE")}
      * )
      */
     public $people;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\NormalListing;
+use App\Data\Database\Entity\Programme;
 use Doctrine\ORM\Query;
 
 class NormalListingRepository extends AbstractEntityRepository
@@ -23,16 +24,16 @@ class NormalListingRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    public function findAllForLegacyProgrammeId(
-        int $programmeId,
+    public function findAllForProgramme(
+        Programme $programme,
         $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
-            ->where('IDENTITY(tbl.programme) = :id')
+            ->where('tbl.programme = :programme')
             ->orderBy('tbl.day', 'ASC')
             ->addOrderBy('tbl.time', 'ASC')
-            ->setParameter('id', $programmeId);
+            ->setParameter('programme', $programme);
 
         return $qb->getQuery()->getResult($resultType);
     }

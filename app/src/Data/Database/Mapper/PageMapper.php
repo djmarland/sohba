@@ -21,7 +21,6 @@ class PageMapper implements MapperInterface
     {
         return new Page(
             $item['id'],
-            $item['pkid'],
             $item['title'],
             new RichText($item['htmlContent']),
             $item['urlPath'],

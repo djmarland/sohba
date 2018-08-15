@@ -59,7 +59,7 @@ class PageDetail extends React.Component {
     }
 
     const categories = this.categories.map(category => (
-      <option key={category.legacyId} value={category.legacyId}>
+      <option key={category.id} value={category.id}>
         {category.title}
       </option>
     ));
@@ -81,7 +81,7 @@ class PageDetail extends React.Component {
               className="form__input"
               defaultValue={
                 this.state.page.category
-                  ? this.state.page.category.legacyId
+                  ? this.state.page.category.id
                   : ""
               }
               required
@@ -125,7 +125,7 @@ class PageDetail extends React.Component {
               <h2 className="unit">Basic details</h2>
 
               <p className="t-page-edit__pop">
-                <a href={`/${this.state.page.legacyId}`} target="_blank">
+                <a href={`/${this.state.page.urlPath}`} target="_blank">
                   View page ⇗
                 </a>
               </p>

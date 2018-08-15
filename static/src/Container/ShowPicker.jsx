@@ -64,13 +64,13 @@ class ShowPicker extends React.Component {
       }
 
       return (
-        <li className={itemClass} key={`all-${programme.legacyId}`}>
+        <li className={itemClass} key={`all-${programme.id}`}>
           <span className="selector__action">
             <button
               className="button button--icon"
               onClick={e => {
                 e.preventDefault();
-                this.props.onSelect(programme.legacyId);
+                this.props.onSelect(programme.id);
               }}
             >
               <LeftIcon/>

@@ -14,6 +14,7 @@ use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
 use App\Service\PageService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,14 +32,15 @@ class PageAction extends AbstractAdminController
 
     public function __invoke(
         Request $request,
+        UuidFactory $uuidFactory,
         PageService $pageService,
         ImagesService $imagesService,
         DateTimeImmutable $now
     ): Response {
 
         $message = null;
-        $pageId = $request->get('pageId');
-        $page = $pageService->findByLegacyId((int)$pageId);
+        $pageId = $uuidFactory->fromString($request->get('pageId'));
+        $page = $pageService->findById($pageId);
         if (!$page) {
             return $this->render404('No such page');
         }
@@ -46,14 +48,14 @@ class PageAction extends AbstractAdminController
         // if POST, parse the incoming JSON into appropriate calls
         if ($request->getMethod() === 'POST') {
             try {
-                $this->handlePost($request, $page, $pageService);
+                $this->handlePost($request, $page, $pageService, $uuidFactory);
                 $message = new OkMessage('Saved');
             } catch (\Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
 
             // re-fetch the latest
-            $page = $pageService->findByLegacyId((int)$pageId);
+            $page = $pageService->findById($pageId);
             if (!$page) {
                 throw new RuntimeException('Something went very wrong here');
             }
@@ -99,7 +101,8 @@ class PageAction extends AbstractAdminController
     private function handlePost(
         Request $request,
         Page $page,
-        PageService $pageService
+        PageService $pageService,
+        UuidFactory $uuidFactory
     ) {
         // get all the field values
         $title = $request->get('title');
@@ -127,7 +130,7 @@ class PageAction extends AbstractAdminController
             $url,
             $htmlContent,
             $navPosition ? (int)$navPosition : null,
-            $navCategory ? (int)$navCategory : null
+            $navCategory ? $uuidFactory->fromString($navCategory) : null
         );
     }
 }

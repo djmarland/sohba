@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 use App\Presenter\Message\ErrorMessage;
 use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,8 @@ class ImagesAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
-        ImagesService $imagesService
+        ImagesService $imagesService,
+        UuidFactory $uuidFactory
     ): Response {
 
         $message = null;
@@ -22,12 +24,12 @@ class ImagesAction extends AbstractAdminController
         if ($request->getMethod() === 'POST') {
             try {
                 if ($request->get('update-image')) {
-                    $imageId = (int)$request->get('update-image');
+                    $imageId = $uuidFactory->fromString($request->get('update-image'));
                     $newTitle = $request->get('image-title');
                     $imagesService->updateImageTitle($imageId, $newTitle);
                     $message = new OkMessage('Image title was updated');
                 } elseif ($request->get('delete-image')) {
-                    $imageId = (int)$request->get('delete-image');
+                    $imageId = $uuidFactory->fromString($request->get('delete-image'));
                     $imagesService->deleteImage($imageId);
                     $message = new OkMessage('Image was deleted');
                 } else {

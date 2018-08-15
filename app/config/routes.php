@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Controller;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 
@@ -10,9 +11,6 @@ $collection = new RouteCollection();
 // home
 $collection->add('home', new Route('/', [
     '_controller' => Controller\Home\HomeAction::class,
-]));
-$collection->add('styleguide', new Route('/styleguide', [
-    '_controller' => Controller\Home\StyleguideAction::class,
 ]));
 
 $schedulesPrefix = '/' . Controller\Schedules\AbstractSchedulesAction::SPECIAL_PAGE_URL;
@@ -51,7 +49,14 @@ $collection->add('programmes_list', new Route('/programmes', [
 
 $collection->add('programmes_show', new Route('/programmes/{showId}', [
     '_controller' => Controller\Programmes\ShowAction::class,
-    // todo - uuid
+], [
+    'showId' => Uuid::VALID_PATTERN,
+]));
+
+$collection->add('programmes_show_legacy_redirect', new Route('/programmes/{legacyShowId}', [
+    '_controller' => Controller\Programmes\ShowAction::class,
+], [
+    'legacyShowId' => '\d+',
 ]));
 
 $collection->add('page_people', new Route('/' . Controller\Page\PeopleAction::SPECIAL_PAGE_URL, [
@@ -89,7 +94,7 @@ $collection->add('admin_calendar_date', new Route('/admin/calendar/{year}-{month
         'day' => '[0123][0-9]',
     ]
 ));
-$collection->add('admin_calendar_mont', new Route('/admin/calendar/{year}-{month}', [
+$collection->add('admin_calendar_month', new Route('/admin/calendar/{year}-{month}', [
     '_controller' => Controller\Admin\CalendarMonthAction::class,
 ], [
         'year' => '20[0-9][0-9]',
@@ -102,6 +107,8 @@ $collection->add('admin_pages', new Route('/admin/pages', [
 ]));
 $collection->add('admin_page', new Route('/admin/pages/{pageId}', [
     '_controller' => Controller\Admin\PageAction::class,
+], [
+    'pageId' => Uuid::VALID_PATTERN,
 ]));
 $collection->add('admin_images', new Route('/admin/images', [
     '_controller' => Controller\Admin\ImagesAction::class,
@@ -111,12 +118,16 @@ $collection->add('admin_people', new Route('/admin/people', [
 ]));
 $collection->add('admin_person', new Route('/admin/people/{personId}', [
     '_controller' => Controller\Admin\PersonAction::class,
+], [
+    'personId' => Uuid::VALID_PATTERN,
 ]));
 $collection->add('admin_shows', new Route('/admin/shows', [
     '_controller' => Controller\Admin\ShowsAction::class,
 ]));
 $collection->add('admin_show', new Route('/admin/shows/{showId}', [
     '_controller' => Controller\Admin\ShowAction::class,
+], [
+    'showId' => Uuid::VALID_PATTERN,
 ]));
 $collection->add('admin_normal', new Route('/admin/normal-listings/{day}', [
     '_controller' => Controller\Admin\NormalListingsDayAction::class,

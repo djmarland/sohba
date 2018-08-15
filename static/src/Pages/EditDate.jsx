@@ -55,7 +55,7 @@ class EditDate extends React.Component {
   }
 
   addItem(showId) {
-    const newShow = this.state.allShows.find(s => s.legacyId === showId);
+    const newShow = this.state.allShows.find(s => s.id === showId);
     let shows = this.state.listings;
     shows.push({
       id: Date.now(), // temporary in-page ID
@@ -120,7 +120,7 @@ class EditDate extends React.Component {
               }}
             />
             <span className="selector__item-title selector__item-title--label">
-              {broadcast.programme.title} <a href={`/admin/shows/${broadcast.programme.legacyId}`}
+              {broadcast.programme.title} <a href={`/admin/shows/${broadcast.programme.id}`}
                                              target="_blank">⇗</a>
             </span>
             <span className="selector__action">
@@ -172,7 +172,6 @@ class EditDate extends React.Component {
       return {
         time: broadcast.time,
         programmeId: broadcast.programme.id,
-        programmeLegacyId: broadcast.programme.legacyId,
         internalNote: broadcast.internalNote,
         publicNote: broadcast.publicNote
       };

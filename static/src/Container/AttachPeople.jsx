@@ -19,13 +19,13 @@ class Container extends React.Component {
   removeItem(personId) {
     this.setState({
       selectedPeople: this.state.selectedPeople.filter(
-        person => person.legacyId !== personId
+        person => person.id !== personId
       )
     });
   }
 
   addItem(personId) {
-    const newPerson = this.state.people.find(p => p.legacyId === personId);
+    const newPerson = this.state.people.find(p => p.id === personId);
     let people = this.state.selectedPeople;
     people.push(newPerson);
     people = Array.from(new Set(people)); // remove duplicates
@@ -41,19 +41,19 @@ class Container extends React.Component {
     }
 
     const selectedIds = this.state.selectedPeople.map(
-      person => person.legacyId
+      person => person.id
     );
 
     const selectedPeople = this.state.selectedPeople.map(person => {
       return (
-        <li className="selector__item" key={`selected-${person.legacyId}`}>
+        <li className="selector__item" key={`selected-${person.id}`}>
           <span className="selector__item-title">{person.name}</span>
           <span className="selector__action">
             <button
               className="button button--icon button--danger"
               onClick={e => {
                 e.preventDefault();
-                this.removeItem(person.legacyId);
+                this.removeItem(person.id);
               }}
             >
               <DeleteIcon />
@@ -71,14 +71,14 @@ class Container extends React.Component {
     }
     allPeople = allPeople.map(person => {
       return (
-        <li className="selector__item" key={`all-${person.legacyId}`}>
+        <li className="selector__item" key={`all-${person.id}`}>
           <span className="selector__item-title">{person.name}</span>
           <span className="selector__action">
             <button
               className="button button--icon"
               onClick={e => {
                 e.preventDefault();
-                this.addItem(person.legacyId);
+                this.addItem(person.id);
               }}
             >
               <RightIcon />

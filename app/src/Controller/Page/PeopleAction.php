@@ -26,7 +26,7 @@ class PeopleAction extends AbstractController
         $executiveCommittee = $peopleService->findExecutiveCommittee();
         $members = $peopleService->findOtherMembers();
 
-        $shows = $programmesService->getAllByPersonIds();
+        $shows = $programmesService->getAllByPeople();
 
         $executiveCommittee = array_map(function (Person $person) use ($shows) {
             return new PersonPresenter($person, $shows);

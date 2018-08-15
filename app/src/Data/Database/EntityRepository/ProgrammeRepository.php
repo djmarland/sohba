@@ -8,9 +8,22 @@ use App\Data\Database\Entity\Programme;
 use App\Data\ID;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
+use Ramsey\Uuid\UuidInterface;
 
 class ProgrammeRepository extends AbstractEntityRepository
 {
+    public function getByIdWithImage(
+        UuidInterface $uuid,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl', 'image')
+            ->leftJoin('tbl.image', 'image')
+            ->where('tbl.id = :id')
+            ->setParameter('id', $uuid->getBytes());
+        return $qb->getQuery()->getOneOrNullResult($resultType);
+    }
+
     public function findAll(
         $resultType = Query::HYDRATE_ARRAY
     ) {
@@ -31,6 +44,7 @@ class ProgrammeRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
+    // only used by legacy redirect
     public function findByLegacyId(
         int $id,
         $resultType = Query::HYDRATE_ARRAY
@@ -54,14 +68,5 @@ class ProgrammeRepository extends AbstractEntityRepository
             ->addOrderBy('tbl.title', 'ASC')
             ->setParameter('types', $typeIds);
         return $qb->getQuery()->getResult($resultType);
-    }
-
-    public function deleteByLegacyId(int $legacyId): void
-    {
-        $sql = 'DELETE FROM ' . Programme::class . ' t WHERE t.pkid = :id';
-        $query = $this->getEntityManager()
-            ->createQuery($sql)
-            ->setParameter('id', $legacyId);
-        $query->execute();
     }
 }

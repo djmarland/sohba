@@ -113,7 +113,7 @@ class ConfigurableContentService extends AbstractService
             Query::HYDRATE_OBJECT
         );
         if (!$entity) {
-            throw new \InvalidArgumentException('Tried to update a page that does not exist');
+            throw new \InvalidArgumentException('Tried to update a value that does not exist');
         }
 
         $entity->description = $description;

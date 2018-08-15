@@ -37,8 +37,13 @@ class SchedulesService extends AbstractService
 
     public function getListingsForProgramme(Programme $programme): array
     {
+        $programmeEntity = $this->entityManager->getProgrammeRepo()->getByID(
+            $programme->getId(),
+            Query::HYDRATE_OBJECT
+        );
+
         $results = $this->entityManager->getNormalListingRepo()
-            ->findAllForLegacyProgrammeId($programme->getLegacyId());
+            ->findAllForProgramme($programmeEntity);
 
         return array_map(
             function ($result) {
@@ -123,9 +128,14 @@ class SchedulesService extends AbstractService
 
     public function findNextForProgramme(Programme $programme, DateTimeImmutable $now): ?Broadcast
     {
+        $programmeEntity = $this->entityManager->getProgrammeRepo()->getByID(
+            $programme->getId(),
+            Query::HYDRATE_OBJECT
+        );
+
         return $this->mapSingle(
             $this->entityManager->getSpecialListingRepo()
-                ->findNextForLegacyProgrammeId($programme->getLegacyId(), $now),
+                ->findNextForProgramme($programmeEntity, $now),
             $this->specialBroadcastMapper
         );
     }
@@ -141,8 +151,8 @@ class SchedulesService extends AbstractService
                 $entity = new DbNormalListing(
                     isoWeekdayToPHPWeekDay($day), // only 0th as far as the database is concerned
                     $listing['time'],
-                    $this->entityManager->getProgrammeRepo()->findByLegacyId(
-                        $listing['programme'],
+                    $this->entityManager->getProgrammeRepo()->getByID(
+                        $listing['programmeId'],
                         Query::HYDRATE_OBJECT
                     )
                 );
@@ -173,7 +183,7 @@ class SchedulesService extends AbstractService
             foreach ($newListings as $listing) {
                 $entity = new DbSpecialListing(
                     $listing['time'],
-                    $this->entityManager->getProgrammeRepo()->findByLegacyId(
+                    $this->entityManager->getProgrammeRepo()->getByID(
                         $listing['programme'],
                         Query::HYDRATE_OBJECT
                     )

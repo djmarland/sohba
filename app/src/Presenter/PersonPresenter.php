@@ -15,7 +15,7 @@ class PersonPresenter
 
     public function __construct(Person $person, array $showsByPersonId)
     {
-        $this->programmes = $showsByPersonId[$person->getLegacyId()] ?? [];
+        $this->programmes = $showsByPersonId[(string)$person->getId()] ?? [];
         $this->person = $person;
     }
 

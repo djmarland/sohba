@@ -10,6 +10,7 @@ use App\Service\ImagesService;
 use App\Service\PeopleService;
 use App\Service\ProgrammesService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ class ShowAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
+        UuidFactory $uuidFactory,
         ProgrammesService $programmesService,
         PeopleService $peopleService,
         ImagesService $imagesService,
@@ -25,8 +27,8 @@ class ShowAction extends AbstractAdminController
     ): Response {
 
         $message = null;
-        $showId = $request->get('showId');
-        $show = $programmesService->findByLegacyId((int)$showId);
+        $showId = $uuidFactory->fromString($request->get('showId'));
+        $show = $programmesService->findById($showId);
         if (!$show) {
             return $this->render404('No such show');
         }
@@ -34,14 +36,14 @@ class ShowAction extends AbstractAdminController
         // if POST, parse the incoming JSON into appropriate calls
         if ($request->getMethod() === 'POST') {
             try {
-                $this->handlePost($request, $show, $programmesService, $peopleService);
+                $this->handlePost($request, $show, $programmesService, $uuidFactory);
                 $message = new OkMessage('Saved');
             } catch (\Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
 
             // re-fetch the latest
-            $show = $programmesService->findByLegacyId((int)$showId);
+            $show = $programmesService->findById($showId);
             if (!$show) {
                 throw new RuntimeException('Something went very wrong here');
             }
@@ -71,7 +73,7 @@ class ShowAction extends AbstractAdminController
         Request $request,
         Programme $programme,
         ProgrammesService $programmesService,
-        PeopleService $peopleService
+        UuidFactory $uuidFactory
     ): void {
         // get all the field values
         $name = $request->get('name');
@@ -79,12 +81,17 @@ class ShowAction extends AbstractAdminController
         $type = (int)$request->get('type');
         $description = $request->get('html-content');
 
-        $imageId = (int)$request->get('image-id') ?: null;
+        $imageId = $request->get('image-id', null);
+        if (!empty($imageId)) {
+            $imageId = $uuidFactory->fromString($imageId);
+        } else {
+            $imageId = null;
+        }
 
         $people = trim((string)$request->get('people'));
 
-        $peopleIds = array_map(function ($id) {
-            return (int)trim($id);
+        $peopleIds = array_map(function ($id) use ($uuidFactory) {
+            return $uuidFactory->fromString(trim($id));
         }, array_filter(explode(',', $people)));
 
         $programmesService->updateProgramme(

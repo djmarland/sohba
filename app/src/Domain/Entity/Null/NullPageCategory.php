@@ -14,7 +14,6 @@ class NullPageCategory extends PageCategory
     {
         parent::__construct(
             Uuid::fromString(Uuid::NIL),
-            0,
             ''
         );
     }

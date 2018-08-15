@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data\Database\EntityRepository;
 
+use App\Data\Database\Entity\Programme;
 use App\Data\Database\Entity\SpecialListing;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -46,18 +47,18 @@ class SpecialListingRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    public function findNextForLegacyProgrammeId(
-        int $getLegacyId,
+    public function findNextForProgramme(
+        Programme $programme,
         DateTimeImmutable $now,
         $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.dateUk >= :after')
-            ->andWhere('IDENTITY(tbl.programme) = :programmeId')
+            ->andWhere('tbl.programme = :programme')
             ->setMaxResults(1)
             ->setParameter('after', $now)
-            ->setParameter('programmeId', $getLegacyId);
+            ->setParameter('programme', $programme);
 
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }

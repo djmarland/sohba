@@ -31,7 +31,7 @@ class Image extends AbstractEntity
     public $title;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100)
      */
     public $fileName;
 

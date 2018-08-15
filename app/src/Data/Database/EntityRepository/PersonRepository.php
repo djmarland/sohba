@@ -3,11 +3,23 @@ declare(strict_types=1);
 
 namespace App\Data\Database\EntityRepository;
 
-use App\Data\Database\Entity\Person;
 use Doctrine\ORM\Query;
+use Ramsey\Uuid\UuidInterface;
 
 class PersonRepository extends AbstractEntityRepository
 {
+    public function getByIdWithImage(
+        UuidInterface $uuid,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl', 'image')
+            ->leftJoin('tbl.image', 'image')
+            ->where('tbl.id = :id')
+            ->setParameter('id', $uuid->getBytes());
+        return $qb->getQuery()->getOneOrNullResult($resultType);
+    }
+
     public function findAll(
         $resultType = Query::HYDRATE_ARRAY
     ) {
@@ -29,24 +41,5 @@ class PersonRepository extends AbstractEntityRepository
             ->addOrderBy('tbl.name', 'ASC')
             ->setParameter('isOnCommittee', $onCommittee);
         return $qb->getQuery()->getResult($resultType);
-    }
-
-    public function deleteByLegacyId(int $legacyId): void
-    {
-        $sql = 'DELETE FROM ' . Person::class . ' t WHERE t.pkid = :id';
-        $query = $this->getEntityManager()
-            ->createQuery($sql)
-            ->setParameter('id', $legacyId);
-        $query->execute();
-    }
-
-    public function findByLegacyId(int $legacyId, int $resultType = Query::HYDRATE_ARRAY)
-    {
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl', 'image')
-            ->leftJoin('tbl.image', 'image')
-            ->where('tbl.pkid = :legacyId')
-            ->setParameter('legacyId', $legacyId);
-        return $qb->getQuery()->getOneOrNullResult($resultType);
     }
 }

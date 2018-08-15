@@ -53,7 +53,7 @@ class NormalListings extends React.Component {
   }
 
   addItem(showId) {
-    const newShow = this.state.allShows.find(s => s.legacyId === showId);
+    const newShow = this.state.allShows.find(s => s.id === showId);
     let shows = this.state.listings;
     shows.push({
       id: Date.now(), // temporary in-page ID
@@ -116,8 +116,7 @@ class NormalListings extends React.Component {
     const listingData = this.state.listings.map(broadcast => {
       return {
         time: broadcast.time,
-        programmeId: broadcast.programme.id,
-        programmeLegacyId: broadcast.programme.legacyId
+        programmeId: broadcast.programme.id
       };
     });
 

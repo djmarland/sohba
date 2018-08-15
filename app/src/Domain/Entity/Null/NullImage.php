@@ -14,7 +14,6 @@ class NullImage extends Image
     {
         parent::__construct(
             Uuid::fromString(Uuid::NIL),
-            0,
             ''
         );
     }

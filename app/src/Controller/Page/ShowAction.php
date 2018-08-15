@@ -17,14 +17,7 @@ class ShowAction extends AbstractController
     ): Response {
         $pageId = $request->get('page');
 
-        if (is_numeric($pageId)) {
-            $page = $pageService->findByLegacyId((int)$pageId);
-            if ($page && $page->getUrlPath()) {
-                return new RedirectResponse('/' . $page->getUrlPath(), 301);
-            }
-        } else {
-            $page = $pageService->findByUrl($pageId);
-        }
+        $page = $pageService->findByUrl($pageId);
 
         if (!$page) {
             return $this->render404('No such page');

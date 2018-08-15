@@ -20,7 +20,6 @@ class PersonMapper implements MapperInterface
     {
         return new Person(
             $item['id'],
-            $item['pkid'],
             $item['name'],
             $item['isOnCommittee'],
             !empty($item['committeeTitle']) ? $item['committeeTitle'] : null,

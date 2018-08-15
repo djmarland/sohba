@@ -13,12 +13,10 @@ class Person extends Entity implements \JsonSerializable
     private $image;
     private $isOnCommittee;
     private $committeeTitle;
-    private $legacyId;
     private $committeeOrder;
 
     public function __construct(
         UuidInterface $id,
-        int $legacyId,
         string $name,
         bool $isOnCommittee,
         ?string $committeeTitle,
@@ -30,7 +28,6 @@ class Person extends Entity implements \JsonSerializable
         $this->image = $image;
         $this->isOnCommittee = $isOnCommittee;
         $this->committeeTitle = $committeeTitle;
-        $this->legacyId = $legacyId;
         $this->committeeOrder = $committeeOrder;
     }
 
@@ -38,7 +35,6 @@ class Person extends Entity implements \JsonSerializable
     {
         $data = [
             'id' => $this->id,
-            'legacyId' => $this->legacyId,
             'isOnCommittee' => $this->isOnCommittee,
             'committeeTitle' => $this->committeeTitle,
             'committeeOrder' => $this->committeeOrder,
@@ -77,11 +73,6 @@ class Person extends Entity implements \JsonSerializable
     public function getCommitteeTitle(): ?string
     {
         return $this->committeeTitle;
-    }
-
-    public function getLegacyId(): int
-    {
-        return $this->legacyId;
     }
 
     public function getCommitteeOrder(): ?int

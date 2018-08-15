@@ -19,7 +19,7 @@ class NavigationPresenter
         return $this->groups;
     }
 
-    private function calculate(array $pagesWithCategories)
+    private function calculate(array $pagesWithCategories): array
     {
         // rearrange into a nested set of groups. they should already be in the right order
         $groups = [];

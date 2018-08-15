@@ -10,6 +10,7 @@ use App\Presenter\Message\OkMessage;
 use App\Service\ProgrammesService;
 use App\Service\SchedulesService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,6 +21,7 @@ class NormalListingsDayAction extends AbstractAdminController
         DateTimeImmutable $now,
         ProgrammesService $programmesService,
         SchedulesService $schedulesService,
+        UuidFactory $uuidFactory,
         string $day
     ): Response {
         $currentDay = dayNameToDate($day);
@@ -39,12 +41,15 @@ class NormalListingsDayAction extends AbstractAdminController
         if ($request->getMethod() === 'POST' && $request->get('listings')) {
             try {
                 $data = \json_decode($request->get('listings'), true);
-                $schedulesService->updateNormalListings((int)$currentDay->format('N'), array_map(function ($inputObj) {
-                    return [
-                        'time' => DateTimeImmutable::createFromFormat('H:i', $inputObj['time']),
-                        'programme' => $inputObj['programmeLegacyId'],
-                    ];
-                }, $data));
+                $schedulesService->updateNormalListings(
+                    (int)$currentDay->format('N'),
+                    array_map(function ($inputObj) use ($uuidFactory) {
+                        return [
+                            'time' => DateTimeImmutable::createFromFormat('H:i', $inputObj['time']),
+                            'programmeId' => $uuidFactory->fromString($inputObj['programmeId']),
+                        ];
+                    }, $data)
+                );
                 $message = new OkMessage('Saved');
             } catch (\Exception $e) {
                 $message = new ErrorMessage($e->getMessage());

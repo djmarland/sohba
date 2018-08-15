@@ -43,9 +43,9 @@ class Container extends React.Component {
         : null;
 
       return (
-        <tr key={person.legacyId}>
+        <tr key={person.id}>
           <td>
-            <a href={`/admin/people/${person.legacyId}`}>{person.name}</a>
+            <a href={`/admin/people/${person.id}`}>{person.name}</a>
           </td>
           <td>{isOnCommittee}</td>
           <td>{committeeTitle}</td>
@@ -62,7 +62,7 @@ class Container extends React.Component {
               <input
                 type="hidden"
                 name="delete-person"
-                value={person.legacyId}
+                value={person.id}
               />
               <button
                 className="button button--icon button--danger"

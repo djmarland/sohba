@@ -5,15 +5,27 @@ namespace App\Service;
 
 use App\Data\Database\Entity\PersonInShow;
 use App\Data\Database\Entity\Programme as DbProgramme;
+use App\Domain\Entity\Person;
 use App\Domain\Entity\Programme;
 use Doctrine\ORM\Query;
+use Ramsey\Uuid\UuidInterface;
 
 class ProgrammesService extends AbstractService
 {
+    // exists only to provide a redirect from the old URLs to the UUID based ones
     public function findByLegacyId(int $id): ?Programme
     {
         return $this->mapSingle(
             $this->entityManager->getProgrammeRepo()->findByLegacyId($id),
+            $this->programmeMapper
+        );
+    }
+
+
+    public function findById(UuidInterface $id): ?Programme
+    {
+        return $this->mapSingle(
+            $this->entityManager->getProgrammeRepo()->getByIdWithImage($id),
             $this->programmeMapper
         );
     }
@@ -54,21 +66,30 @@ class ProgrammesService extends AbstractService
         );
     }
 
-    public function getAllByPersonIds(array $ids = [], ?Programme $exclude = null): array
+    public function getAllByPeople(array $people = [], ?Programme $exclude = null): array
     {
-        $results = $this->entityManager->getPersonInShowRepo()->findAll($ids);
+        $peopleEntities = array_map(function (Person $person) {
+            return $this->entityManager->getPersonRepo()->getByID(
+                $person->getId(),
+                Query::HYDRATE_OBJECT
+            );
+        }, $people);
+
+        // todo - use the ManyToMany map
+        $results = $this->entityManager->getPersonInShowRepo()->findAll($peopleEntities);
         $groupedResults = [];
 
         foreach ($results as $result) {
-            if ($exclude && $exclude->getLegacyId() === $result['programme']['pkid']) {
+            $personId = $result['person']['id'];
+
+            if ($exclude && $exclude->getId()->equals($result['programme']['id'])) {
                 continue;
             }
 
-            $personId = $result['person']['pkid'];
-            if (!isset($groupedResults[$personId])) {
-                $groupedResults[$personId] = [];
+            if (!isset($groupedResults[(string)$personId])) {
+                $groupedResults[(string)$personId] = [];
             }
-            $groupedResults[$personId][] = $this->mapSingle($result['programme'], $this->programmeMapper);
+            $groupedResults[(string)$personId][] = $this->mapSingle($result['programme'], $this->programmeMapper);
         }
 
         return $groupedResults;
@@ -87,10 +108,11 @@ class ProgrammesService extends AbstractService
         return $page->pkid;
     }
 
-    public function deleteProgramme(int $programmeId): void
+    public function deleteProgramme(UuidInterface $programmeId): void
     {
-        $this->entityManager->getProgrammeRepo()->deleteByLegacyId($programmeId);
+        $this->entityManager->getProgrammeRepo()->deleteById($programmeId, DbProgramme::class);
     }
+
 
     public function updateProgramme(
         Programme $programme,
@@ -98,7 +120,7 @@ class ProgrammesService extends AbstractService
         string $tagLine,
         int $type,
         string $description,
-        $imageId = null, // todo - add typehint for UUID,
+        ?UuidInterface $imageId,
         array $peopleIds = []
     ): void {
 
@@ -123,8 +145,8 @@ class ProgrammesService extends AbstractService
         $entity->description = $description;
         $entity->image = $this->getAssociatedImageEntity($imageId);
 
-        $entity->people = \array_map(function (int $id) {
-            $entity = $this->entityManager->getPersonRepo()->findByLegacyId(
+        $entity->people = \array_map(function (UuidInterface $id) {
+            $entity = $this->entityManager->getPersonRepo()->getByID(
                 $id,
                 Query::HYDRATE_OBJECT
             );
@@ -143,16 +165,15 @@ class ProgrammesService extends AbstractService
      */
     private function setPeopleForProgramme(array $peopleIds, Programme $programme): void
     {
-        $programmeId = $programme->getLegacyId();
-
-        $this->entityManager->getPersonInShowRepo()->deleteAllForProgrammeId($programmeId);
-
-        $programmeEntity = $this->entityManager->getProgrammeRepo()->findByLegacyId(
-            $programmeId,
+        $programmeEntity = $this->entityManager->getProgrammeRepo()->getByID(
+            $programme->getId(),
             Query::HYDRATE_OBJECT
         );
+        $this->entityManager->getPersonInShowRepo()->deleteAllForProgramme($programmeEntity);
+
         foreach ($peopleIds as $personId) {
-            $personEntity = $this->entityManager->getPersonRepo()->findByLegacyId(
+            /** @var UuidInterface $personId */
+            $personEntity = $this->entityManager->getPersonRepo()->getByID(
                 $personId,
                 Query::HYDRATE_OBJECT
             );

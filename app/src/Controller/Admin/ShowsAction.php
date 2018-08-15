@@ -7,6 +7,7 @@ use App\Presenter\Message\AbstractMessagePresenter;
 use App\Presenter\Message\OkMessage;
 use App\Service\ProgrammesService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ class ShowsAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
+        UuidFactory $uuidFactory,
         ProgrammesService $programmesService,
         DateTimeImmutable $now
     ): Response {
@@ -32,7 +34,7 @@ class ShowsAction extends AbstractAdminController
             }
 
             if ($request->get('delete-show')) {
-                $showId = (int)$request->get('delete-show');
+                $showId = $uuidFactory->fromString($request->get('delete-show'));
                 $programmesService->deleteProgramme($showId);
                 $message = new OkMessage('Show was deleted');
             } elseif ($request->getContent()) {

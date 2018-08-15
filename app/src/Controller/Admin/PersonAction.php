@@ -9,6 +9,7 @@ use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
 use App\Service\PeopleService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +18,15 @@ class PersonAction extends AbstractAdminController
 {
     public function __invoke(
         Request $request,
+        UuidFactory $uuidFactory,
         PeopleService $peopleService,
         ImagesService $imagesService,
         DateTimeImmutable $now
     ): Response {
 
         $message = null;
-        $personId = $request->get('personId');
-        $person = $peopleService->findByLegacyId((int)$personId);
+        $personId = $uuidFactory->fromString($request->get('personId'));
+        $person = $peopleService->findById($personId);
         if (!$person) {
             return $this->render404('No such person');
         }
@@ -32,14 +34,14 @@ class PersonAction extends AbstractAdminController
         // if POST, parse the incoming JSON into appropriate calls
         if ($request->getMethod() === 'POST') {
             try {
-                $this->handlePost($request, $person, $peopleService);
+                $this->handlePost($request, $person, $peopleService, $uuidFactory);
                 $message = new OkMessage('Saved');
             } catch (\Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
 
             // re-fetch the latest
-            $person = $peopleService->findByLegacyId((int)$personId);
+            $person = $peopleService->findById($personId);
             if (!$person) {
                 throw new RuntimeException('Something went very wrong here');
             }
@@ -63,7 +65,8 @@ class PersonAction extends AbstractAdminController
     private function handlePost(
         Request $request,
         Person $person,
-        PeopleService $peopleService
+        PeopleService $peopleService,
+        UuidFactory $uuidFactory
     ): void {
         // get all the field values
         $name = $request->get('name');
@@ -76,7 +79,12 @@ class PersonAction extends AbstractAdminController
             $committeePosition = (int)$request->get('exec-position');
         }
 
-        $imageId = (int)$request->get('image-id') ?: null;
+        $imageId = $request->get('image-id', null);
+        if (!empty($imageId)) {
+            $imageId = $uuidFactory->fromString($imageId);
+        } else {
+            $imageId = null;
+        }
 
         $peopleService->updatePerson(
             $person,

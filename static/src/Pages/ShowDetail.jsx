@@ -91,7 +91,7 @@ class ShowDetail extends React.Component {
               <h2 className="unit">Basic details</h2>
               <p className="unit text--right">
                 <a
-                  href={`/programmes/${this.state.show.legacyId}`}
+                  href={`/programmes/${this.state.show.id}`}
                   target="_blank"
                 >
                   View show page ⇗
@@ -128,7 +128,7 @@ class ShowDetail extends React.Component {
               <input
                 type="hidden"
                 name="image-id"
-                value={this.state.image ? this.state.image.id : 0}
+                value={this.state.image ? this.state.image.id : ''}
               />
               <div className="t-person-edit__image-box">{image}</div>
               <div className="t-person-edit__image-actions">

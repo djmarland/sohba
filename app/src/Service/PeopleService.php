@@ -4,14 +4,21 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Data\Database\Entity\Person as DbPerson;
-use App\Data\Database\Entity\PersonInShow as DbPersonInShow;
-use App\Data\ID;
 use App\Domain\Entity\Person;
 use App\Domain\Entity\Programme;
 use Doctrine\ORM\Query;
+use Ramsey\Uuid\UuidInterface;
 
 class PeopleService extends AbstractService
 {
+    public function findById(UuidInterface $id): ?Person
+    {
+        return $this->mapSingle(
+            $this->entityManager->getPersonRepo()->getByIdWithImage($id),
+            $this->personMapper
+        );
+    }
+
     public function findAll(): array
     {
         return $this->mapMany(
@@ -38,8 +45,13 @@ class PeopleService extends AbstractService
 
     public function findForProgramme(Programme $programme): array
     {
+        // todo - use the new ManyToMany map
+        $entity = $this->entityManager->getProgrammeRepo()->getByID(
+            $programme->getId(),
+            Query::HYDRATE_OBJECT
+        );
         $peopleInProgramme = $this->entityManager->getPersonInShowRepo()
-            ->findPeopleForProgrammeId($programme->getLegacyId());
+            ->findPeopleForProgramme($entity);
 
         $people = array_map(function (array $personInProgramme) {
             return $personInProgramme['person'];
@@ -61,17 +73,9 @@ class PeopleService extends AbstractService
         return $page->pkid;
     }
 
-    public function deletePerson(int $programmeId): void
+    public function deletePerson(UuidInterface $programmeId): void
     {
-        $this->entityManager->getPersonRepo()->deleteByLegacyId($programmeId);
-    }
-
-    public function findByLegacyId($legacyId): ?Person
-    {
-        return $this->mapSingle(
-            $this->entityManager->getPersonRepo()->findByLegacyId($legacyId),
-            $this->personMapper
-        );
+        $this->entityManager->getPersonRepo()->deleteById($programmeId, DbPerson::class);
     }
 
     public function updatePerson(
@@ -80,7 +84,7 @@ class PeopleService extends AbstractService
         bool $onExec,
         ?string $committeeTitle,
         ?int $committeePosition,
-        $imageId = null // todo - add typehint for UUID
+        ?UuidInterface $imageId
     ): void {
         $entity = $this->entityManager->getPersonRepo()->getByID(
             $person->getId(),

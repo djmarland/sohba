@@ -3,12 +3,24 @@ declare(strict_types=1);
 
 namespace App\Data\Database\EntityRepository;
 
-use App\Data\Database\Entity\Page;
-use App\Data\ID;
+use App\Data\Database\Entity\PageCategory;
 use Doctrine\ORM\Query;
+use Ramsey\Uuid\UuidInterface;
 
 class PageRepository extends AbstractEntityRepository
 {
+    public function getByIdWithCategory(
+        UuidInterface $uuid,
+        $resultType = Query::HYDRATE_ARRAY
+    ) {
+        $qb = $this->createQueryBuilder('tbl')
+            ->select('tbl', 'category')
+            ->leftJoin('tbl.category', 'category')
+            ->where('tbl.id = :id')
+            ->setParameter('id', $uuid->getBytes());
+        return $qb->getQuery()->getOneOrNullResult($resultType);
+    }
+
     public function findAllInCategories(
         int $resultType = Query::HYDRATE_ARRAY
     ) {
@@ -20,16 +32,6 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    public function findByLegacyId(int $legacyId, int $resultType = Query::HYDRATE_ARRAY)
-    {
-        $qb = $this->createQueryBuilder('tbl')
-            ->select('tbl', 'category')
-            ->leftJoin('tbl.category', 'category')
-            ->where('tbl.pkid = :legacyId')
-            ->setParameter('legacyId', $legacyId);
-        return $qb->getQuery()->getOneOrNullResult($resultType);
-    }
-
     public function findByUrlPath(string $urlPath, int $resultType = Query::HYDRATE_ARRAY)
     {
         $qb = $this->createQueryBuilder('tbl')
@@ -39,13 +41,13 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
 
-    public function findAllInCategoryId(int $categoryId, int $resultType = Query::HYDRATE_ARRAY): array
+    public function findAllInCategory(PageCategory $category, int $resultType = Query::HYDRATE_ARRAY): array
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
-            ->where('IDENTITY(tbl.category) = :categoryId')
+            ->where('tbl.category = :category')
             ->orderBy('tbl.order', 'ASC')
-            ->setParameter('categoryId', $categoryId);
+            ->setParameter('category', $category);
         return $qb->getQuery()->getResult($resultType);
     }
 
@@ -56,18 +58,5 @@ class PageRepository extends AbstractEntityRepository
             ->where('tbl.category IS NULL')
             ->orderBy('tbl.title', 'ASC');
         return $qb->getQuery()->getResult($resultType);
-    }
-
-    public function newPage($title, $url)
-    {
-    }
-
-    public function deleteByLegacyId(int $legacyId): void
-    {
-        $sql = 'DELETE FROM ' . Page::class . ' t WHERE t.pkid = :id';
-        $query = $this->getEntityManager()
-            ->createQuery($sql)
-            ->setParameter('id', $legacyId);
-        $query->execute();
     }
 }

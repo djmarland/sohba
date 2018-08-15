@@ -97,24 +97,16 @@ abstract class AbstractService
         );
     }
 
-    protected function getAssociatedImageEntity($imageId): ?Image // todo - add typehint for UUID
+    protected function getAssociatedImageEntity(?UuidInterface $imageId): ?Image
     {
         if ($imageId === null) {
             return null;
         }
 
-        if ($imageId instanceof UuidInterface) {
-            $image = $this->entityManager->getImageRepo()->getByID(
-                $imageId,
-                Query::HYDRATE_OBJECT
-            );
-        } else {
-            // todo - remove this bit
-            $image = $this->entityManager->getImageRepo()->findByLegacyId(
-                $imageId,
-                Query::HYDRATE_OBJECT
-            );
-        }
+        $image = $this->entityManager->getImageRepo()->getByID(
+            $imageId,
+            Query::HYDRATE_OBJECT
+        );
 
         if ($image) {
             return $image;

@@ -58,7 +58,7 @@ abstract class AbstractEntityRepository extends EntityRepository
         $sql = 'DELETE FROM ' . $className . ' t WHERE t.id = :id';
         $query = $this->getEntityManager()
             ->createQuery($sql)
-            ->setParameter('id', $uuid);
+            ->setParameter('id', $uuid->getBytes());
         $query->execute();
     }
 }

@@ -36,12 +36,10 @@ class Programme extends Entity implements \JsonSerializable
     private $image;
     private $tagLine;
     private $detail;
-    private $legacyId;
     private $programmeType;
 
     public function __construct(
         UuidInterface $id,
-        int $legacyId,
         string $title,
         int $programmeType,
         ?string $tagLine,
@@ -53,7 +51,6 @@ class Programme extends Entity implements \JsonSerializable
         $this->image = $image;
         $this->tagLine = $tagLine;
         $this->detail = $detail;
-        $this->legacyId = $legacyId;
         $this->programmeType = $programmeType;
     }
 
@@ -85,7 +82,6 @@ class Programme extends Entity implements \JsonSerializable
     {
         $data = [
             'id' => $this->id,
-            'legacyId' => $this->legacyId,
             'title' => $this->getTitle(),
             'tagLine' => $this->tagLine,
             'type' => $this->programmeType,
@@ -144,11 +140,6 @@ class Programme extends Entity implements \JsonSerializable
         return $this->tagLine;
     }
 
-    public function getLegacyId(): int
-    {
-        return $this->legacyId;
-    }
-
     public function getType(): int
     {
         return $this->programmeType;
@@ -156,7 +147,7 @@ class Programme extends Entity implements \JsonSerializable
 
     public function getUrl(): string
     {
-        return '/programmes/' . $this->legacyId;
+        return '/programmes/' . (string)$this->id;
     }
 
     public function getTypeName(): ?string

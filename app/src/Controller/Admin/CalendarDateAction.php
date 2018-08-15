@@ -10,6 +10,7 @@ use App\Presenter\Message\OkMessage;
 use App\Service\ProgrammesService;
 use App\Service\SchedulesService;
 use DateTimeImmutable;
+use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,7 +20,8 @@ class CalendarDateAction extends AbstractAdminController
     public function __invoke(
         Request $request,
         ProgrammesService $programmesService,
-        SchedulesService $schedulesService
+        SchedulesService $schedulesService,
+        UuidFactory $uuidFactory
     ): Response {
         $year = (int)$request->get('year');
         $month = (int)$request->get('month');
@@ -35,7 +37,7 @@ class CalendarDateAction extends AbstractAdminController
 
         $message = null;
         if ($request->getMethod() === 'POST') {
-            $message = $this->handlePost($request, $date, $schedulesService);
+            $message = $this->handlePost($request, $date, $schedulesService, $uuidFactory);
         }
 
         // get the listings
@@ -69,7 +71,8 @@ class CalendarDateAction extends AbstractAdminController
     private function handlePost(
         Request $request,
         DateTimeImmutable $date,
-        SchedulesService $schedulesService
+        SchedulesService $schedulesService,
+        UuidFactory $uuidFactory
     ): AbstractMessagePresenter {
         try {
             if ($request->get('delete-day')) {
@@ -81,16 +84,23 @@ class CalendarDateAction extends AbstractAdminController
             }
             if ($request->get('listings')) {
                 $data = \json_decode($request->get('listings'), true);
-                $schedulesService->updateSpecialListings($date, array_map(function ($inputObj) use ($date) {
-                    $time = DateTimeImmutable::createFromFormat('H:i', $inputObj['time']);
-                    $time = $time->setDate((int)$date->format('Y'), (int)$date->format('m'), (int)$date->format('d'));
-                    return [
-                        'time' => $time,
-                        'programme' => $inputObj['programmeLegacyId'],
-                        'internalNote' => !empty($inputObj['internalNote']) ? $inputObj['internalNote'] : null,
-                        'publicNote' => !empty($inputObj['publicNote']) ? $inputObj['publicNote'] : null,
-                    ];
-                }, $data));
+                $schedulesService->updateSpecialListings(
+                    $date,
+                    array_map(function ($inputObj) use ($date, $uuidFactory) {
+                        $time = DateTimeImmutable::createFromFormat('H:i', $inputObj['time']);
+                        $time = $time->setDate(
+                            (int)$date->format('Y'),
+                            (int)$date->format('m'),
+                            (int)$date->format('d')
+                        );
+                        return [
+                            'time' => $time,
+                            'programme' => $uuidFactory->fromString($inputObj['programmeId']),
+                            'internalNote' => !empty($inputObj['internalNote']) ? $inputObj['internalNote'] : null,
+                            'publicNote' => !empty($inputObj['publicNote']) ? $inputObj['publicNote'] : null,
+                        ];
+                    }, $data)
+                );
                 return new OkMessage('Saved');
             }
             return new ErrorMessage('I do not know what you did');
