@@ -79,13 +79,14 @@ and build the static site. If that is successful it will tag the Git commit, zip
 up the app folder and attach it to the newly created release at 
 https://github.com/djmarland/sohba/releases as `sohba.tar`.
 
-This `.tar` file contains the `app` folder with everything required to release.
+This `.tar` file contains the intended contents of the `app` folder with 
+everything required to release.
 
 ## Deployment
 > Credential details can be found in the "Technical Information" section of Admin.
 
 Deployment consists of replacing the `app` folder at the root of the web server with
-the app folder inside `sohba.tar` from https://github.com/djmarland/sohba/releases.
+the files inside `sohba.tar` from https://github.com/djmarland/sohba/releases.
 
 Deployment is currently manual:
 * Download the latest `sohba.tar` from https://github.com/djmarland/sohba/releases

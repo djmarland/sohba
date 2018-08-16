@@ -2,5 +2,7 @@
 
 {% block body %}
     <h1>Technical Information</h1>
-    {{ htmlContent|raw }}
+    <div class="text--prose">
+        {{ htmlContent|raw }}
+    </div>
 {% endblock %}
