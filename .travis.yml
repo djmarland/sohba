@@ -62,6 +62,7 @@ before_deploy:
   # zip up the application
   - cd app
   - tar -cf ../sohba.tar config public src templates vendor composer.json
+  - cd ../
 
 deploy:
   # GitHub - Add zip to release
