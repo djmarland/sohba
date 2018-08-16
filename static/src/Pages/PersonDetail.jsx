@@ -139,7 +139,7 @@ class PersonDetail extends React.Component {
               <input
                 type="hidden"
                 name="image-id"
-                value={this.state.image ? this.state.image.id : ''}
+                value={this.state.image ? this.state.image.id : ""}
               />
               <div className="t-person-edit__image-box">{image}</div>
               <div className="t-person-edit__image-actions">

@@ -108,7 +108,10 @@ class EditDate extends React.Component {
 
     listings = listings.map(broadcast => {
       return (
-        <li key={broadcast.id} className={`small-unit broadcast--event-${broadcast.programme.type}`}>
+        <li
+          key={broadcast.id}
+          className={`small-unit broadcast--event-${broadcast.programme.type}`}
+        >
           <div className="selector__item selector__item--plain">
             <input
               type="time"
@@ -120,8 +123,13 @@ class EditDate extends React.Component {
               }}
             />
             <span className="selector__item-title selector__item-title--label">
-              {broadcast.programme.title} <a href={`/admin/shows/${broadcast.programme.id}`}
-                                             target="_blank">⇗</a>
+              {broadcast.programme.title}{" "}
+              <a
+                href={`/admin/shows/${broadcast.programme.id}`}
+                target="_blank"
+              >
+                ⇗
+              </a>
             </span>
             <span className="selector__action">
               <button
@@ -130,14 +138,15 @@ class EditDate extends React.Component {
                   this.removeItem(broadcast.id);
                 }}
               >
-                <DeleteIcon/>
+                <DeleteIcon />
               </button>
             </span>
           </div>
           <label className="form__note-row">
             <abbr
               className="form__note-label"
-              title="A note that will only be displayed here and on the studio printout">
+              title="A note that will only be displayed here and on the studio printout"
+            >
               Internal note:
             </abbr>
             <input
@@ -152,7 +161,8 @@ class EditDate extends React.Component {
           <label className="form__note-row">
             <abbr
               className="form__note-label"
-              title="A note that will be displayed on the website for the public">
+              title="A note that will be displayed on the website for the public"
+            >
               Public note:
             </abbr>
             <input
@@ -186,7 +196,7 @@ class EditDate extends React.Component {
               <ol className="selector__list">{listings}</ol>
             </div>
             <div className="selector__arrow">
-              <LeftIcon/>
+              <LeftIcon />
             </div>
             <div className="selector__source">
               <ShowPicker

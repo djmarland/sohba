@@ -80,9 +80,7 @@ class PageDetail extends React.Component {
               name="nav-category"
               className="form__input"
               defaultValue={
-                this.state.page.category
-                  ? this.state.page.category.id
-                  : ""
+                this.state.page.category ? this.state.page.category.id : ""
               }
               required
             >

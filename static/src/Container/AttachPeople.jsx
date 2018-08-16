@@ -40,9 +40,7 @@ class Container extends React.Component {
       return null;
     }
 
-    const selectedIds = this.state.selectedPeople.map(
-      person => person.id
-    );
+    const selectedIds = this.state.selectedPeople.map(person => person.id);
 
     const selectedPeople = this.state.selectedPeople.map(person => {
       return (

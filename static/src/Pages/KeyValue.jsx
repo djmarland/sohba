@@ -30,9 +30,7 @@ class KeyValue extends React.Component {
     if (this.state.content.isRichText) {
       valueEditor = (
         <React.Fragment>
-          <label className="form__label">
-            Value
-          </label>
+          <label className="form__label">Value</label>
           <RichTextEditor
             initialContent={this.state.content.richContent}
             fieldName="html-content"

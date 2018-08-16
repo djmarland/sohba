@@ -59,11 +59,7 @@ class Container extends React.Component {
                 }
               }}
             >
-              <input
-                type="hidden"
-                name="delete-person"
-                value={person.id}
-              />
+              <input type="hidden" name="delete-person" value={person.id} />
               <button
                 className="button button--icon button--danger"
                 type="submit"

@@ -1,8 +1,8 @@
 import isBefore from "date-fns/is_before";
 import isAfter from "date-fns/is_after";
 import isEqual from "date-fns/is_equal";
-import isSameWeek from 'date-fns/is_same_week';
-import isSameMonth from 'date-fns/is_same_month';
+import isSameWeek from "date-fns/is_same_week";
+import isSameMonth from "date-fns/is_same_month";
 
 import startOfWeek from "date-fns/start_of_week";
 import startOfMonth from "date-fns/start_of_month";
@@ -16,9 +16,9 @@ import addDays from "date-fns/add_days";
 import addMonths from "date-fns/add_months";
 import addYears from "date-fns/add_years";
 
-const weekOpts = {weekStartsOn: 1};
+const weekOpts = { weekStartsOn: 1 };
 
-const makeWeeks = (month) => {
+const makeWeeks = month => {
   const firstOfMonthWeek = startOfWeek(startOfMonth(month), weekOpts);
   const endOfMonthWeek = endOfWeek(endOfMonth(month), weekOpts);
 
@@ -28,7 +28,10 @@ const makeWeeks = (month) => {
   let currentWeek = null;
   let currentWeekData = [];
 
-  while (isBefore(counter, endOfMonthWeek) || isEqual(counter, endOfMonthWeek)) {
+  while (
+    isBefore(counter, endOfMonthWeek) ||
+    isEqual(counter, endOfMonthWeek)
+  ) {
     if (!currentWeek || !isSameWeek(currentWeek, counter, weekOpts)) {
       if (currentWeek) {
         weeks.push(currentWeekData);
@@ -60,7 +63,6 @@ const makeMonths = (year, fromLimit, toLimit) => {
   }
 
   return months;
-
 };
 
 /**
@@ -81,7 +83,7 @@ export const makeCalendar = (from, to) => {
   return years;
 };
 
-export const findDayInMonth = (month) => {
+export const findDayInMonth = month => {
   let dayOfMonth = null;
   let count = 0;
   while (dayOfMonth === null) {
@@ -90,6 +92,6 @@ export const findDayInMonth = (month) => {
   return dayOfMonth;
 };
 
-export const findDayInLastMonthOfYear = (year) => {
+export const findDayInLastMonthOfYear = year => {
   return findDayInMonth(year[year.length - 1]);
 };

@@ -90,10 +90,7 @@ class ShowDetail extends React.Component {
             <div className="t-person-edit__detail">
               <h2 className="unit">Basic details</h2>
               <p className="unit text--right">
-                <a
-                  href={`/programmes/${this.state.show.id}`}
-                  target="_blank"
-                >
+                <a href={`/programmes/${this.state.show.id}`} target="_blank">
                   View show page ⇗
                 </a>
               </p>
@@ -128,7 +125,7 @@ class ShowDetail extends React.Component {
               <input
                 type="hidden"
                 name="image-id"
-                value={this.state.image ? this.state.image.id : ''}
+                value={this.state.image ? this.state.image.id : ""}
               />
               <div className="t-person-edit__image-box">{image}</div>
               <div className="t-person-edit__image-actions">

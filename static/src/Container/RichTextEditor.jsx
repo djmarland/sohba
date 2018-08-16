@@ -17,7 +17,7 @@ const toolbarOptions = {
   },
   textAlign: {
     inDropdown: false,
-    options: ['left', 'center', 'right'],
+    options: ["left", "center", "right"]
   },
   list: {
     options: ["unordered", "ordered"]

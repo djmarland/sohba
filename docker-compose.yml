@@ -6,6 +6,7 @@ services:
     build: .
     ports:
       - "8080:80"
+    working_dir: /var/www/html/app
     volumes:
       - .:/var/www/html
 

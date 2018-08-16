@@ -58,9 +58,11 @@ class ShowPicker extends React.Component {
       );
     }
     allShows = allShows.map(programme => {
-      let itemClass = 'selector__item';
+      let itemClass = "selector__item";
       if (this.props.allowShowType) {
-        itemClass = `${itemClass} selector__item--plain broadcast--event-${programme.type}`;
+        itemClass = `${itemClass} selector__item--plain broadcast--event-${
+          programme.type
+        }`;
       }
 
       return (
@@ -73,7 +75,7 @@ class ShowPicker extends React.Component {
                 this.props.onSelect(programme.id);
               }}
             >
-              <LeftIcon/>
+              <LeftIcon />
             </button>
           </span>
           <span className="selector__item-title selector__item-title--label">
@@ -87,26 +89,26 @@ class ShowPicker extends React.Component {
     if (this.props.allowShowType) {
       const typeButtons = this.props.types.map(type => {
         return (
-
-        <label
-          className={`form__checkbox-box broadcast--event-${type.id}`}
-          key={`type-${type.id}`}
-        >
-          <input
-            type="radio"
-            name="type"
-            value={type.id}
-            className="form__input"
-            checked={this.state.showType === type.id}
-            onChange={(e) => {
-              this.setState({
-                showType: parseInt(e.target.value, 10)
-              });
-            }}
-          />{" "}
-          {type.title}
-        </label>
-      );});
+          <label
+            className={`form__checkbox-box broadcast--event-${type.id}`}
+            key={`type-${type.id}`}
+          >
+            <input
+              type="radio"
+              name="type"
+              value={type.id}
+              className="form__input"
+              checked={this.state.showType === type.id}
+              onChange={e => {
+                this.setState({
+                  showType: parseInt(e.target.value, 10)
+                });
+              }}
+            />{" "}
+            {type.title}
+          </label>
+        );
+      });
 
       showType = (
         <React.Fragment>
@@ -120,8 +122,7 @@ class ShowPicker extends React.Component {
       <React.Fragment>
         <h3 className="selector__title e unit">Quick-make new show</h3>
         <div className="unit">
-          <form onSubmit={e => {
-          }}>
+          <form onSubmit={e => {}}>
             <label className="form__label-row">
               Show title
               <input
