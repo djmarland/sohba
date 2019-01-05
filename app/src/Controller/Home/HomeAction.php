@@ -36,6 +36,8 @@ class HomeAction extends AbstractController
                 'twitterText' => $configurableContentService->getValue(CCS::KEY_TWITTER_INTRO_TEXT),
                 'facebookUrl' => $configurableContentService->getValue(CCS::KEY_FACEBOOK_URL),
                 'facebookText' => $configurableContentService->getValue(CCS::KEY_FACEBOOK_INTRO_TEXT),
+                'instagramUrl' => $configurableContentService->getValue(CCS::KEY_INSTAGRAM_URL),
+                'instagramText' => $configurableContentService->getValue(CCS::KEY_INSTAGRAM_INTRO_TEXT),
                 'phoneNumberFormatted' => $phoneNumber,
                 'phoneNumberRaw' => preg_replace('/[^0-9,.]/', '', $phoneNumber),
             ],

@@ -68,9 +68,9 @@ There are (some) code quality controls available for the PHP. These can be run v
 The docker-compose file provides a node-yarn container for building the front-end
 React application (with webpack):
 
-* `docker-compose run sohba-node yarn client` builds the React app and stores the results in `/app/public/static`
-* `docker-compose run sohba-node yarn dev` offers a watch mode for building the app
-* `docker-compose run sohba-node yarn pretty` runs Prettier over the Scss and JS files
+* `docker-compose run --rm sohba-node yarn client` builds the Sass & React app and stores the results in `/app/public/static`
+* `docker-compose run --rm sohba-node yarn dev` offers a watch mode for building the app
+* `docker-compose run --rm sohba-node yarn pretty` runs Prettier over the Scss and JS files
 
 ## Build
 Upon commit to master the application will automatically begin to build using Travis

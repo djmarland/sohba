@@ -27,6 +27,10 @@
     &--facebook {
       background: #4268b3;
     }
+    &--instagram {
+      background: #c13584;
+      background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+    }
   }
 
   &__panel-header {
@@ -80,16 +84,15 @@
       flex: 1;
     }
 
+    &__events,
+    &__social {
+      margin-left: -$grid-unit;
+    }
+
     &__events-panel,
     &__social-panel {
-      &:first-child {
-        flex: 1;
-        margin-right: $grid-unit / 2;
-      }
-      &:last-child {
-        flex: 1;
-        margin-left: $grid-unit / 2;
-      }
+      margin-left: $grid-unit;
+      flex: 1;
     }
   }
 }

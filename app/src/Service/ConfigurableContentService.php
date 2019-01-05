@@ -14,6 +14,8 @@ class ConfigurableContentService extends AbstractService
     public const KEY_FACEBOOK_INTRO_TEXT = 'FACEBOOK_INTRO_TEXT';
     public const KEY_FACEBOOK_URL = 'FACEBOOK_URL';
     public const KEY_FOOTER_CONTENT = 'FOOTER_CONTENT';
+    public const KEY_INSTAGRAM_INTRO_TEXT = 'INSTAGRAM_INTRO_TEXT';
+    public const KEY_INSTAGRAM_URL = 'INSTAGRAM_URL';
     public const KEY_PHONE_NUMBER = 'PHONE_NUMBER';
     public const KEY_REQUESTLINE_INTRO = 'REQUESTLINE_INTRO';
     public const KEY_TWITTER_INTRO_TEXT = 'TWITTER_INTRO_TEXT';
@@ -27,6 +29,8 @@ class ConfigurableContentService extends AbstractService
         self::KEY_FOOTER_CONTENT => true,
         self::KEY_FACEBOOK_INTRO_TEXT => true,
         self::KEY_FACEBOOK_URL => false,
+        self::KEY_INSTAGRAM_INTRO_TEXT => true,
+        self::KEY_INSTAGRAM_URL => false,
         self::KEY_REQUESTLINE_INTRO => true,
         self::KEY_PHONE_NUMBER => false,
         self::KEY_TWITTER_INTRO_TEXT => true,
@@ -51,7 +55,7 @@ class ConfigurableContentService extends AbstractService
             throw new \InvalidArgumentException($key . ' is not a valid key');
         }
 
-        return $this->getAll()[$key];
+        return $this->getAll()[$key] ?? null;
     }
 
     public function ensureKeysExist(): void
