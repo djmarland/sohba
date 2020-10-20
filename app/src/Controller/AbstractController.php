@@ -65,7 +65,7 @@ abstract class AbstractController extends SymfonyAbstractController
         if (!$data['baseShowCricket']) {
             $data['baseListenLiveLink'] = $this->configurableContentService->getValue(
                 ConfigurableContentService::KEY_LIVE_STREAM_URL
-            );;
+            );
         }
         return $this->render($template, $data, $originalResponse);
     }
