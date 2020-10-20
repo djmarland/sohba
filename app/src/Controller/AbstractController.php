@@ -50,6 +50,7 @@ abstract class AbstractController extends SymfonyAbstractController
         $data['baseNowAndNext'] = $this->schedulesService->getNowAndNext($this->now);
         $data['baseAssetManifest'] = $this->getAssetManifest();
         $data['baseShowCricket'] = null;
+        $data['baseListenLiveLink'] = null;
         if ($request && $request->get('crickettest')) {
             $data['baseShowCricket'] = $this->configurableContentService->getValue(
                 ConfigurableContentService::KEY_CRICKET_STREAM_URL
@@ -60,6 +61,11 @@ abstract class AbstractController extends SymfonyAbstractController
             $data['baseShowCricket'] = $this->configurableContentService->getValue(
                 ConfigurableContentService::KEY_CRICKET_STREAM_URL
             );
+        }
+        if (!$data['baseShowCricket']) {
+            $data['baseListenLiveLink'] = $this->configurableContentService->getValue(
+                ConfigurableContentService::KEY_LIVE_STREAM_URL
+            );;
         }
         return $this->render($template, $data, $originalResponse);
     }

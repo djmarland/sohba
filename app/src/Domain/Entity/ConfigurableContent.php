@@ -50,6 +50,11 @@ class ConfigurableContent extends Entity implements \JsonSerializable
         return $this->key;
     }
 
+    public function hasValue(): bool
+    {
+        return $this->richContent !== null || $this->simpleContent !== null;
+    }
+
     public function getDescription(): string
     {
         return $this->description;

@@ -13,10 +13,12 @@ class ConfigurableContentMapper implements MapperInterface
         $richContent = null;
         $simpleContent = null;
 
-        if ($item['isRichText']) {
-            $richContent = new RichText($item['value']);
-        } else {
-            $simpleContent = $item['value'];
+        if (!empty($item['value'])) {
+            if ($item['isRichText']) {
+                $richContent = new RichText($item['value']);
+            } else {
+                $simpleContent = $item['value'];
+            }
         }
 
         return new ConfigurableContent(

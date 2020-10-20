@@ -11,6 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 class ConfigurableContentService extends AbstractService
 {
     public const KEY_CRICKET_STREAM_URL = 'CRICKET_STREAM_URL';
+    public const KEY_LIVE_STREAM_URL = 'LIVE_STREAM_URL';
     public const KEY_FACEBOOK_INTRO_TEXT = 'FACEBOOK_INTRO_TEXT';
     public const KEY_FACEBOOK_URL = 'FACEBOOK_URL';
     public const KEY_FOOTER_CONTENT = 'FOOTER_CONTENT';
@@ -26,6 +27,7 @@ class ConfigurableContentService extends AbstractService
     // true means it is richText
     private const ALL_KEYS = [
         self::KEY_CRICKET_STREAM_URL => false,
+        self::KEY_LIVE_STREAM_URL => false,
         self::KEY_FOOTER_CONTENT => true,
         self::KEY_FACEBOOK_INTRO_TEXT => true,
         self::KEY_FACEBOOK_URL => false,
@@ -51,11 +53,12 @@ class ConfigurableContentService extends AbstractService
 
     public function getValue(string $key)
     {
-        if (!\array_key_exists($key, self::ALL_KEYS)) {
-            throw new \InvalidArgumentException($key . ' is not a valid key');
+        /** @var ConfigurableContent | null $v */
+        $v = $this->getAll()[$key] ?? null;
+        if ($v && $v->hasValue()) {
+            return $v;
         }
-
-        return $this->getAll()[$key] ?? null;
+        return null;
     }
 
     public function ensureKeysExist(): void

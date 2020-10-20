@@ -1,0 +1,9 @@
+.listen-live {
+  &__external {
+    font-size: 1rem;
+  }
+  &__audio {
+    margin-top: $grid-unit;
+    width: 100%;
+  }
+}

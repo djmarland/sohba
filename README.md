@@ -52,6 +52,8 @@ DB_WRITE_USER=root
 DB_WRITE_PASSWORD=root
 ```
 
+For static files A symlink will need to be created from public_html/static to app/public/static
+
 ### Database
 On a fresh build the database will be empty. The schema can be created with:
 `docker-compose run sohba bin/console doctrine:schema:create`

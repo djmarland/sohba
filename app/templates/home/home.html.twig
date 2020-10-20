@@ -19,6 +19,14 @@
         <div class="t-home__intro">
 
             <div class="t-home__actions">
+                {% if baseListenLiveLink %}
+                <div class="t-home__panel t-home__panel--live listen-live">
+                    <h2 class="t-home__panel-header">Listen live <span class="listen-live__external">(<a href="{{ baseListenLiveLink }}" target="_blank">new window</a>)</span></h2>
+                    <audio class="listen-live__audio" src="{{ baseListenLiveLink }}"
+                           controls="controls"></audio>
+                </div>
+                {% endif %}
+
                 <div class="t-home__panel t-home__panel--requestline">
                     <h2 class="t-home__panel-header">Requestline</h2>
                     <div class="text--prose">

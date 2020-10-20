@@ -12,7 +12,6 @@ RUN docker-php-source extract \
     libpng-dev \
     libicu-dev \
     libpq-dev \
-    libpng12-dev \
     libjpeg-dev \
     && apt-get clean \
     && rm -rf /tmp/*
