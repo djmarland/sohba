@@ -22,7 +22,7 @@ services:
       - sohbamysql-data:/var/lib/sohbamysql
 
   sohba-node:
-    image: kkarczmarczyk/node-yarn:latest
+    image: jitesoft/node-yarn:14
     volumes:
       - .:/var/www
     working_dir: /var/www/static
