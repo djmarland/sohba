@@ -1,5 +1,5 @@
 # Southampton Hospital Radio Website
-[![Build Status](https://travis-ci.org/djmarland/sohba.svg?branch=master)](https://travis-ci.org/djmarland/sohba)
+[![Build Status](https://travis-ci.com/djmarland/sohba.svg?branch=master)](https://travis-ci.com/djmarland/sohba)
 
 This is the codebase for https://www.sohba.org. 
 
@@ -76,7 +76,7 @@ React application (with webpack):
 
 ## Build
 Upon commit to master the application will automatically begin to build using Travis
-(https://travis-ci.org/djmarland/sohba). This will run all the code quality checks
+(https://travis-ci.com/djmarland/sohba). This will run all the code quality checks
 and build the static site. If that is successful it will tag the Git commit, zip
 up the app folder and attach it to the newly created release at 
 https://github.com/djmarland/sohba/releases as `sohba.tar`.

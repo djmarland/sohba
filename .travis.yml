@@ -67,7 +67,6 @@ before_deploy:
 deploy:
   # GitHub - Add zip to release
   - provider: releases
-    api_key:
-      secure: $GITHUB_KEY
+    api_key: $GITHUB_KEY
     file: sohba.tar
     skip_cleanup: true
