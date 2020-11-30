@@ -4,14 +4,18 @@
     <h1 class="hidden--visually">{{ baseSiteTitle }}</h1>
 
     {% if baseShowCricket %}
-        <div class="live-cricket">
+        <a class="live-cricket" href="{{ baseShowCricket }}" target="_blank" rel="noopener">
+            <div class="live-cricket__icon">
+                <svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                </svg>
+            </div>
+            <div class="live-cricket__text">
+                <h2 class="live-cricket__title">Listen Live</h2>
+                <p>Ball-by-ball commentary service on today's match: {{ baseNowAndNext[0].programme.title }}</p>
+            </div>
             <div class="live-cricket__ball"></div>
-            <h2 class="live-cricket__title">Listen Live</h2>
-            <p>Ball-by-ball commentary service on todays match: {{ baseNowAndNext[0].programme.title }} (<a
-                        href="{{ baseShowCricket }}" target="_blank">new window</a>)</p>
-            <audio class="live-cricket__audio" src="{{ baseShowCricket }}"
-                   controls="controls"></audio>
-        </div>
+        </a>
     {% endif %}
 
     <div class="t-home">
@@ -20,11 +24,14 @@
 
             <div class="t-home__actions">
                 {% if baseListenLiveLink %}
-                <div class="t-home__panel t-home__panel--live listen-live">
-                    <h2 class="t-home__panel-header">Listen live <span class="listen-live__external">(<a href="{{ baseListenLiveLink }}" target="_blank">new window</a>)</span></h2>
-                    <audio class="listen-live__audio" src="{{ baseListenLiveLink }}"
-                           controls="controls"></audio>
-                </div>
+                    <a class="t-home__panel t-home__panel--live listen-live__link" href="{{ baseListenLiveLink }}" target="_blank" rel="noopener">
+                        <span class="listen-live__icon">
+                            <svg viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                            </svg>
+                        </span>
+                        Listen live
+                    </a>
                 {% endif %}
 
                 <div class="t-home__panel t-home__panel--requestline">

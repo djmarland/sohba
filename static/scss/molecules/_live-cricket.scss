@@ -13,24 +13,36 @@
   border: solid 1px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   margin-bottom: $grid-unit;
+  display: flex;
+  align-items: flex-start;
+  color: #263126;
+  &:hover, &:active, &:focus {
+    color: #263126;
+  }
+
+  &__icon {
+    color: #af0210;
+    display: block;
+    height: 32px;
+    width: 32px;
+    margin-right: $grid-unit;
+  }
 
   &__ball {
     background: 50% 50% no-repeat;
-    height: 70px;
-    width: 70px;
+    height: 56px;
+    width: 56px;
     margin-left: $grid-unit;
     animation: rotate 6s infinite linear;
-    float: right;
+  }
+
+  &__text {
+    flex: 1;
   }
 
   &__title {
     @extend .c;
     line-height: 1;
     margin-bottom: $grid-unit / 2;
-  }
-
-  &__audio {
-    margin-top: $grid-unit;
-    width: 100%;
   }
 }

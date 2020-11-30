@@ -7,6 +7,18 @@
     background: $color-grey-lightest;
     padding: $grid-unit;
 
+    &--live {
+      @keyframes live {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+      }
+      background-image: linear-gradient(90deg, #ce0008, #360402);
+      color: #fff;
+      background-size: 400% 400%;
+      animation: live 10s ease infinite;
+    }
+
     &--sports {
       background-image: linear-gradient(
         135deg,
