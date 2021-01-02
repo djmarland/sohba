@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\Home\HomeAction;
 use App\Controller\Page\OutsideBroadcastsAction;
 use App\Controller\Page\PeopleAction;
 use App\Controller\Page\RequestsAction;
@@ -22,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PageAction extends AbstractAdminController
 {
     private const RESERVED_URLS = [
-        \App\Controller\Home\HomeAction::SPECIAL_PAGE_URL => 'Home',
+        HomeAction::SPECIAL_PAGE_URL => 'Home',
         AbstractSchedulesAction::SPECIAL_PAGE_URL => 'Programme Listings',
         RequestsAction::SPECIAL_PAGE_URL => 'Requests',
         SportsAction::SPECIAL_PAGE_URL => 'Sports',

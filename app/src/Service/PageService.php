@@ -125,7 +125,7 @@ class PageService extends AbstractService
         $entity->title = $title;
         $entity->urlPath = $url;
         $entity->htmlContent = $htmlContent;
-        $entity->order = $navPosition;
+        $entity->order = $navPosition ?? 0;
         $entity->category = $category;
 
         $this->entityManager->persist($entity);
@@ -140,7 +140,7 @@ class PageService extends AbstractService
         );
     }
 
-    public function newPage(string $title)
+    public function newPage(string $title): UuidInterface
     {
         $url = str_replace(' ', '-', strtolower($title));
         $url = preg_replace('/[^a-z0-9-]/s', '', $url);
@@ -155,6 +155,6 @@ class PageService extends AbstractService
         $this->entityManager->persist($page);
         $this->entityManager->flush();
 
-        return $page->pkid;
+        return $page->id;
     }
 }

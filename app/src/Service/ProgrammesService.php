@@ -86,7 +86,7 @@ class ProgrammesService extends AbstractService
         return $groupedResults;
     }
 
-    public function newProgramme(string $name, int $type = Programme::PROGRAMME_TYPE_REGULAR): int
+    public function newProgramme(string $name, int $type = Programme::PROGRAMME_TYPE_REGULAR): UuidInterface
     {
         $page = new DbProgramme(
             $name,
@@ -96,7 +96,7 @@ class ProgrammesService extends AbstractService
         $this->entityManager->persist($page);
         $this->entityManager->flush();
 
-        return $page->pkid;
+        return $page->id;
     }
 
     public function deleteProgramme(UuidInterface $programmeId): void

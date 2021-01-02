@@ -36,7 +36,7 @@ RUN docker-php-ext-configure opcache \
     && docker-php-ext-configure zip \
     && docker-php-ext-configure xml \
     && docker-php-ext-configure intl \
-    && docker-php-source delete \\
+    && docker-php-source delete \
     && docker-php-ext-install \
     opcache \
     calendar \

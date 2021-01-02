@@ -54,14 +54,14 @@ class PeopleService extends AbstractService
         );
     }
 
-    public function newPerson(string $name): int
+    public function newPerson(string $name): UuidInterface
     {
         $page = new DbPerson($name);
 
         $this->entityManager->persist($page);
         $this->entityManager->flush();
 
-        return $page->pkid;
+        return $page->id;
     }
 
     public function deletePerson(UuidInterface $programmeId): void

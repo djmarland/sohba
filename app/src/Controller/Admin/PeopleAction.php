@@ -26,7 +26,7 @@ class PeopleAction extends AbstractAdminController
             if ($request->get('new-person-name')) {
                 $name = $request->get('new-person-name');
                 $personId = $peopleService->newPerson($name);
-                return $this->redirect('/admin/people/' . $personId);
+                return $this->redirect('/admin/people/' . $personId->toString());
             }
 
             if ($request->get('delete-person')) {

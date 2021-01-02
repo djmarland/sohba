@@ -34,7 +34,7 @@ class PagesAction extends AbstractAdminController
             } elseif ($request->get('new-page-title')) {
                 $title = $request->get('new-page-title');
                 $pageId = $pageService->newPage($title);
-                return $this->redirect('/admin/pages/' . $pageId);
+                return $this->redirect('/admin/pages/' . $pageId->toString());
             } elseif ($request->get('new-category-title')) {
                 $title = $request->get('new-category-title');
                 $pageService->newPageCategory($title);

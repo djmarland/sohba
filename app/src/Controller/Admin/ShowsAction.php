@@ -27,7 +27,7 @@ class ShowsAction extends AbstractAdminController
             if ($request->get('new-show-name')) {
                 $name = $request->get('new-show-name');
                 $showId = $programmesService->newProgramme($name);
-                return $this->redirect('/admin/shows/' . $showId);
+                return $this->redirect('/admin/shows/' . $showId->toString());
             }
 
             if ($request->get('delete-show')) {
