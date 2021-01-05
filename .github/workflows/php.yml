@@ -4,11 +4,6 @@ on: [push, pull_request]
 
 jobs:
   build:
-    defaults:
-      run:
-        shell: bash
-        working-directory: app
-
     runs-on: ubuntu-latest
     container: php:7.4
     steps:
@@ -20,6 +15,7 @@ jobs:
           composer run-script cs
           composer run-script stan
           composer run-script test
+        working-directory: app
 
 #
 #    steps:
