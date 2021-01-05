@@ -16,7 +16,7 @@ jobs:
       - uses: docker://composer:2
         with:
           args: composer install --no-ansi --no-progress
-        run: |
+      - run: |
           composer run-script cs
           composer run-script stan
           composer run-script test
