@@ -8,13 +8,16 @@ jobs:
     container: php:7.4
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://composer:2
-      - run: |
-          composer install --no-ansi --no-progress
-          composer run-script cs
-          composer run-script stan
-          composer run-script test
-        working-directory: app
+      - name: Install dependencies
+        uses: php-actions/composer@v5
+        with:
+          php_version: 7.4
+          working_dir: app
+#      - run: |
+#          composer install --no-ansi --no-progress
+#          composer run-script cs
+#          composer run-script stan
+#          composer run-script test
 
 #
 #    steps:
