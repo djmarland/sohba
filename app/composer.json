@@ -1,4 +1,5 @@
 {
+    "name": "sohba",
     "type": "project",
     "license": "proprietary",
     "require": {
