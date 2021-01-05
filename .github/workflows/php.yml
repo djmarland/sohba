@@ -4,42 +4,21 @@ on: [push, pull_request]
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: app
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        uses: php-actions/composer@v5
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php_version: 7.4
-         # working_dir: app
-#      - run: |
-#          composer install --no-ansi --no-progress
-#          composer run-script cs
-#          composer run-script stan
-#          composer run-script test
-
-#
-#    steps:
-#    - uses: actions/checkout@v2
-#
-#    - name: Cache Composer dependencies
-#      uses: actions/cache@v2
-#      with:
-#        path: /tmp/composer-cache
-#        key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-#
-#    - name: Install composer
-#      uses: php-actions/composer@v5
-#      with:
-#        php_version: 7.4
-#        args: --prefer-dist
-#
-#    - name: Validate composer.json and composer.lock
-#      run: composer validate --no-check-publish
-#
-#    - name: Run test suite
-#      run: |
-#        composer run-script cs
-#        composer run-script stan
-#        composer run-script test
+          php-version: 7.4
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-suggest
+      - name: Run test suite
+        run: |
+          composer run-script cs
+          composer run-script stan
+          composer run-script test
