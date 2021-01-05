@@ -9,9 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: docker://composer:2
-        with:
-          args: composer install --no-ansi --no-progress
       - run: |
+          composer install --no-ansi --no-progress
           composer run-script cs
           composer run-script stan
           composer run-script test
