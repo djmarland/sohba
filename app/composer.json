@@ -1,5 +1,5 @@
 {
-    "name": "sohba",
+    "name": "sohba/app",
     "type": "project",
     "license": "proprietary",
     "require": {
