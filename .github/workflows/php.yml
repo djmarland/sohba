@@ -5,7 +5,6 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: php:7.4
     steps:
       - uses: actions/checkout@v1
       - name: Install dependencies
