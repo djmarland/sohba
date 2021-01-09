@@ -106,28 +106,16 @@ jobs:
       - name: Get files
         uses: actions/download-artifact@v2
 
-      - name: List files
-        run: |
-          pwd
-          ls -R
-
       - name: Unpack php
         run: |
           mkdir sohba
           tar -C sohba -xvf php-app/sohba.tar
+          tar -C sohba/public -xvf js-app/sohba.tar
           echo "Untarred"
-          ls
-          ls sohba
-
-      - name: Unpack js
-        run: |
-          ls
-          mkdir sohba/app/public
-          tar -C sohba/app/public -xvf js-app/sohba.tar
-          ls sohba/app/public
+          ls -R sohba/public
 
       - name: List files
-        run: ls -R sohba/app/public
+        run: ls -R sohba/public
 
       - name: Zip Complete App
         run: tar -cf sohba.tar sohba/*
