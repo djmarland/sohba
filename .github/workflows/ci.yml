@@ -101,20 +101,27 @@ jobs:
 
   deploy:
     needs: [php, javascript]
-    defaults:
-      run:
-        working-directory: app
-
     runs-on: ubuntu-latest
     steps:
       - name: Get files
         uses: actions/download-artifact@v2
+
       - name: List files
         run: |
           pwd
           ls -R
-#      - name: Zip
-#        run: tar -cf ../sohba.tar config public src templates vendor composer.json
+
+      - name: Combine files
+        run: |
+          mkdir sohba
+          tar -C sohba -xvf php-app/sohba.tar
+          tar -C sohba/app/public -xvf js-app/sohba.tar
+
+      - name: List files
+        run: ls -R sohba/app/public
+
+      - name: Zip Complete App
+        run: tar -cf sohba.tar sohba/*
 
 
 #  - name: Deploy
