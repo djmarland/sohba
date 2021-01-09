@@ -53,12 +53,15 @@ jobs:
           pwd
           ls
 
+      - name: Zip
+        run: tar -cf sohba.tar config public src templates vendor composer.json
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: php-app
           retention-days: 1
-          path: .
+          path: ./sohba.tar
 
   javascript:
     runs-on: ubuntu-latest
@@ -84,11 +87,14 @@ jobs:
           pwd
           ls
 
+      - name: Zip
+        run: tar -cf sohba.tar app/public/static
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: js-app
-          path: ./app/static/
+          path: ./sohba.tar
           retention-days: 1
 
   deploy:
@@ -104,9 +110,7 @@ jobs:
       - name: List files
         run: |
           pwd
-          ls .
-          ls public
-          ls public/static
+          ls
 #      - name: Zip
 #        run: tar -cf ../sohba.tar config public src templates vendor composer.json
 
