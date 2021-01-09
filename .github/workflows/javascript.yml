@@ -1,0 +1,30 @@
+name: Javascript Yarn
+
+on: [push, pull_request]
+
+
+defaults:
+  run:
+    working-directory: static
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn client
+
+#  - name: Deploy
+#    if: github.ref == 'refs/heads/master'
+#    run: curl ${{ secrets.ENVOYER_HOOK }}?sha=${{ github.sha }}
