@@ -48,7 +48,13 @@ jobs:
       - name: Install Prod  dependencies
         run: composer install --prefer-dist --no-interaction --no-dev --optimize-autoloader
 
-      - name: 'Upload Artifact'
+      - name: File list
+        run: |
+          pwd
+          ls
+          ls -R
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: php-app
@@ -80,7 +86,13 @@ jobs:
         working-directory: static
         run: yarn client
 
-      - name: 'Upload Artifact'
+      - name: File list
+        run: |
+          pwd
+          ls
+          ls -R
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: js-app
