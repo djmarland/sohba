@@ -127,15 +127,6 @@ jobs:
           export TAG_NAME="$(date +'%Y%m%d%H%M%S').$(echo $GITHUB_SHA | cut -c 1-12)"
           echo "RELEASE_TAG=$TAG_NAME" >> $GITHUB_ENV
 
-      - name: Set changelog
-        # (Escape newlines see https://github.com/actions/create-release/issues/25)
-        run: |
-          text="$(git --no-pager log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")"
-          text="${text//$'%'/%25}"
-          text="${text//$'\n'/%0A}"
-          text="${text//$'\r'/%0D}"
-          echo "CHANGELOG=$text" >> $GITHUB_ENV
-
       - name: Create Release
         id: create_release
         # if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
@@ -145,9 +136,6 @@ jobs:
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           release_name: ${{ env.RELEASE_TAG }}
-          body: |
-            Changes in this Release
-            ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
 
