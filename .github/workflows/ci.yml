@@ -48,6 +48,13 @@ jobs:
       - name: Install Prod  dependencies
         run: composer install --prefer-dist --no-interaction --no-dev --optimize-autoloader
 
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: php-app
+          path: *
+          retention-days: 1
+
   javascript:
     defaults:
       run:
@@ -68,21 +75,32 @@ jobs:
       - name: Build
         run: yarn client
 
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: js-app
+          path: ../app/static
+          retention-days: 1
+
   deploy:
     needs: [php, javascript]
     defaults:
       run:
         working-directory: app
+
     runs-on: ubuntu-latest
     steps:
+      - name: Get files
+        uses: actions/download-artifact@v2
       - name: List files
         run: |
           pwd
           ls .
           ls public
           ls public/static
-      - name: Zip
-        run: tar -cf ../sohba.tar config public src templates vendor composer.json
+#      - name: Zip
+#        run: tar -cf ../sohba.tar config public src templates vendor composer.json
+
 
 #  - name: Deploy
 #    if: github.ref == 'refs/heads/master'
