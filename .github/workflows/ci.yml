@@ -75,6 +75,12 @@ jobs:
         working-directory: app
     runs-on: ubuntu-latest
     steps:
+      - name: List files
+        run: |
+          pwd
+          ls .
+          ls public
+          ls public/static
       - name: Zip
         run: tar -cf ../sohba.tar config public src templates vendor composer.json
 
