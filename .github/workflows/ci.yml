@@ -68,6 +68,15 @@ jobs:
       - name: Build
         run: yarn client
 
+  deploy:
+    needs: [php, javascript]
+    defaults:
+      run:
+        working-directory: app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Zip
+        run: tar -cf ../sohba.tar config public src templates vendor composer.json
 
 #  - name: Deploy
 #    if: github.ref == 'refs/heads/master'
