@@ -52,20 +52,13 @@ jobs:
         run: |
           pwd
           ls
-          ls -R
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: php-app
           retention-days: 1
-          path: |
-            config/
-            public/
-            src/
-            templates/
-            vendor/
-            composer.json
+          path: .
 
   javascript:
     runs-on: ubuntu-latest
@@ -90,13 +83,12 @@ jobs:
         run: |
           pwd
           ls
-          ls -R
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: js-app
-          path: app/static/
+          path: ./app/static/
           retention-days: 1
 
   deploy:
