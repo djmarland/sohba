@@ -62,9 +62,6 @@ jobs:
             composer.json
 
   javascript:
-    defaults:
-      run:
-        working-directory: static
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -76,16 +73,18 @@ jobs:
           node-version: '14.x'
 
       - name: Install dependencies
+        working-directory: static
         run: yarn install
 
       - name: Build
+        working-directory: static
         run: yarn client
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
           name: js-app
-          path: ../app/static/
+          path: app/static/
           retention-days: 1
 
   deploy:
