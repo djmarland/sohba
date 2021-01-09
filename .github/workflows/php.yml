@@ -34,14 +34,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
       - name: Setup PHP
-        uses: php-actions/composer@v5
+        uses: php-actions/composer@v4
         with:
           php_version: ${{ matrix.phpVersion }}
           args: --prefer-dist --no-interaction --no-suggest
 
       - name: Run test suite
-        uses: php-actions/composer@v5
+        uses: php-actions/composer@v4
         with:
           php_version: ${{ matrix.phpVersion }}
           command: run test
@@ -53,14 +59,18 @@ jobs:
           command: run stan
 
       - name: CodeStyle
-        uses: php-actions/composer@v5
+        uses: php-actions/composer@v4
         with:
           php_version: ${{ matrix.phpVersion }}
           command: run cs
 
       - name: Install Prod  dependencies
-        uses: php-actions/composer@v5
+        uses: php-actions/composer@v4
         with:
           php_version: ${{ matrix.phpVersion }}
           dev: no
           args: --no-interaction --no-dev --optimize-autoloader
+
+#  - name: Deploy
+#    if: github.ref == 'refs/heads/master'
+#    run: curl ${{ secrets.ENVOYER_HOOK }}?sha=${{ github.sha }}
