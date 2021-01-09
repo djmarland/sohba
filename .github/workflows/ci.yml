@@ -48,20 +48,20 @@ jobs:
       - name: Install Prod  dependencies
         run: composer install --prefer-dist --no-interaction --no-dev --optimize-autoloader
 
+      - name: Zip
+        run: tar -cf sohba.tar config public src templates vendor composer.json
+
       - name: File list
         run: |
           pwd
           ls
-
-      - name: Zip
-        run: tar -cf sohba.tar config public src templates vendor composer.json
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: php-app
           retention-days: 1
-          path: ./sohba.tar
+          path: sohba.tar
 
   javascript:
     runs-on: ubuntu-latest
@@ -82,19 +82,19 @@ jobs:
         working-directory: static
         run: yarn client
 
+      - name: Zip
+        run: tar -cf sohba.tar app/public/static
+
       - name: File list
         run: |
           pwd
           ls
 
-      - name: Zip
-        run: tar -cf sohba.tar app/public/static
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: js-app
-          path: ./sohba.tar
+          path: sohba.tar
           retention-days: 1
 
   deploy:
