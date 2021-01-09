@@ -111,12 +111,17 @@ jobs:
           pwd
           ls -R
 
-      - name: Combine files
+      - name: Unpack php
         run: |
           mkdir sohba
           tar -C sohba -xvf php-app/sohba.tar
-          mkdir sohba/app/public
-          tar -C sohba/app/public -xvf js-app/sohba.tar
+          ls sohba
+
+      - name: Unpack js
+        run: |
+         mkdir sohba/app/public
+         tar -C sohba/app/public -xvf js-app/sohba.tar
+         ls sohba/app/public
 
       - name: List files
         run: ls -R sohba/app/public
