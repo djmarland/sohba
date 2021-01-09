@@ -2,6 +2,23 @@ name: PHP Composer
 
 on: [push, pull_request]
 
+env:
+  APP_ENV: prod
+  APP_SECRET: na
+  DATABASE_URL: na
+  MAILER_HOST: na
+  MAILER_USERNAME: na
+  MAILER_PASSWORD: na
+  DB_WRITE_HOST: na
+  DB_PORT: na
+  DB_NAME: na
+  DB_WRITE_USER: na
+  DB_WRITE_PASSWORD: na
+  APP_CAPTCHA_SECRET: na
+  APP_REQUEST_FROM_ADDRESS: na
+  APP_REQUEST_TO_ADDRESS: na
+  ADMIN_PASSWORD: na
+
 jobs:
   build:
     defaults:
