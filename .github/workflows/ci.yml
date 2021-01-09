@@ -115,6 +115,7 @@ jobs:
         run: |
           mkdir sohba
           tar -C sohba -xvf php-app/sohba.tar
+          mkdir sohba/app/public
           tar -C sohba/app/public -xvf js-app/sohba.tar
 
       - name: List files
