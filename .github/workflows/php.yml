@@ -19,19 +19,19 @@ env:
   APP_REQUEST_TO_ADDRESS: na
   ADMIN_PASSWORD: na
 
-jobs:
-  build:
-    defaults:
-      run:
-        working-directory: app
+defaults:
+  run:
+    working-directory: app
 
+jobs:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: php-actions/composer@v5
         with:
-          php-version: 7.4
+          php_version: 7.4
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
       - name: Run test suite
@@ -39,3 +39,14 @@ jobs:
           composer run-script cs
           composer run-script stan
           composer run-script test
+  build:
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: php-actions/composer@v5
+        with:
+          php_version: 7.4
+      - name: Install Prod Composer dependencies
+        run: composer install --no-interaction --no-dev --optimize-autoloader
