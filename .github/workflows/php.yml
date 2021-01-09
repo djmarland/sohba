@@ -34,42 +34,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-
       - name: Setup PHP
-        uses: php-actions/composer@v4
+      - uses: shivammathur/setup-php@v2
         with:
-          php_version: ${{ matrix.phpVersion }}
-          args: --prefer-dist --no-interaction --no-suggest
+          php-version: ${{ matrix.phpVersion }}
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction
 
       - name: Run test suite
-        uses: php-actions/composer@v4
-        with:
-          php_version: ${{ matrix.phpVersion }}
-          command: run test
+        run: composer run test
 
       - name: PHPStan
-        uses: php-actions/composer@v5
-        with:
-          php_version: ${{ matrix.phpVersion }}
-          command: run stan
+        run: composer run stan
 
       - name: CodeStyle
-        uses: php-actions/composer@v4
-        with:
-          php_version: ${{ matrix.phpVersion }}
-          command: run cs
+        run: composer run cs
 
       - name: Install Prod  dependencies
-        uses: php-actions/composer@v4
-        with:
-          php_version: ${{ matrix.phpVersion }}
-          dev: no
-          args: --no-interaction --no-dev --optimize-autoloader
+        run: composer install --prefer-dist --no-interaction --no-dev --optimize-autoloader
 
 #  - name: Deploy
 #    if: github.ref == 'refs/heads/master'
