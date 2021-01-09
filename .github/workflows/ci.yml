@@ -84,7 +84,7 @@ jobs:
         run: yarn client
 
       - name: Zip
-        run: tar -cf sohba.tar app/public/static/*
+        run: tar -cf sohba.tar -C app/public/static .
 
       - name: File list
         run: |
