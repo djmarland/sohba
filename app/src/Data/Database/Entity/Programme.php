@@ -22,7 +22,7 @@ class Programme extends AbstractEntity
      * @ORM\Column(type="integer", name="showsPKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public int $pkid;
+    public ?int $pkid = null;
 
     /**
      * @ORM\Column(type="string", name="showsTitle", length=200, nullable=true)

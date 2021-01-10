@@ -23,7 +23,7 @@ class SpecialListing extends AbstractEntity
      * @ORM\Column(type="integer", name="spdPKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public int $pkid;
+    public ?int $pkid = null;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)

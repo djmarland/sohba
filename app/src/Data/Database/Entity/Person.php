@@ -22,7 +22,7 @@ class Person extends AbstractEntity
      * @ORM\Column(type="integer", name="peoplePKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public int $pkid;
+    public ?int $pkid = null;
 
     /**
      * @ORM\Column(type="string", name="peopleName", length=150)

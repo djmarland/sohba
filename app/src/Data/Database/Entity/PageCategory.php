@@ -22,7 +22,7 @@ class PageCategory extends AbstractEntity
      * @ORM\Column(type="integer", name="pkID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public int $pkid;
+    public ?int $pkid = null;
 
     /**
      * @ORM\Column(type="string", name="name", length=50)

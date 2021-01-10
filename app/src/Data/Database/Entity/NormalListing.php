@@ -23,7 +23,7 @@ class NormalListing extends AbstractEntity
      * @ORM\Column(type="integer", name="nlistings_PKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public int $pkid;
+    public ?int $pkid = null;
 
     /**
      * @ORM\Column(type="integer", name="nlistings_day")
