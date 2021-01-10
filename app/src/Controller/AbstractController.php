@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractController extends SymfonyAbstractController
 {
-    private $pageService;
-    private $configurableContentService;
-    private $schedulesService;
-    private $now;
+    private PageService $pageService;
+    private ConfigurableContentService $configurableContentService;
+    private SchedulesService $schedulesService;
+    private DateTimeImmutable $now;
 
     public function __construct(
         PageService $pageService,
@@ -70,7 +70,7 @@ abstract class AbstractController extends SymfonyAbstractController
         return $this->render($template, $data, $originalResponse);
     }
 
-    protected function render404(string $message)
+    protected function render404(string $message): Response
     {
         return $this->renderMainSite(
             'error/404.html.twig',
@@ -82,10 +82,10 @@ abstract class AbstractController extends SymfonyAbstractController
         );
     }
 
-    protected function getAssetManifest()
+    protected function getAssetManifest(): array
     {
         return json_decode(
-            file_get_contents(__DIR__ . '/../../public/static/assets-manifest.json'),
+            file_get_contents(__DIR__ . '/../../public/static/assets-manifest.json') ?: '[]',
             true
         );
     }

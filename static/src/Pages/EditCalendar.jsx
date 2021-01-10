@@ -1,8 +1,8 @@
 import * as React from "react";
-import startOfMonth from "date-fns/start_of_month";
-import addMonths from "date-fns/add_months";
-import getMonth from "date-fns/get_month";
-import getYear from "date-fns/get_year";
+import startOfMonth from "date-fns/startOfMonth";
+import addMonths from "date-fns/addMonths";
+import getMonth from "date-fns/getMonth";
+import getYear from "date-fns/getYear";
 import dateFormat from "date-fns/format";
 import {
   findDayInLastMonthOfYear,
@@ -45,7 +45,7 @@ class EditCalendar extends React.Component {
 
       let content = null;
       if (day) {
-        const dateFormatted = dateFormat(day, "YYYY-MM-DD");
+        const dateFormatted = dateFormat(day, "yyyy-MM-dd");
         content = (
           <a
             href={`/admin/calendar/${dateFormatted}`}
@@ -74,7 +74,7 @@ class EditCalendar extends React.Component {
   makeMonths(monthList, showGenerate) {
     const list = monthList.map(month => {
       const monthDate = findDayInMonth(month);
-      const monthkey = dateFormat(monthDate, "YYYY-MM");
+      const monthkey = dateFormat(monthDate, "yyyy-MM");
 
       return (
         <li key={monthkey} className="t-calendar__month">

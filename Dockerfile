@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.4-apache
 RUN a2enmod rewrite
 
 # Setup the OS for PHP
@@ -13,6 +13,9 @@ RUN docker-php-source extract \
     libicu-dev \
     libpq-dev \
     libjpeg-dev \
+    zip \
+    libzip-dev \
+    unzip \
     && apt-get clean \
     && rm -rf /tmp/*
 
@@ -20,19 +23,16 @@ RUN docker-php-source extract \
 RUN docker-php-ext-configure opcache \
     && docker-php-ext-configure calendar \
     && docker-php-ext-configure exif \
-    && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-configure fileinfo \
     && docker-php-ext-configure gettext \
     && docker-php-ext-configure mysqli \
     && docker-php-ext-configure pdo \
     && docker-php-ext-configure pdo_mysql \
-    && docker-php-ext-configure json \
     && docker-php-ext-configure session \
     && docker-php-ext-configure ctype \
     && docker-php-ext-configure tokenizer \
     && docker-php-ext-configure simplexml \
     && docker-php-ext-configure dom \
-    && docker-php-ext-configure mbstring \
     && docker-php-ext-configure zip \
     && docker-php-ext-configure xml \
     && docker-php-ext-configure intl \
@@ -41,19 +41,16 @@ RUN docker-php-ext-configure opcache \
     opcache \
     calendar \
     exif \
-    gd \
     fileinfo \
     gettext \
     mysqli \
     pdo \
     pdo_mysql \
-    json \
     session \
     ctype \
     tokenizer \
     simplexml \
     dom \
-    mbstring \
     zip \
     xml \
     intl

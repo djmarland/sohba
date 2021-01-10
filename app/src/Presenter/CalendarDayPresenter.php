@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Presenter;
 
+use DateTimeImmutable;
+
 class CalendarDayPresenter
 {
-    private $date;
-    private $isSpecial;
+    private DateTimeImmutable $date;
+    private bool $isSpecial;
 
-    public function __construct(\DateTimeImmutable $date, bool $isSpecial)
+    public function __construct(DateTimeImmutable $date, bool $isSpecial)
     {
         $this->date = $date;
         $this->isSpecial = $isSpecial;
@@ -19,7 +21,7 @@ class CalendarDayPresenter
         return $this->isSpecial;
     }
 
-    public function getDate(): \DateTimeImmutable
+    public function getDate(): DateTimeImmutable
     {
         return $this->date;
     }

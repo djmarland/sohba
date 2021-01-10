@@ -22,17 +22,17 @@ class PageCategory extends AbstractEntity
      * @ORM\Column(type="integer", name="pkID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $pkid;
+    public int $pkid;
 
     /**
      * @ORM\Column(type="string", name="name", length=50)
      */
-    public $title;
+    public string $title;
 
     /**
      * @ORM\Column(type="integer", name="catOrder", length=5)
      */
-    public $order;
+    public int $order;
 
     public function __construct(
         string $title,

@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_encode;
 
 class PeopleAction extends AbstractAdminController
 {
@@ -39,7 +40,7 @@ class PeopleAction extends AbstractAdminController
         return $this->renderAdminSite(
             'people.html.twig',
             [
-                'pageData' => \json_encode([
+                'pageData' => json_encode([
                     'message' => $message,
                     'people' => $peopleService->findAll(),
                 ], JSON_PRETTY_PRINT),

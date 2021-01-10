@@ -8,8 +8,9 @@ use App\Domain\Entity\PageCategory;
 use App\Domain\ValueObject\RichText;
 use App\Presenter\NavigationPresenter;
 use Ramsey\Uuid\Uuid;
+use Tests\App\BaseTestCase;
 
-class NavigationPresenterTest extends \Tests\App\BaseTestCase
+class NavigationPresenterTest extends BaseTestCase
 {
     public function testGroupsBrokenOut(): void
     {

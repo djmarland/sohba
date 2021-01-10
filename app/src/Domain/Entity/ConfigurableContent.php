@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\RichText;
+use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
 
-class ConfigurableContent extends Entity implements \JsonSerializable
+class ConfigurableContent extends Entity implements JsonSerializable
 {
-    private $key;
-    private $description;
-    private $simpleContent;
-    private $richContent;
+    private string $key;
+    private string $description;
+    private ?string $simpleContent;
+    private ?RichText $richContent;
 
     public function __construct(
         UuidInterface $id,
@@ -35,7 +36,7 @@ class ConfigurableContent extends Entity implements \JsonSerializable
         return $this->simpleContent ?? '';
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         return [
             'richContent' => $this->richContent,

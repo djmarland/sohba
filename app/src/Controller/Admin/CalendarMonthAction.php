@@ -10,6 +10,7 @@ use DateTimeZone;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use function in_array;
 
 class CalendarMonthAction extends AbstractAdminController
 {
@@ -39,7 +40,7 @@ class CalendarMonthAction extends AbstractAdminController
         $days = [];
         $countDate = $date;
         while ($countDate < $endAt) {
-            if (\in_array($countDate->format($dateFormat), $specialDays, true)) {
+            if (in_array($countDate->format($dateFormat), $specialDays, true)) {
                 $isSpecial = true;
                 $listings = $schedulesService->getShowsForSpecialDate($countDate);
             } else {

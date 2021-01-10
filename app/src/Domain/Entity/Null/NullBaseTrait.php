@@ -5,7 +5,7 @@ namespace App\Domain\Entity\Null;
 
 trait NullBaseTrait
 {
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         return null;
     }

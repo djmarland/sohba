@@ -6,15 +6,16 @@ namespace App\Domain\Entity;
 use App\Domain\Entity\Null\NullPageCategory;
 use App\Domain\Exception\DataNotFetchedException;
 use App\Domain\ValueObject\RichText;
+use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
 
-class Page extends Entity implements \JsonSerializable
+class Page extends Entity implements JsonSerializable
 {
-    private $title;
-    private $category;
-    private $htmlContent;
-    private $urlPath;
-    private $navPosition;
+    private string $title;
+    private ?PageCategory $category;
+    private RichText $htmlContent;
+    private ?string $urlPath;
+    private ?int $navPosition;
 
     public function __construct(
         UuidInterface $id,
@@ -32,7 +33,7 @@ class Page extends Entity implements \JsonSerializable
         $this->navPosition = $navPosition;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         $data = [
             'id' => $this->id,

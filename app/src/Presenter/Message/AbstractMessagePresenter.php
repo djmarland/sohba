@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Presenter\Message;
 
-abstract class AbstractMessagePresenter implements \JsonSerializable
+use JsonSerializable;
+
+abstract class AbstractMessagePresenter implements JsonSerializable
 {
     protected const TYPE = 'info';
-    private $message;
+    private string $message;
 
     public function __construct(string $message)
     {
@@ -23,7 +25,7 @@ abstract class AbstractMessagePresenter implements \JsonSerializable
         return $this->message;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'type' => static::TYPE,

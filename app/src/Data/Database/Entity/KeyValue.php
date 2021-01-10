@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Data\Database\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Data\Database\EntityRepository\KeyValueRepository")
@@ -19,27 +20,27 @@ class KeyValue extends AbstractEntity
      * @ORM\Id
      * @ORM\Column(type="uuid_binary")
      */
-    public $id;
+    public UuidInterface $id;
 
     /**
      * @ORM\Column(type="string", name="contentKey", length=191, unique=true)
      */
-    public $key;
+    public string $key;
 
     /**
      * @ORM\Column(type="text")
      */
-    public $description;
+    public string $description;
 
     /**
      * @ORM\Column(type="text")
      */
-    public $value;
+    public string $value;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    public $isRichText = false;
+    public bool $isRichText = false;
 
     public function __construct(
         string $key,

@@ -6,6 +6,7 @@ namespace App\Service;
 use App\Data\Database\Entity\KeyValue;
 use App\Domain\Entity\ConfigurableContent;
 use Doctrine\ORM\Query;
+use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 
 class ConfigurableContentService extends AbstractService
@@ -41,9 +42,9 @@ class ConfigurableContentService extends AbstractService
         self::KEY_X_TECHNICAL_DETAILS => true,
     ];
 
-    private $allCache;
+    private ?array $allCache = null;
 
-    public function findByUuid(UuidInterface $uuid)
+    public function findByUuid(UuidInterface $uuid): ?ConfigurableContent
     {
         return $this->mapSingle(
             $this->entityManager->getKeyValueRepo()->getByID($uuid),
@@ -51,7 +52,7 @@ class ConfigurableContentService extends AbstractService
         );
     }
 
-    public function getValue(string $key)
+    public function getValue(string $key): ?ConfigurableContent
     {
         /** @var ConfigurableContent | null $v */
         $v = $this->getAll()[$key] ?? null;
@@ -114,13 +115,13 @@ class ConfigurableContentService extends AbstractService
         string $description,
         string $value
     ): void {
-        /** @var KeyValue $entity */
+        /** @var KeyValue|null $entity */
         $entity = $this->entityManager->getKeyValueRepo()->getByID(
             $content->getId(),
             Query::HYDRATE_OBJECT
         );
         if (!$entity) {
-            throw new \InvalidArgumentException('Tried to update a value that does not exist');
+            throw new InvalidArgumentException('Tried to update a value that does not exist');
         }
 
         $entity->description = $description;

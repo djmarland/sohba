@@ -1,20 +1,20 @@
-import isBefore from "date-fns/is_before";
-import isAfter from "date-fns/is_after";
-import isEqual from "date-fns/is_equal";
-import isSameWeek from "date-fns/is_same_week";
-import isSameMonth from "date-fns/is_same_month";
+import isBefore from "date-fns/isBefore";
+import isAfter from "date-fns/isAfter";
+import isEqual from "date-fns/isEqual";
+import isSameWeek from "date-fns/isSameWeek";
+import isSameMonth from "date-fns/isSameMonth";
 
-import startOfWeek from "date-fns/start_of_week";
-import startOfMonth from "date-fns/start_of_month";
-import startOfYear from "date-fns/start_of_year";
+import startOfWeek from "date-fns/startOfWeek";
+import startOfMonth from "date-fns/startOfMonth";
+import startOfYear from "date-fns/startOfYear";
 
-import endOfWeek from "date-fns/end_of_week";
-import endOfMonth from "date-fns/end_of_month";
-import endOfYear from "date-fns/end_of_year";
+import endOfWeek from "date-fns/endOfWeek";
+import endOfMonth from "date-fns/endOfMonth";
+import endOfYear from "date-fns/endOfYear";
 
-import addDays from "date-fns/add_days";
-import addMonths from "date-fns/add_months";
-import addYears from "date-fns/add_years";
+import addDays from "date-fns/addDays";
+import addMonths from "date-fns/addMonths";
+import addYears from "date-fns/addYears";
 
 const weekOpts = { weekStartsOn: 1 };
 

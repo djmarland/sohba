@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
 
-class Image extends Entity implements \JsonSerializable
+class Image extends Entity implements JsonSerializable
 {
-    private $title;
-    private $fileName;
+    private string $title;
+    private ?string $fileName;
 
     public function __construct(
         UuidInterface $id,
@@ -20,7 +21,7 @@ class Image extends Entity implements \JsonSerializable
         $this->fileName = $fileName;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         return [
             'id' => $this->id,

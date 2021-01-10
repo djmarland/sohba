@@ -8,8 +8,8 @@ use Doctrine\ORM\Query;
 class PageCategoryRepository extends AbstractEntityRepository
 {
     public function findAllOrdered(
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->orderBy('tbl.order', 'ASC');

@@ -6,6 +6,7 @@ namespace App\Functions\DateTimes;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use InvalidArgumentException;
 
 /**
  * The standard formatting for this application to display a whole date
@@ -39,7 +40,11 @@ function formatMonthForDisplay(DateTimeInterface $date): string
 
 function dayNameToDate(string $dayName): DateTimeImmutable
 {
-    return DateTimeImmutable::createFromFormat('l', $dayName, new DateTimeZone('Z'));
+    $date = DateTimeImmutable::createFromFormat('l', $dayName, new DateTimeZone('Z'));
+    if (!$date) {
+        throw new InvalidArgumentException('Date could not be created');
+    }
+    return $date;
 }
 
 function dayNumToDate(int $dayNum): DateTimeImmutable

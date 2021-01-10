@@ -7,7 +7,7 @@ use App\Domain\Entity\Page;
 
 class NavigationPresenter
 {
-    private $groups;
+    private array $groups;
 
     public function __construct(array $pagesWithCategories)
     {

@@ -15,12 +15,12 @@ abstract class AbstractEntityRepository extends EntityRepository
     /**
      * @var DateTimeImmutable
      */
-    protected $currentTime;
+    protected DateTimeImmutable $currentTime;
 
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * We are away from dependency injection via constructors territory, so we have to rely on the (risky) strategy
@@ -43,9 +43,12 @@ abstract class AbstractEntityRepository extends EntityRepository
         $this->_em = $em;
     }
 
+    /**
+     * @return mixed
+     */
     public function getByID(
         UuidInterface $uuid,
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->where('tbl.id = :id')

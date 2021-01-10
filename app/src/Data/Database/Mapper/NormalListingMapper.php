@@ -8,7 +8,7 @@ use App\Domain\ValueObject\Time;
 
 class NormalListingMapper implements MapperInterface
 {
-    private $programmeMapper;
+    private ProgrammeMapper $programmeMapper;
 
     public function __construct(
         ProgrammeMapper $programmeMapper
@@ -28,7 +28,7 @@ class NormalListingMapper implements MapperInterface
         );
     }
 
-    private function mapProgramme(array $item)
+    private function mapProgramme(array $item): ?\App\Domain\Entity\Programme
     {
         if (array_key_exists('programme', $item) && isset($item['programme'])) {
             return $this->programmeMapper->map($item['programme']);

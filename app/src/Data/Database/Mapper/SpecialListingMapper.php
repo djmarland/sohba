@@ -6,10 +6,11 @@ namespace App\Data\Database\Mapper;
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
 use App\Domain\ValueObject\Time;
+use DateTimeZone;
 
 class SpecialListingMapper implements MapperInterface
 {
-    private $programmeMapper;
+    private ProgrammeMapper $programmeMapper;
 
     public function __construct(
         ProgrammeMapper $programmeMapper
@@ -20,7 +21,7 @@ class SpecialListingMapper implements MapperInterface
     public function map(array $item): Broadcast
     {
         $date = $item['dateTimeUk'];
-        $ukTime = $item['dateTimeUk']->setTimezone(new \DateTimeZone('Europe/London'));
+        $ukTime = $item['dateTimeUk']->setTimezone(new DateTimeZone('Europe/London'));
         $time = new Time($ukTime);
 
         return new Broadcast(

@@ -7,6 +7,7 @@ use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function file_exists;
 
 class ShowAction extends AbstractController
 {
@@ -19,7 +20,7 @@ class ShowAction extends AbstractController
         $sourcePath = __DIR__ . '/../../../../uploaded_files/' .
             $imageId . '.' . $ext;
 
-        if (!\file_exists($sourcePath)) {
+        if (!file_exists($sourcePath)) {
             return $this->render404('No such image');
         }
 

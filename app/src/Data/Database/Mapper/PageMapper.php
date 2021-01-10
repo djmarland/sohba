@@ -5,11 +5,12 @@ namespace App\Data\Database\Mapper;
 
 use App\Domain\Entity\Null\NullPageCategory;
 use App\Domain\Entity\Page;
+use App\Domain\Entity\PageCategory;
 use App\Domain\ValueObject\RichText;
 
 class PageMapper implements MapperInterface
 {
-    private $pageCategoryMapper;
+    private PageCategoryMapper $pageCategoryMapper;
 
     public function __construct(
         PageCategoryMapper $pageCategoryMapper
@@ -29,7 +30,7 @@ class PageMapper implements MapperInterface
         );
     }
 
-    private function mapCategory(array $item)
+    private function mapCategory(array $item): ?PageCategory
     {
         if (array_key_exists('category', $item)) {
             if (isset($item['category'])) {

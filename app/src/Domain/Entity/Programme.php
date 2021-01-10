@@ -5,9 +5,15 @@ namespace App\Domain\Entity;
 
 use App\Domain\Entity\Null\NullImage;
 use App\Domain\Exception\DataNotFetchedException;
+use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
+use function array_key_exists;
+use function array_merge;
+use function ctype_alpha;
+use function strtoupper;
+use function substr;
 
-class Programme extends Entity implements \JsonSerializable
+class Programme extends Entity implements JsonSerializable
 {
     public const PROGRAMME_TYPE_REGULAR = 0;
     public const PROGRAMME_TYPE_CRICKET = 1;
@@ -32,11 +38,11 @@ class Programme extends Entity implements \JsonSerializable
         self::PROGRAMME_TYPE_SPECIAL,
     ];
 
-    private $title;
-    private $image;
-    private $tagLine;
-    private $detail;
-    private $programmeType;
+    private string $title;
+    private ?Image $image;
+    private ?string $tagLine;
+    private ?string $detail;
+    private int $programmeType;
 
     public function __construct(
         UuidInterface $id,
@@ -54,7 +60,7 @@ class Programme extends Entity implements \JsonSerializable
         $this->programmeType = $programmeType;
     }
 
-    public static function getAllTypesMapped()
+    public static function getAllTypesMapped(): array
     {
         $types = [];
         $all = array_merge(
@@ -70,15 +76,15 @@ class Programme extends Entity implements \JsonSerializable
         return $types;
     }
 
-    public static function isValidType(int $type)
+    public static function isValidType(int $type): bool
     {
-        return \array_key_exists($type, \array_merge(
+        return array_key_exists($type, array_merge(
             [self::PROGRAMME_TYPE_REGULAR => 'Regular'],
             self::PROGRAMME_EVENT_TYPES
         ));
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         $data = [
             'id' => $this->id,
@@ -102,8 +108,8 @@ class Programme extends Entity implements \JsonSerializable
 
     public function getLetterGroup(): string
     {
-        $letter = \strtoupper(\substr($this->title, 0, 1));
-        if (\ctype_alpha($letter)) {
+        $letter = strtoupper(substr($this->title, 0, 1));
+        if (ctype_alpha($letter)) {
             return $letter;
         }
         return '#';

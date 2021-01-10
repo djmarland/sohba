@@ -11,6 +11,7 @@ use App\Service\PageService;
 use App\Service\RequestsService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class RequestsAction extends AbstractController
 {
@@ -31,7 +32,7 @@ class RequestsAction extends AbstractController
                 );
             } catch (CaptchaException $e) {
                 $message = new ErrorMessage($e->getMessage());
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $message = new ErrorMessage(
                     'Sorry, there was an error sending your request. ' .
                     'Please try again or phone us to make your request. ' .

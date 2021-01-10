@@ -12,10 +12,10 @@ use Psr\Log\LoggerInterface;
 
 class EntityManager extends EntityManagerDecorator
 {
-    private $currentTime;
-    private $logger;
+    private DateTimeImmutable $currentTime;
+    private LoggerInterface $logger;
 
-    private $classCache = [];
+    private array $classCache = [];
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -30,30 +30,29 @@ class EntityManager extends EntityManagerDecorator
     public function persist($entity)
     {
         /** @var AbstractEntity $entity */
-
         // interject to update the created_at/updated_at fields (for audit purposes)
-        $entity->updatedAt = $this->currentTime;
         if (!$entity->createdAt) {
             $entity->createdAt = $this->currentTime;
         }
+        $entity->updatedAt = $this->currentTime;
         parent::persist($entity);
     }
 
-    public function getRepository($entityName)
+    public function getRepository($className)
     {
-        if (!isset($this->classCache[$entityName])) {
+        if (!isset($this->classCache[$className])) {
             /** @var AbstractEntityRepository $repo */
-            $repo = parent::getRepository($entityName);
+            $repo = parent::getRepository($className);
 
             // set dependencies (which could not be injected via construct)
             $repo->setEntityManager($this);
             $repo->setCurrentTime($this->currentTime);
             $repo->setLogger($this->logger);
 
-            $this->classCache[$entityName] = $repo;
+            $this->classCache[$className] = $repo;
         }
 
-        return $this->classCache[$entityName];
+        return $this->classCache[$className];
     }
 
     public function getImageRepo(): EntityRepository\ImageRepository

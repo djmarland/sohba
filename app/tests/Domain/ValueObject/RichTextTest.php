@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace Tests\App\Domain\ValueObject;
 
 use App\Domain\ValueObject\RichText;
+use Tests\App\BaseTestCase;
 
-class RichTextTest extends \Tests\App\BaseTestCase
+class RichTextTest extends BaseTestCase
 {
     public function testUnsafeTagsAreStripped(): void
     {

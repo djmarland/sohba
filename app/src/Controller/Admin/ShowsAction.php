@@ -11,6 +11,8 @@ use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_decode;
+use function json_encode;
 
 class ShowsAction extends AbstractAdminController
 {
@@ -35,7 +37,7 @@ class ShowsAction extends AbstractAdminController
                 $programmesService->deleteProgramme($showId);
                 $message = new OkMessage('Show was deleted');
             } elseif ($request->getContent()) {
-                $data = \json_decode($request->getContent(), true);
+                $data = json_decode((string)$request->getContent(), true);
 
                 $programmesService->newProgramme(
                     $data['showName'],
@@ -53,13 +55,13 @@ class ShowsAction extends AbstractAdminController
         return $this->renderAdminSite(
             'shows.html.twig',
             [
-                'pageData' => \json_encode($this->getData($programmesService, $message), JSON_PRETTY_PRINT),
+                'pageData' => json_encode($this->getData($programmesService, $message), JSON_PRETTY_PRINT),
             ],
             $request
         );
     }
 
-    private function getData(ProgrammesService $programmesService, ?AbstractMessagePresenter $message)
+    private function getData(ProgrammesService $programmesService, ?AbstractMessagePresenter $message): array
     {
         return [
             'regular' => $programmesService->getAllRegular(),

@@ -22,33 +22,33 @@ class Programme extends AbstractEntity
      * @ORM\Column(type="integer", name="showsPKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $pkid;
+    public int $pkid;
 
     /**
      * @ORM\Column(type="string", name="showsTitle", length=200, nullable=true)
      */
-    public $title;
+    public string $title;
 
     /**
      * @ORM\Column(type="string", name="showsTagline", length=400, nullable=true)
      */
-    public $tagline;
+    public ?string $tagline = null;
 
     /**
      * @ORM\Column(type="text", name="showsDetail", nullable=true)
      */
-    public $description;
+    public ?string $description = null;
 
     /**
      * @ORM\Column(type="integer", name="showsType", length=2)
      */
-    public $type = 0;
+    public int $type = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL", name="showsImage", referencedColumnName="imgPKID")
      */
-    public $image;
+    public ?Image $image = null;
 
     /**
      * @ORM\ManyToMany(targetEntity="Person")
@@ -57,7 +57,7 @@ class Programme extends AbstractEntity
      *     inverseJoinColumns={@ORM\JoinColumn(referencedColumnName="peoplePKID", onDelete="CASCADE")}
      * )
      */
-    public $people;
+    public iterable $people = [];
 
     public function __construct(
         string $title,
