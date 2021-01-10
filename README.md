@@ -1,5 +1,5 @@
 # Southampton Hospital Radio Website
-[![Build Status](https://travis-ci.com/djmarland/sohba.svg?branch=master)](https://travis-ci.com/djmarland/sohba)
+![Build Status](https://github.com/djmarland/sohba/workflows/Build%20Application/badge.svg)
 
 This is the codebase for https://www.sohba.org. 
 
