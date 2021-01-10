@@ -7,11 +7,12 @@ use DateInterval;
 use DateTimeImmutable;
 
 use function App\Functions\DateTimes\formatMonthForDisplay;
+use function in_array;
 
 class CalendarMonthPresenter
 {
-    private $weeks = [];
-    private $startOfMonth;
+    private array $weeks = [];
+    private DateTimeImmutable $startOfMonth;
 
     public function __construct(DateTimeImmutable $startOfMonth, array $specialDayFlags)
     {
@@ -48,7 +49,7 @@ class CalendarMonthPresenter
                     $dateIncrement < $startOfNextMonth) {
                     $day = new CalendarDayPresenter(
                         $dateIncrement,
-                        \in_array($dateIncrement->format('Y-m-d'), $specialDayFlags, true)
+                        in_array($dateIncrement->format('Y-m-d'), $specialDayFlags, true)
                     );
                 }
                 $week[] = $day;

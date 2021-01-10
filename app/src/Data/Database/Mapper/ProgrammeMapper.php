@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Data\Database\Mapper;
 
+use App\Domain\Entity\Image;
 use App\Domain\Entity\Null\NullImage;
 use App\Domain\Entity\Programme;
 
 class ProgrammeMapper implements MapperInterface
 {
-    private $imageMapper;
+    private ImageMapper $imageMapper;
 
     public function __construct(
         ImageMapper $imageMapper
@@ -28,7 +29,7 @@ class ProgrammeMapper implements MapperInterface
         );
     }
 
-    private function mapImage(array $item)
+    private function mapImage(array $item): ?Image
     {
         if (array_key_exists('image', $item)) {
             if (isset($item['image'])) {

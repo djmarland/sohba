@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
 
-class PageCategory extends Entity implements \JsonSerializable
+class PageCategory extends Entity implements JsonSerializable
 {
-    private $title;
+    private string $title;
 
     public function __construct(
         UuidInterface $id,
@@ -22,7 +23,7 @@ class PageCategory extends Entity implements \JsonSerializable
         return $this->getId()->equals($entity->getId());
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         return [
             'id' => $this->id,

@@ -23,7 +23,7 @@ class HomeAction extends AbstractController
         DateTimeImmutable $now
     ): Response {
 
-        $phoneNumber = $configurableContentService->getValue(CCS::KEY_PHONE_NUMBER);
+        $phoneNumber = (string)$configurableContentService->getValue(CCS::KEY_PHONE_NUMBER);
 
         return $this->renderMainSite(
             'home/home.html.twig',

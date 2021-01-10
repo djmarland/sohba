@@ -9,10 +9,12 @@ use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
 use App\Service\PeopleService;
 use DateTimeImmutable;
+use Exception;
 use Ramsey\Uuid\UuidFactory;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_encode;
 
 class PersonAction extends AbstractAdminController
 {
@@ -36,7 +38,7 @@ class PersonAction extends AbstractAdminController
             try {
                 $this->handlePost($request, $person, $peopleService, $uuidFactory);
                 $message = new OkMessage('Saved');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
 
@@ -52,7 +54,7 @@ class PersonAction extends AbstractAdminController
         return $this->renderAdminSite(
             'person.html.twig',
             [
-                'pageData' => \json_encode([
+                'pageData' => json_encode([
                     'message' => $message,
                     'person' => $person,
                     'images' => $images,

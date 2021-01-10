@@ -4,14 +4,18 @@ declare(strict_types=1);
 namespace App\Presenter;
 
 use App\Domain\Entity\Person;
+use App\Domain\Entity\Programme;
 
 class PersonPresenter
 {
-    private $programmes;
+    /**
+     * @var Programme[]
+     */
+    private array $programmes;
     /**
      * @var Person
      */
-    private $person;
+    private Person $person;
 
     public function __construct(Person $person, array $showsByPersonId)
     {

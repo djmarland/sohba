@@ -22,33 +22,33 @@ class Person extends AbstractEntity
      * @ORM\Column(type="integer", name="peoplePKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $pkid;
+    public int $pkid;
 
     /**
      * @ORM\Column(type="string", name="peopleName", length=150)
      */
-    public $name;
+    public string $name;
 
     /**
      * @ORM\Column(type="boolean", name="peopleExec", length=150)
      */
-    public $isOnCommittee = false;
+    public bool $isOnCommittee = false;
 
     /**
      * @ORM\Column(type="string", name="peopleTitle", length=100, nullable=true)
      */
-    public $committeeTitle;
+    public ?string $committeeTitle = null;
 
     /**
      * @ORM\Column(type="integer", name="peopleExecPosition", length=2, nullable=true)
      */
-    public $committeeOrder;
+    public ?int $committeeOrder = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL", name="peopleImage", referencedColumnName="imgPKID")
      */
-    public $image;
+    public ?Image $image = null;
 
     public function __construct(
         string $name

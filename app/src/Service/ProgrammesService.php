@@ -6,7 +6,9 @@ namespace App\Service;
 use App\Data\Database\Entity\Programme as DbProgramme;
 use App\Domain\Entity\Programme;
 use Doctrine\ORM\Query;
+use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
+use function array_map;
 
 class ProgrammesService extends AbstractService
 {
@@ -114,16 +116,16 @@ class ProgrammesService extends AbstractService
         ?UuidInterface $imageId,
         array $peopleIds = []
     ): void {
-        /** @var DbProgramme $entity */
+        /** @var DbProgramme|null $entity */
         $entity = $this->entityManager->getProgrammeRepo()->getByID(
             $programme->getId(),
             Query::HYDRATE_OBJECT
         );
         if (!$entity) {
-            throw new \InvalidArgumentException('Tried to update a programme that does not exist');
+            throw new InvalidArgumentException('Tried to update a programme that does not exist');
         }
         if (!Programme::isValidType($type)) {
-            throw new \InvalidArgumentException('Invalid Type provided');
+            throw new InvalidArgumentException('Invalid Type provided');
         }
 
         $entity->title = $name;
@@ -132,13 +134,13 @@ class ProgrammesService extends AbstractService
         $entity->description = $description;
         $entity->image = $this->getAssociatedImageEntity($imageId);
 
-        $entity->people = \array_map(function (UuidInterface $id) {
+        $entity->people = array_map(function (UuidInterface $id) {
             $entity = $this->entityManager->getPersonRepo()->getByID(
                 $id,
                 Query::HYDRATE_OBJECT
             );
             if (!$entity) {
-                throw new \InvalidArgumentException('Tried to update add a person that does not exist');
+                throw new InvalidArgumentException('Tried to update add a person that does not exist');
             }
             return $entity;
         }, $peopleIds);

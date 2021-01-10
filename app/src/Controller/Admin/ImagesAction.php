@@ -6,10 +6,18 @@ namespace App\Controller\Admin;
 use App\Presenter\Message\ErrorMessage;
 use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
+use Exception;
+use InvalidArgumentException;
 use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function base64_decode;
+use function end;
+use function explode;
+use function json_encode;
+use function reset;
 
 class ImagesAction extends AbstractAdminController
 {
@@ -36,7 +44,7 @@ class ImagesAction extends AbstractAdminController
                     // any other upload type is an image data upload
                     return $this->handleUpload($request, $imagesService);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
         }
@@ -46,7 +54,7 @@ class ImagesAction extends AbstractAdminController
         return $this->renderAdminSite(
             'images.html.twig',
             [
-                'pageData' => \json_encode([
+                'pageData' => json_encode([
                     'message' => $message,
                     'images' => $images,
                 ], JSON_PRETTY_PRINT),
@@ -61,11 +69,11 @@ class ImagesAction extends AbstractAdminController
     ): JsonResponse {
         $content = $request->getContent();
 
-        $parts = \explode(',', $content);
-        $imageData = \base64_decode(\end($parts));
+        $parts = explode(',', (string)$content);
+        $imageData = base64_decode(end($parts));
 
-        $mimeParts = \explode(';', \reset($parts));
-        switch (\reset($mimeParts)) {
+        $mimeParts = explode(';', reset($parts));
+        switch (reset($mimeParts)) {
             case 'data:image/jpeg':
                 $extension = 'jpg';
                 break;
@@ -73,7 +81,7 @@ class ImagesAction extends AbstractAdminController
                 $extension = 'png';
                 break;
             default:
-                throw new \InvalidArgumentException('Unrecognised image type');
+                throw new InvalidArgumentException('Unrecognised image type');
         }
 
         $fileName = $imagesService->newImage(

@@ -8,7 +8,9 @@ use App\Data\Database\Entity\PageCategory as DbPageCategory;
 use App\Data\Database\Entity\Page as DbPage;
 use App\Domain\Entity\PageCategory;
 use Doctrine\ORM\Query;
+use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
+use RuntimeException;
 
 class PageService extends AbstractService
 {
@@ -65,7 +67,7 @@ class PageService extends AbstractService
         $this->entityManager->getPageRepo()->deleteById($pageId, DbPage::class);
     }
 
-    public function newPageCategory(string $title)
+    public function newPageCategory(string $title): void
     {
         $category = new DbPageCategory(
             $title,
@@ -105,13 +107,13 @@ class PageService extends AbstractService
         ?int $navPosition,
         ?UuidInterface $navCategoryId = null
     ): void {
-        /** @var DbPage $entity */
+        /** @var DbPage|null $entity */
         $entity = $this->entityManager->getPageRepo()->getByID(
             $page->getId(),
             Query::HYDRATE_OBJECT
         );
         if (!$entity) {
-            throw new \InvalidArgumentException('Tried to update a page that does not exist');
+            throw new InvalidArgumentException('Tried to update a page that does not exist');
         }
 
         $category = null;
@@ -132,7 +134,7 @@ class PageService extends AbstractService
         $this->entityManager->flush();
     }
 
-    public function findAllUncategorised()
+    public function findAllUncategorised(): array
     {
         return $this->mapMany(
             $this->entityManager->getPageRepo()->findAllUncategorised(),
@@ -144,6 +146,10 @@ class PageService extends AbstractService
     {
         $url = str_replace(' ', '-', strtolower($title));
         $url = preg_replace('/[^a-z0-9-]/s', '', $url);
+
+        if (!$url) {
+            throw new RuntimeException('Could not parse page name');
+        }
 
         $page = new DbPage(
             $title,

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use Exception;
 use function App\Functions\DateTimes\dayNameToDate;
 use function App\Functions\DateTimes\dayNumToDate;
 use App\Presenter\Message\ErrorMessage;
@@ -13,6 +14,8 @@ use DateTimeImmutable;
 use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_decode;
+use function json_encode;
 
 class NormalListingsDayAction extends AbstractAdminController
 {
@@ -40,7 +43,7 @@ class NormalListingsDayAction extends AbstractAdminController
 
         if ($request->getMethod() === 'POST' && $request->get('listings')) {
             try {
-                $data = \json_decode($request->get('listings'), true);
+                $data = json_decode($request->get('listings'), true);
                 $schedulesService->updateNormalListings(
                     (int)$currentDay->format('N'),
                     array_map(function ($inputObj) use ($uuidFactory) {
@@ -51,7 +54,7 @@ class NormalListingsDayAction extends AbstractAdminController
                     }, $data)
                 );
                 $message = new OkMessage('Saved');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
         }
@@ -64,7 +67,7 @@ class NormalListingsDayAction extends AbstractAdminController
             [
                 'dayNav' => $dayNav,
                 'dayTitle' => ucfirst($day),
-                'pageData' => \json_encode([
+                'pageData' => json_encode([
                     'message' => $message,
                     'dayListings' => $dayListings,
                     'programmes' => $regularProgrammes,

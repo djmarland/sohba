@@ -23,17 +23,17 @@ class Image extends AbstractEntity
      * @ORM\Column(type="integer", name="imgPKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $pkid;
+    public int $pkid;
 
     /**
      * @ORM\Column(type="string", name="imgTitle", length=50)
      */
-    public $title;
+    public string $title;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    public $fileName;
+    public string $fileName;
 
     public function __construct(
         string $title

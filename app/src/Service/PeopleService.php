@@ -7,6 +7,7 @@ use App\Data\Database\Entity\Person as DbPerson;
 use App\Domain\Entity\Person;
 use App\Domain\Entity\Programme;
 use Doctrine\ORM\Query;
+use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 
 class PeopleService extends AbstractService
@@ -82,7 +83,7 @@ class PeopleService extends AbstractService
             Query::HYDRATE_OBJECT
         );
         if (!$entity) {
-            throw new \InvalidArgumentException('Tried to update a person that does not exist');
+            throw new InvalidArgumentException('Tried to update a person that does not exist');
         }
 
         $entity->name = $name;

@@ -10,9 +10,12 @@ use Ramsey\Uuid\UuidInterface;
 
 class ProgrammeRepository extends AbstractEntityRepository
 {
+    /**
+     * @return mixed
+     */
     public function getByIDWithPeople(
         UuidInterface $uuid,
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'people', 'image')
@@ -23,9 +26,12 @@ class ProgrammeRepository extends AbstractEntityRepository
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
 
+    /**
+     * @return mixed
+     */
     public function getByIdWithImage(
         UuidInterface $uuid,
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
@@ -36,8 +42,8 @@ class ProgrammeRepository extends AbstractEntityRepository
     }
 
     public function findAll(
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->orderBy('tbl.title', 'ASC');
@@ -45,8 +51,8 @@ class ProgrammeRepository extends AbstractEntityRepository
     }
 
     public function findAllActive(
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->innerJoin(NormalListing::class, 'nl', Join::WITH, 'nl.programme = tbl')
@@ -55,10 +61,12 @@ class ProgrammeRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    // only used by legacy redirect
+    /**
+     * @return mixed
+     */
     public function findByLegacyId(
         int $id,
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
@@ -71,7 +79,7 @@ class ProgrammeRepository extends AbstractEntityRepository
     public function findByTypes(
         array $typeIds,
         int $resultType = Query::HYDRATE_ARRAY
-    ) {
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.type IN (:types)')
@@ -83,7 +91,7 @@ class ProgrammeRepository extends AbstractEntityRepository
 
     public function getProgrammesWithPeople(
         int $resultType = Query::HYDRATE_ARRAY
-    ) {
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'people')
             ->innerJoin('tbl.people', 'people');

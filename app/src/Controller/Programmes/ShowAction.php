@@ -78,7 +78,7 @@ class ShowAction extends AbstractController
         PeopleService $peopleService,
         ProgrammesService $programmesService,
         Programme $currentProgramme
-    ) {
+    ): array {
         $people = $peopleService->findForProgramme($currentProgramme);
         if (empty($people)) {
             return [];

@@ -15,8 +15,8 @@ class SpecialListingRepository extends AbstractEntityRepository
         array $programmeTypes,
         DateTimeImmutable $after,
         int $limit = null,
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'programme')
             ->innerJoin('tbl.programme', 'programme')
@@ -35,8 +35,8 @@ class SpecialListingRepository extends AbstractEntityRepository
 
     public function findAllForDate(
         DateTimeImmutable $specialDate,
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'programme', 'image')
             ->where('tbl.dateUk = :dateUk')
@@ -47,10 +47,13 @@ class SpecialListingRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
+    /**
+     * @return mixed
+     */
     public function findNextForProgramme(
         Programme $programme,
         DateTimeImmutable $now,
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')

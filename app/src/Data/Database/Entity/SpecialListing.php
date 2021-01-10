@@ -23,33 +23,33 @@ class SpecialListing extends AbstractEntity
      * @ORM\Column(type="integer", name="spdPKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $pkid;
+    public int $pkid;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    public $dateTimeUk;
+    public ?DateTimeImmutable $dateTimeUk = null;
 
     /**
      * @ORM\Column(type="date_immutable", nullable=true)
      */
-    public $dateUk;
+    public ?DateTimeImmutable $dateUk = null;
 
     /**
      * @ORM\Column(type="string", name="spdNote", length=500, nullable=true)
      */
-    public $internalNote;
+    public ?string $internalNote = null;
 
     /**
      * @ORM\Column(type="string", name="spdPublicNote", length=500, nullable=true)
      */
-    public $publicNote;
+    public ?string $publicNote = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Programme")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE", name="spdShow", referencedColumnName="showsPKID")
      */
-    public $programme;
+    public Programme $programme;
 
     public function __construct(
         DateTimeImmutable $dateTime,

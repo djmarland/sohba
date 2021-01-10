@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Domain\Exception\CaptchaException;
+use DateTimeImmutable;
 use Swift_Message;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,18 +20,18 @@ class RequestsService extends AbstractService
         $song = $request->get('request', '');
         $message = $request->get('message', '');
 
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
 
         $message = new Swift_Message(
             'Request from web: ' . $now->format('l jS F'),
             <<<BODY
-A request was made on {$now->format('l jS F')} at {$now->format('H:s')}.
-
-Patient Name: $patientName
-Hospital: $hospital
-Song: $song
-Message: $message
-BODY
+            A request was made on {$now->format('l jS F')} at {$now->format('H:s')}.
+            
+            Patient Name: $patientName
+            Hospital: $hospital
+            Song: $song
+            Message: $message
+            BODY
         );
         $message->addFrom(
             $this->appConfigRequestFromAddress,
@@ -42,7 +43,7 @@ BODY
         $this->mailer->send($message);
     }
 
-    private function handleCaptcha(Request $request)
+    private function handleCaptcha(Request $request): void
     {
         if ($this->appConfigSkipCaptcha) {
             return;

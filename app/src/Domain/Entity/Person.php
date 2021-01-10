@@ -5,15 +5,16 @@ namespace App\Domain\Entity;
 
 use App\Domain\Entity\Null\NullImage;
 use App\Domain\Exception\DataNotFetchedException;
+use JsonSerializable;
 use Ramsey\Uuid\UuidInterface;
 
-class Person extends Entity implements \JsonSerializable
+class Person extends Entity implements JsonSerializable
 {
-    private $name;
-    private $image;
-    private $isOnCommittee;
-    private $committeeTitle;
-    private $committeeOrder;
+    private string $name;
+    private ?Image $image;
+    private bool $isOnCommittee;
+    private ?string $committeeTitle;
+    private ?int $committeeOrder;
 
     public function __construct(
         UuidInterface $id,
@@ -31,7 +32,7 @@ class Person extends Entity implements \JsonSerializable
         $this->committeeOrder = $committeeOrder;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): ?array
     {
         $data = [
             'id' => $this->id,

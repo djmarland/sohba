@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Data\Database\Entity;
 
 use App\Data\ID;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\MappedSuperclass
@@ -14,22 +16,22 @@ abstract class AbstractEntity
     /**
      * @ORM\Column(type="uuid_binary")
      */
-    public $id;
+    public UuidInterface $id;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    public $uuid;
+    public string $uuid;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime_immutable", nullable=false)
      */
-    public $createdAt;
+    public ?DateTimeImmutable $createdAt = null;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime_immutable", nullable=false)
      */
-    public $updatedAt;
+    public ?DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {

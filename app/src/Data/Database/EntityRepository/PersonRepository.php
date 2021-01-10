@@ -8,9 +8,12 @@ use Ramsey\Uuid\UuidInterface;
 
 class PersonRepository extends AbstractEntityRepository
 {
+    /**
+     * @return mixed
+     */
     public function getByIdWithImage(
         UuidInterface $uuid,
-        $resultType = Query::HYDRATE_ARRAY
+        int $resultType = Query::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
@@ -21,8 +24,8 @@ class PersonRepository extends AbstractEntityRepository
     }
 
     public function findAll(
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->orderBy('tbl.name', 'ASC');
@@ -31,8 +34,8 @@ class PersonRepository extends AbstractEntityRepository
 
     public function findAllByCommittee(
         bool $onCommittee,
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
             ->leftJoin('tbl.image', 'image')

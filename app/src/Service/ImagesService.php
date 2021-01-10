@@ -6,6 +6,10 @@ namespace App\Service;
 use App\Data\Database\Entity\Image as DbImage;
 use Doctrine\ORM\Query;
 use Ramsey\Uuid\UuidInterface;
+use function file_exists;
+use function file_put_contents;
+use function strtolower;
+use function unlink;
 
 class ImagesService extends AbstractService
 {
@@ -26,7 +30,7 @@ class ImagesService extends AbstractService
         $image = new DbImage(
             $title
         );
-        $fileName = \strtolower($image->id->toString() . '.' . $fileExtension);
+        $fileName = strtolower($image->id->toString() . '.' . $fileExtension);
         $image->fileName = $fileName;
 
         $this->entityManager->persist($image);
@@ -35,9 +39,9 @@ class ImagesService extends AbstractService
         return $fileName;
     }
 
-    public function saveImage(string $fileName, $imageData): void
+    public function saveImage(string $fileName, string $imageData): void
     {
-        \file_put_contents(self::UPLOADED_FILE_PATH . $fileName, $imageData);
+        file_put_contents(self::UPLOADED_FILE_PATH . $fileName, $imageData);
     }
 
     public function updateImageTitle(UuidInterface $imageId, string $newTitle): void
@@ -60,8 +64,8 @@ class ImagesService extends AbstractService
         $fileName = self::UPLOADED_FILE_PATH . $image->fileName;
         $this->entityManager->remove($image);
         $this->entityManager->flush();
-        if (\file_exists($fileName)) {
-            \unlink($fileName);
+        if (file_exists($fileName)) {
+            unlink($fileName);
         }
     }
 

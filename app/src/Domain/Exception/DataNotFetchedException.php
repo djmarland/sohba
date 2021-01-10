@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Exception;
 
-class DataNotFetchedException extends \RuntimeException
+use RuntimeException;
+
+class DataNotFetchedException extends RuntimeException
 {
 }

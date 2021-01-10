@@ -16,34 +16,32 @@ use App\Data\Database\Mapper\PersonMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
 use Doctrine\ORM\Query;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Swift_Mailer;
 
 abstract class AbstractService
 {
-    protected const TBL = 'tbl';
-
     protected const DEFAULT_LIMIT = 50;
     protected const DEFAULT_PAGE = 1;
 
-    protected $entityManager;
-    protected $tokenHandler;
-    protected $logger;
-    protected $programmeMapper;
-    protected $imageMapper;
-    protected $pageMapper;
-    protected $configurableContentMapper;
-    protected $pageCategoryMapper;
-    protected $specialBroadcastMapper;
-    protected $normalBroadcastMapper;
-    protected $personMapper;
-    protected $mailer;
-    protected $captcha;
+    protected EntityManager $entityManager;
+    protected LoggerInterface $logger;
+    protected ProgrammeMapper $programmeMapper;
+    protected ImageMapper $imageMapper;
+    protected PageMapper $pageMapper;
+    protected ConfigurableContentMapper $configurableContentMapper;
+    protected PageCategoryMapper $pageCategoryMapper;
+    protected SpecialListingMapper $specialBroadcastMapper;
+    protected NormalListingMapper $normalBroadcastMapper;
+    protected PersonMapper $personMapper;
+    protected Swift_Mailer $mailer;
+    protected Captcha $captcha;
 
-    protected $appConfigRequestFromAddress;
-    protected $appConfigRequestToAddress;
-    protected $appConfigSkipCaptcha;
+    protected string $appConfigRequestFromAddress;
+    protected string $appConfigRequestToAddress;
+    protected bool $appConfigSkipCaptcha;
 
     public function __construct(
         EntityManager $entityManager,
@@ -79,6 +77,9 @@ abstract class AbstractService
         $this->pageCategoryMapper = $pageCategoryMapper;
     }
 
+    /**
+     * @return mixed
+     */
     protected function mapSingle(?array $result, MapperInterface $mapper)
     {
         if ($result) {
@@ -111,6 +112,6 @@ abstract class AbstractService
         if ($image) {
             return $image;
         }
-        throw new \InvalidArgumentException('Tried to use an image that does not exist');
+        throw new InvalidArgumentException('Tried to use an image that does not exist');
     }
 }

@@ -6,10 +6,12 @@ namespace App\Controller\Admin;
 use App\Presenter\Message\ErrorMessage;
 use App\Presenter\Message\OkMessage;
 use App\Service\ConfigurableContentService;
+use Exception;
 use Ramsey\Uuid\UuidFactory;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_encode;
 
 class KeyValueKeyAction extends AbstractAdminController
 {
@@ -35,7 +37,7 @@ class KeyValueKeyAction extends AbstractAdminController
                     $request->get('html-content') ?? $request->get('value')
                 );
                 $message = new OkMessage('Saved');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
 
@@ -50,7 +52,7 @@ class KeyValueKeyAction extends AbstractAdminController
         return $this->renderAdminSite(
             'key-value-value.html.twig',
             [
-                'pageData' => \json_encode([
+                'pageData' => json_encode([
                     'message' => $message,
                     'content' => $content,
                 ], JSON_PRETTY_PRINT),

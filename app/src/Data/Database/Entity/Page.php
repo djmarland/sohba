@@ -23,33 +23,33 @@ class Page extends AbstractEntity
      * @ORM\Column(type="integer", name="pkID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $pkid;
+    public int $pkid;
 
     /**
      * @ORM\Column(type="string", name="title", length=50)
      */
-    public $title;
+    public string $title;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      */
-    public $urlPath;
+    public string $urlPath;
 
     /**
      * @ORM\Column(type="text", name="html_content")
      */
-    public $htmlContent;
+    public string $htmlContent;
 
     /**
      * @ORM\Column(type="integer", name="menuOrder", length=6)
      */
-    public $order = 0;
+    public int $order = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="PageCategory")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL", name="category", referencedColumnName="pkID")
      */
-    public $category = null;
+    public ?PageCategory $category = null;
 
     public function __construct(
         string $title,

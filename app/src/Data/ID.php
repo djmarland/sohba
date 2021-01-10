@@ -45,7 +45,7 @@ class ID
         return self::markUuid($uuid, $entityClass);
     }
 
-    public static function getIDType(UuidInterface $id)
+    public static function getIDType(UuidInterface $id): string
     {
         $part = (string)substr((string)$id, 9, 4);
         $map = array_flip(self::ENTITY_MAPPINGS);
@@ -55,7 +55,7 @@ class ID
         throw new InvalidArgumentException('Id not recognised');
     }
 
-    private static function markUuid(UuidInterface $uuid, string $entityClass)
+    private static function markUuid(UuidInterface $uuid, string $entityClass): UuidInterface
     {
         $str = (string)$uuid;
         $str = substr_replace($str, self::ENTITY_MAPPINGS[$entityClass], 9, 4);

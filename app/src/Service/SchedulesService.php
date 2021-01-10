@@ -8,6 +8,7 @@ use App\Data\Database\Entity\SpecialListing as DbSpecialListing;
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
 use App\Domain\ValueObject\Time;
+use Exception;
 use function App\Functions\DateTimes\isoWeekdayToPHPWeekDay;
 use DateInterval;
 use DateTimeImmutable;
@@ -117,7 +118,7 @@ class SchedulesService extends AbstractService
         );
     }
 
-    public function findUpcomingOutsideBroadcasts($now, ?int $limit = null): array
+    public function findUpcomingOutsideBroadcasts(DateTimeImmutable $now, ?int $limit = null): array
     {
         return $this->mapMany(
             $this->entityManager->getSpecialListingRepo()
@@ -160,7 +161,7 @@ class SchedulesService extends AbstractService
             }
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->entityManager->rollback();
             throw $e;
         }
@@ -196,7 +197,7 @@ class SchedulesService extends AbstractService
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->entityManager->rollback();
             throw $e;
         }

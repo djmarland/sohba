@@ -10,6 +10,8 @@ use DateTimeImmutable;
 use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_decode;
+use function json_encode;
 
 class PagesAction extends AbstractAdminController
 {
@@ -39,7 +41,7 @@ class PagesAction extends AbstractAdminController
                 $title = $request->get('new-category-title');
                 $pageService->newPageCategory($title);
             } elseif ($request->getContent()) {
-                $data = \json_decode($request->getContent());
+                $data = json_decode((string)$request->getContent());
                 foreach ($data as $catId => $position) {
                     $pageService->updateCategoryPosition(
                         $uuidFactory->fromString($catId),
@@ -53,7 +55,7 @@ class PagesAction extends AbstractAdminController
         return $this->renderAdminSite(
             'pages.html.twig',
             [
-                'pageData' => \json_encode($this->getData($pageService), JSON_PRETTY_PRINT),
+                'pageData' => json_encode($this->getData($pageService), JSON_PRETTY_PRINT),
             ],
             $request
         );
@@ -74,7 +76,7 @@ class PagesAction extends AbstractAdminController
             foreach ($pageService->findAllInCategory($category) as $j => $page) {
                 /** @var Page $page */
                 $categoryMap['pagesInCategory'][] = [
-                    'id' => (string)$page->getId(),
+                    'id' => (string)$page->getId()->toString(),
                     'title' => $page->getTitle(),
                     'position' => (($i + 1) * 100) + ($j + 1),
                 ];

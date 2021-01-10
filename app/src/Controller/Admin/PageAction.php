@@ -15,10 +15,13 @@ use App\Presenter\Message\OkMessage;
 use App\Service\ImagesService;
 use App\Service\PageService;
 use DateTimeImmutable;
+use Exception;
+use InvalidArgumentException;
 use Ramsey\Uuid\UuidFactory;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_encode;
 
 class PageAction extends AbstractAdminController
 {
@@ -51,7 +54,7 @@ class PageAction extends AbstractAdminController
             try {
                 $this->handlePost($request, $page, $pageService, $uuidFactory);
                 $message = new OkMessage('Saved');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
 
@@ -82,7 +85,7 @@ class PageAction extends AbstractAdminController
         return $this->renderAdminSite(
             'page.html.twig',
             [
-                'pageData' => \json_encode([
+                'pageData' => json_encode([
                     'message' => $message,
                     'page' => $page,
                     'images' => $images,
@@ -90,7 +93,7 @@ class PageAction extends AbstractAdminController
                     'specialPages' => $specialPages,
                     'urlRegex' => $urlRegex,
                     'specialType' => array_key_exists(
-                        $page->getUrlPath(),
+                        (string)$page->getUrlPath(),
                         self::RESERVED_URLS
                     ) ? $page->getUrlPath() : '',
                 ], JSON_PRETTY_PRINT),
@@ -104,7 +107,7 @@ class PageAction extends AbstractAdminController
         Page $page,
         PageService $pageService,
         UuidFactory $uuidFactory
-    ) {
+    ): void {
         // get all the field values
         $title = $request->get('title');
         $specialPage = $request->get('special');
@@ -116,13 +119,13 @@ class PageAction extends AbstractAdminController
 
         if (!empty($specialPage)) {
             if (!array_key_exists($specialPage, self::RESERVED_URLS)) {
-                throw new \InvalidArgumentException('Not a valid special page');
+                throw new InvalidArgumentException('Not a valid special page');
             }
             $url = $specialPage;
         }
 
         if (empty($url)) {
-            throw new \InvalidArgumentException('URL is required');
+            throw new InvalidArgumentException('URL is required');
         }
 
         $pageService->updatePage(

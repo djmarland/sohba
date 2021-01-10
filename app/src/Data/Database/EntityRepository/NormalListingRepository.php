@@ -11,8 +11,8 @@ class NormalListingRepository extends AbstractEntityRepository
 {
     public function findAllForDay(
         int $day,
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'programme', 'image')
             ->where('tbl.day = :day')
@@ -26,8 +26,8 @@ class NormalListingRepository extends AbstractEntityRepository
 
     public function findAllForProgramme(
         Programme $programme,
-        $resultType = Query::HYDRATE_ARRAY
-    ) {
+        int $resultType = Query::HYDRATE_ARRAY
+    ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.programme = :programme')

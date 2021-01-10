@@ -1,6 +1,5 @@
-const Webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ManifestPlugin = require("webpack-manifest-plugin");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 
 const path = require("path");
 const autoprefixer = require("autoprefixer");
@@ -23,7 +22,8 @@ const settings = {
         test: /.jsx?$/,
         loader: "babel-loader",
         options: {
-          presets: ["env", "react", "stage-2"]
+          presets: ["@babel/preset-env", "@babel/preset-react"],
+          plugins: ["@babel/plugin-proposal-class-properties"]
         }
       },
       {
@@ -42,14 +42,15 @@ const settings = {
             loader: "css-loader",
             options: {
               url: false,
-              minimize: true,
               sourceMap: true
             }
           },
           {
             loader: "postcss-loader",
             options: {
-              plugins: [autoprefixer]
+              postcssOptions: {
+                plugins: [autoprefixer]
+              }
             }
           },
           {
@@ -62,12 +63,14 @@ const settings = {
       }
     ]
   },
+  optimization: {
+    moduleIds: 'deterministic'
+  },
   plugins: [
-    new Webpack.HashedModuleIdsPlugin(),
     new MiniCssExtractPlugin({
       filename: "[hash:10].[name].css"
     }),
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       fileName: path.resolve(
         __dirname,
         "../app/public/static/assets-manifest.json"

@@ -10,10 +10,12 @@ use App\Service\ImagesService;
 use App\Service\PeopleService;
 use App\Service\ProgrammesService;
 use DateTimeImmutable;
+use Exception;
 use Ramsey\Uuid\UuidFactory;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_encode;
 
 class ShowAction extends AbstractAdminController
 {
@@ -38,7 +40,7 @@ class ShowAction extends AbstractAdminController
             try {
                 $this->handlePost($request, $show, $programmesService, $uuidFactory);
                 $message = new OkMessage('Saved');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = new ErrorMessage($e->getMessage());
             }
 
@@ -56,7 +58,7 @@ class ShowAction extends AbstractAdminController
         return $this->renderAdminSite(
             'show.html.twig',
             [
-                'pageData' => \json_encode([
+                'pageData' => json_encode([
                     'message' => $message,
                     'show' => $show,
                     'images' => $images,

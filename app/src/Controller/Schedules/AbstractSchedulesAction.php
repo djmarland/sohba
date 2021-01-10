@@ -8,18 +8,21 @@ use App\Presenter\CalendarMonthPresenter;
 use App\Service\ConfigurableContentService;
 use App\Service\PageService;
 use App\Service\SchedulesService;
+use DateInterval;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Response;
 
 use function App\Functions\DateTimes\formatDateForDisplay;
+use function array_map;
+use function end;
 
 abstract class AbstractSchedulesAction extends AbstractController
 {
     public const SPECIAL_PAGE_URL = 'schedules';
 
-    private $schedulesService;
-    private $pagesService;
-    private $now;
+    private SchedulesService $schedulesService;
+    private PageService $pagesService;
+    private DateTimeImmutable $now;
 
     public function __construct(
         PageService $pageService,
@@ -72,27 +75,27 @@ abstract class AbstractSchedulesAction extends AbstractController
         );
     }
 
-    private function getCalendars()
+    private function getCalendars(): array
     {
         // get all future special days, then create all months that cover them
         $startOfMonth = new DateTimeImmutable(
             $this->now->format('Y-m-') . '01T00:00:00Z'
         );
 
-        $specialFlags = \array_map(function (DateTimeImmutable $date) {
+        $specialFlags = array_map(function (DateTimeImmutable $date) {
             return $date->format('Y-m-d');
         }, $this->schedulesService->getSpecialListingDates($startOfMonth));
-        $end = new DateTimeImmutable(\end($specialFlags) . 'T23:59:59Z');
+        $end = new DateTimeImmutable(end($specialFlags) . 'T23:59:59Z');
 
         $months = [];
         while ($startOfMonth < $end) {
             $months[] = new CalendarMonthPresenter($startOfMonth, $specialFlags);
-            $startOfMonth = $startOfMonth->add(new \DateInterval('P1M'));
+            $startOfMonth = $startOfMonth->add(new DateInterval('P1M'));
         }
         return $months;
     }
 
-    private function getIntroduction()
+    private function getIntroduction(): ?\App\Domain\Entity\Page
     {
         return $this->pagesService->findByUrl(self::SPECIAL_PAGE_URL);
     }

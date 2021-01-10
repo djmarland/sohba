@@ -23,23 +23,23 @@ class NormalListing extends AbstractEntity
      * @ORM\Column(type="integer", name="nlistings_PKID")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $pkid;
+    public int $pkid;
 
     /**
      * @ORM\Column(type="integer", name="nlistings_day")
      */
-    public $day;
+    public int $day;
 
     /**
      * @ORM\Column(type="time_immutable", nullable=true)
      */
-    public $time;
+    public DateTimeImmutable $time;
 
     /**
      * @ORM\ManyToOne(targetEntity="Programme")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE", name="nlistings_show", referencedColumnName="showsPKID")
      */
-    public $programme;
+    public Programme $programme;
 
     public function __construct(
         int $day,
