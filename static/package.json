@@ -13,7 +13,7 @@
     "html-to-draftjs": "^1.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-draft-wysiwyg": "^1.12.13"
+    "react-draft-wysiwyg": "^1.14.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.1",
