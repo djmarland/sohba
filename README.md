@@ -75,7 +75,7 @@ React application (with webpack):
 * `docker-compose run --rm sohba-node yarn pretty` runs Prettier over the Scss and JS files
 
 ## Build
-Upon commit to master the application will automatically begin to build using Travis
+Upon commit to main the application will automatically begin to build using Travis
 (https://travis-ci.com/djmarland/sohba). This will run all the code quality checks
 and build the static site. If that is successful it will tag the Git commit, zip
 up the app folder and attach it to the newly created release at 
