@@ -30,7 +30,7 @@
     "webpack-manifest-plugin": "^3.0.0"
   },
   "scripts": {
-    "dev": "webpack --config webpack.config.js --mode=development --watch --watch-aggregate-timeout=300 --watch-poll=1000",
+    "dev": "webpack --config webpack.config.js --mode=development --watch",
     "client": "webpack --config webpack.config.js --mode=production",
     "pretty": "prettier --write --no-config '**/*.{js,jsx,scss}'"
   },

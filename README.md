@@ -5,7 +5,7 @@ This is the codebase for https://www.sohba.org.
 
 ## Application structure
 ### `/app`
-The public facing website is a simple Symfony 4 application in the `/app` 
+The public facing website is a simple Symfony application in the `/app` 
 folder.
 
 ### `/static`
@@ -33,7 +33,7 @@ The database is a MySQL database, provided on the hosting by a remote URL.
 In order to have a development environment that approximates the live environment
 some Docker containers are provided.
 
-`docker-compose up`
+`docker compose up`
 
 will build and start containers for php with apache and mysql. 
 The website will then be made available at `http://localhost:8080/`
@@ -56,23 +56,23 @@ For static files A symlink will need to be created from public_html/static to ap
 
 ### Database
 On a fresh build the database will be empty. The schema can be created with:
-`docker-compose run sohba bin/console doctrine:schema:create`
+`docker compose run sohba bin/console doctrine:schema:create`
 
 ### Tests
 There are (some) code quality controls available for the PHP. These can be run via:
 
-* `docker-compose run sohba composer test` runs the PHPUnit test suite 
-* `docker-compose run sohba composer cs` runs CodeSniffer
-* `docker-compose run sohba composer cbf` runs CodeBeautifier
-* `docker-compose run sohba composer stan` runs PHPStan Static Analysis
+* `docker compose run sohba composer test` runs the PHPUnit test suite 
+* `docker compose run sohba composer cs` runs CodeSniffer
+* `docker compose run sohba composer cbf` runs CodeBeautifier
+* `docker compose run sohba composer stan` runs PHPStan Static Analysis
 
 ### React app
 The docker-compose file provides a node-yarn container for building the front-end
 React application (with webpack):
 
-* `docker-compose run --rm sohba-node yarn client` builds the Sass & React app and stores the results in `/app/public/static`
-* `docker-compose run --rm sohba-node yarn dev` offers a watch mode for building the app
-* `docker-compose run --rm sohba-node yarn pretty` runs Prettier over the Scss and JS files
+* `docker compose run --rm sohba-node yarn client` builds the Sass & React app and stores the results in `/app/public/static`
+* `docker compose run --rm sohba-node yarn dev` offers a watch mode for building the app
+* `docker compose run --rm sohba-node yarn pretty` runs Prettier over the Scss and JS files
 
 ## Build
 Upon commit to main the application will automatically begin to build using Travis
