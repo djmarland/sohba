@@ -32,7 +32,7 @@ jobs:
           php-version: 8.0
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction
+        run: composer install --prefer-dist --no-interaction --dev
 
       - name: Run test suite
         run: composer run test
