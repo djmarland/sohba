@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use DateTimeImmutable;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidInterface;
 
@@ -48,7 +48,7 @@ abstract class AbstractEntityRepository extends EntityRepository
      */
     public function getByID(
         UuidInterface $uuid,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->where('tbl.id = :id')

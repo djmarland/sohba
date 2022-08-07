@@ -5,13 +5,13 @@ namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\NormalListing;
 use App\Data\Database\Entity\Programme;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 
 class NormalListingRepository extends AbstractEntityRepository
 {
     public function findAllForDay(
         int $day,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'programme', 'image')
@@ -26,7 +26,7 @@ class NormalListingRepository extends AbstractEntityRepository
 
     public function findAllForProgramme(
         Programme $programme,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')

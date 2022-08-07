@@ -10,7 +10,6 @@ use App\Service\SchedulesService;
 use DateInterval;
 use DateTimeImmutable;
 use Exception;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use function json_encode;

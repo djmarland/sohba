@@ -5,8 +5,9 @@ namespace App\Service;
 
 use App\Domain\Exception\CaptchaException;
 use DateTimeImmutable;
-use Swift_Message;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 class RequestsService extends AbstractService
 {
@@ -22,22 +23,23 @@ class RequestsService extends AbstractService
 
         $now = new DateTimeImmutable();
 
-        $message = new Swift_Message(
-            'Request from web: ' . $now->format('l jS F'),
-            <<<BODY
+        $body = <<<BODY
             A request was made on {$now->format('l jS F')} at {$now->format('H:s')}.
             
             Patient Name: $patientName
             Hospital: $hospital
             Song: $song
             Message: $message
-            BODY
-        );
-        $message->addFrom(
-            $this->appConfigRequestFromAddress,
-            'SOHBA Request'
-        );
-        $message->addTo($this->appConfigRequestToAddress);
+            BODY;
+
+        $message = (new Email())
+            ->from(new Address(
+                $this->appConfigRequestFromAddress,
+                'SOHBA Request'
+            ))
+            ->to($this->appConfigRequestToAddress)
+            ->subject('Request from web: ' . $now->format('l jS F'))
+            ->text($body);
 
         // send the e-mail
         $this->mailer->send($message);

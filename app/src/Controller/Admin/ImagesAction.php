@@ -12,7 +12,6 @@ use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use function base64_decode;
 use function end;
 use function explode;

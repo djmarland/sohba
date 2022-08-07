@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Data\Database\Entity\KeyValue;
 use App\Domain\Entity\ConfigurableContent;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 
@@ -118,7 +118,7 @@ class ConfigurableContentService extends AbstractService
         /** @var KeyValue|null $entity */
         $entity = $this->entityManager->getKeyValueRepo()->getByID(
             $content->getId(),
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
         if (!$entity) {
             throw new InvalidArgumentException('Tried to update a value that does not exist');

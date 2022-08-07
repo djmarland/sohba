@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Data\Database\EntityRepository;
 
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 
 class PageCategoryRepository extends AbstractEntityRepository
 {
     public function findAllOrdered(
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')

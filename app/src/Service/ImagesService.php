@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Data\Database\Entity\Image as DbImage;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use Ramsey\Uuid\UuidInterface;
 use function file_exists;
 use function file_put_contents;
@@ -47,7 +47,7 @@ class ImagesService extends AbstractService
     public function updateImageTitle(UuidInterface $imageId, string $newTitle): void
     {
         $image = $this->entityManager->getImageRepo()
-            ->getByID($imageId, Query::HYDRATE_OBJECT);
+            ->getByID($imageId, AbstractQuery::HYDRATE_OBJECT);
 
         /** @var \App\Data\Database\Entity\Image $image */
         $image->title = $newTitle;
@@ -59,7 +59,7 @@ class ImagesService extends AbstractService
     {
         /** @var \App\Data\Database\Entity\Image $image */
         $image = $this->entityManager->getImageRepo()
-            ->getByID($imageId, Query::HYDRATE_OBJECT);
+            ->getByID($imageId, AbstractQuery::HYDRATE_OBJECT);
 
         $fileName = self::UPLOADED_FILE_PATH . $image->fileName;
         $this->entityManager->remove($image);

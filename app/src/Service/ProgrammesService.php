@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Data\Database\Entity\Programme as DbProgramme;
 use App\Domain\Entity\Programme;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 use function array_map;
@@ -119,7 +119,7 @@ class ProgrammesService extends AbstractService
         /** @var DbProgramme|null $entity */
         $entity = $this->entityManager->getProgrammeRepo()->getByID(
             $programme->getId(),
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
         if (!$entity) {
             throw new InvalidArgumentException('Tried to update a programme that does not exist');
@@ -137,7 +137,7 @@ class ProgrammesService extends AbstractService
         $entity->people = array_map(function (UuidInterface $id) {
             $entity = $this->entityManager->getPersonRepo()->getByID(
                 $id,
-                Query::HYDRATE_OBJECT
+                AbstractQuery::HYDRATE_OBJECT
             );
             if (!$entity) {
                 throw new InvalidArgumentException('Tried to update add a person that does not exist');

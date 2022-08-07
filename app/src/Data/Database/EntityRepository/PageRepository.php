@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\PageCategory;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use Ramsey\Uuid\UuidInterface;
 
 class PageRepository extends AbstractEntityRepository
@@ -14,7 +14,7 @@ class PageRepository extends AbstractEntityRepository
      */
     public function getByIdWithCategory(
         UuidInterface $uuid,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'category')
@@ -25,7 +25,7 @@ class PageRepository extends AbstractEntityRepository
     }
 
     public function findAllInCategories(
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'category')
@@ -38,7 +38,7 @@ class PageRepository extends AbstractEntityRepository
     /**
      * @return mixed
      */
-    public function findByUrlPath(string $urlPath, int $resultType = Query::HYDRATE_ARRAY)
+    public function findByUrlPath(string $urlPath, int $resultType = AbstractQuery::HYDRATE_ARRAY)
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -47,7 +47,7 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
 
-    public function findAllInCategory(PageCategory $category, int $resultType = Query::HYDRATE_ARRAY): array
+    public function findAllInCategory(PageCategory $category, int $resultType = AbstractQuery::HYDRATE_ARRAY): array
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -57,7 +57,7 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    public function findAllUncategorised(int $resultType = Query::HYDRATE_ARRAY): array
+    public function findAllUncategorised(int $resultType = AbstractQuery::HYDRATE_ARRAY): array
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')

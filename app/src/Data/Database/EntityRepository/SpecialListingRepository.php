@@ -7,7 +7,7 @@ use App\Data\Database\Entity\Programme;
 use App\Data\Database\Entity\SpecialListing;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 
 class SpecialListingRepository extends AbstractEntityRepository
 {
@@ -15,7 +15,7 @@ class SpecialListingRepository extends AbstractEntityRepository
         array $programmeTypes,
         DateTimeImmutable $after,
         int $limit = null,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'programme')
@@ -35,7 +35,7 @@ class SpecialListingRepository extends AbstractEntityRepository
 
     public function findAllForDate(
         DateTimeImmutable $specialDate,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'programme', 'image')
@@ -53,7 +53,7 @@ class SpecialListingRepository extends AbstractEntityRepository
     public function findNextForProgramme(
         Programme $programme,
         DateTimeImmutable $now,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -83,7 +83,7 @@ class SpecialListingRepository extends AbstractEntityRepository
                 ->setParameter('to', $to);
         }
 
-        return array_map('reset', $qb->getQuery()->getResult(Query::HYDRATE_ARRAY));
+        return array_map(static fn ($r) => reset($r), $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY));
     }
 
     public function deleteBetween(DateTimeImmutable $fromInclusive, DateTimeImmutable $toExclusive): void

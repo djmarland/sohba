@@ -7,7 +7,7 @@ use App\Domain\Entity\Page;
 use App\Data\Database\Entity\PageCategory as DbPageCategory;
 use App\Data\Database\Entity\Page as DbPage;
 use App\Domain\Entity\PageCategory;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 use RuntimeException;
@@ -49,7 +49,7 @@ class PageService extends AbstractService
     public function updatePageCategoryTitle(UuidInterface $id, string $newTitle): void
     {
         $category = $this->entityManager->getPageCategoryRepo()
-            ->getByID($id, Query::HYDRATE_OBJECT);
+            ->getByID($id, AbstractQuery::HYDRATE_OBJECT);
 
         /** @var \App\Data\Database\Entity\PageCategory $category */
         $category->title = $newTitle;
@@ -80,7 +80,7 @@ class PageService extends AbstractService
     public function updateCategoryPosition(UuidInterface $catId, int $position): void
     {
         $category = $this->entityManager->getPageCategoryRepo()
-            ->getByID($catId, Query::HYDRATE_OBJECT);
+            ->getByID($catId, AbstractQuery::HYDRATE_OBJECT);
 
         $category->order = $position;
         $this->entityManager->persist($category);
@@ -91,7 +91,7 @@ class PageService extends AbstractService
     {
         $categoryEntity = $this->entityManager->getPageCategoryRepo()->getByID(
             $category->getId(),
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
         return $this->mapMany(
             $this->entityManager->getPageRepo()->findAllInCategory($categoryEntity),
@@ -110,7 +110,7 @@ class PageService extends AbstractService
         /** @var DbPage|null $entity */
         $entity = $this->entityManager->getPageRepo()->getByID(
             $page->getId(),
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
         if (!$entity) {
             throw new InvalidArgumentException('Tried to update a page that does not exist');
@@ -120,7 +120,7 @@ class PageService extends AbstractService
         if ($navCategoryId) {
             $category = $this->entityManager->getPageCategoryRepo()->getByID(
                 $navCategoryId,
-                Query::HYDRATE_OBJECT
+                AbstractQuery::HYDRATE_OBJECT
             );
         }
 

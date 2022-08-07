@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Data\Database\EntityRepository;
 
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use Ramsey\Uuid\UuidInterface;
 
 class PersonRepository extends AbstractEntityRepository
@@ -13,7 +13,7 @@ class PersonRepository extends AbstractEntityRepository
      */
     public function getByIdWithImage(
         UuidInterface $uuid,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
@@ -24,7 +24,7 @@ class PersonRepository extends AbstractEntityRepository
     }
 
     public function findAll(
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -34,7 +34,7 @@ class PersonRepository extends AbstractEntityRepository
 
     public function findAllByCommittee(
         bool $onCommittee,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')

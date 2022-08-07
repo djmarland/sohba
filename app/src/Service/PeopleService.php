@@ -6,7 +6,7 @@ namespace App\Service;
 use App\Data\Database\Entity\Person as DbPerson;
 use App\Domain\Entity\Person;
 use App\Domain\Entity\Programme;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use InvalidArgumentException;
 use Ramsey\Uuid\UuidInterface;
 
@@ -80,7 +80,7 @@ class PeopleService extends AbstractService
     ): void {
         $entity = $this->entityManager->getPersonRepo()->getByID(
             $person->getId(),
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
         if (!$entity) {
             throw new InvalidArgumentException('Tried to update a person that does not exist');

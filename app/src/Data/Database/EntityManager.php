@@ -27,7 +27,7 @@ class EntityManager extends EntityManagerDecorator
         $this->logger = $logger;
     }
 
-    public function persist($entity)
+    public function persist($entity): void
     {
         /** @var AbstractEntity $entity */
         // interject to update the created_at/updated_at fields (for audit purposes)

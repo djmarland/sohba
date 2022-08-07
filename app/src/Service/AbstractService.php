@@ -15,72 +15,41 @@ use App\Data\Database\Mapper\PageMapper;
 use App\Data\Database\Mapper\PersonMapper;
 use App\Data\Database\Mapper\ProgrammeMapper;
 use App\Data\Database\Mapper\SpecialListingMapper;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidInterface;
-use Swift_Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 
 abstract class AbstractService
 {
-    protected const DEFAULT_LIMIT = 50;
-    protected const DEFAULT_PAGE = 1;
-
-    protected EntityManager $entityManager;
-    protected LoggerInterface $logger;
-    protected ProgrammeMapper $programmeMapper;
-    protected ImageMapper $imageMapper;
-    protected PageMapper $pageMapper;
-    protected ConfigurableContentMapper $configurableContentMapper;
-    protected PageCategoryMapper $pageCategoryMapper;
-    protected SpecialListingMapper $specialBroadcastMapper;
-    protected NormalListingMapper $normalBroadcastMapper;
-    protected PersonMapper $personMapper;
-    protected Swift_Mailer $mailer;
-    protected Captcha $captcha;
-
     protected string $appConfigRequestFromAddress;
     protected string $appConfigRequestToAddress;
     protected bool $appConfigSkipCaptcha;
 
     public function __construct(
-        EntityManager $entityManager,
-        ConfigurableContentMapper $configurableContentMapper,
-        PageMapper $pageMapper,
-        PageCategoryMapper $pageCategoryMapper,
-        PersonMapper $personMapper,
-        ProgrammeMapper $programmeMapper,
-        SpecialListingMapper $specialBroadcastMapper,
-        NormalListingMapper $normalBroadcastMapper,
-        ImageMapper $imageMapper,
-        Swift_Mailer $mailer,
-        Captcha $captcha,
-        LoggerInterface $logger,
+        protected EntityManager $entityManager,
+        protected ConfigurableContentMapper $configurableContentMapper,
+        protected PageMapper $pageMapper,
+        protected PageCategoryMapper $pageCategoryMapper,
+        protected PersonMapper $personMapper,
+        protected ProgrammeMapper $programmeMapper,
+        protected SpecialListingMapper $specialBroadcastMapper,
+        protected NormalListingMapper $normalBroadcastMapper,
+        protected ImageMapper $imageMapper,
+        protected MailerInterface $mailer,
+        protected Captcha $captcha,
+        protected LoggerInterface $logger,
         string $appConfigRequestFromAddress,
         string $appConfigRequestToAddress,
         bool $appConfigSkipCaptcha
     ) {
-        $this->entityManager = $entityManager;
-        $this->logger = $logger;
-        $this->configurableContentMapper = $configurableContentMapper;
-        $this->programmeMapper = $programmeMapper;
-        $this->imageMapper = $imageMapper;
-        $this->pageMapper = $pageMapper;
-        $this->specialBroadcastMapper = $specialBroadcastMapper;
-        $this->normalBroadcastMapper = $normalBroadcastMapper;
-        $this->personMapper = $personMapper;
-        $this->mailer = $mailer;
-        $this->captcha = $captcha;
         $this->appConfigRequestFromAddress = $appConfigRequestFromAddress;
         $this->appConfigRequestToAddress = $appConfigRequestToAddress;
         $this->appConfigSkipCaptcha = $appConfigSkipCaptcha;
-        $this->pageCategoryMapper = $pageCategoryMapper;
     }
 
-    /**
-     * @return mixed
-     */
-    protected function mapSingle(?array $result, MapperInterface $mapper)
+    protected function mapSingle(?array $result, MapperInterface $mapper): mixed
     {
         if ($result) {
             return $mapper->map($result);
@@ -106,7 +75,7 @@ abstract class AbstractService
 
         $image = $this->entityManager->getImageRepo()->getByID(
             $imageId,
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
 
         if ($image) {

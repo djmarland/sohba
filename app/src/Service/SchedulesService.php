@@ -8,6 +8,7 @@ use App\Data\Database\Entity\SpecialListing as DbSpecialListing;
 use App\Domain\Entity\Broadcast;
 use App\Domain\Entity\Programme;
 use App\Domain\ValueObject\Time;
+use Doctrine\ORM\AbstractQuery;
 use Exception;
 use function App\Functions\DateTimes\isoWeekdayToPHPWeekDay;
 use DateInterval;
@@ -15,7 +16,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 
 use function App\Functions\DateTimes\weekdayFromDayNum;
-use Doctrine\ORM\Query;
 
 class SchedulesService extends AbstractService
 {
@@ -40,7 +40,7 @@ class SchedulesService extends AbstractService
     {
         $programmeEntity = $this->entityManager->getProgrammeRepo()->getByID(
             $programme->getId(),
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
 
         $results = $this->entityManager->getNormalListingRepo()
@@ -131,7 +131,7 @@ class SchedulesService extends AbstractService
     {
         $programmeEntity = $this->entityManager->getProgrammeRepo()->getByID(
             $programme->getId(),
-            Query::HYDRATE_OBJECT
+            AbstractQuery::HYDRATE_OBJECT
         );
 
         return $this->mapSingle(
@@ -154,7 +154,7 @@ class SchedulesService extends AbstractService
                     $listing['time'],
                     $this->entityManager->getProgrammeRepo()->getByID(
                         $listing['programmeId'],
-                        Query::HYDRATE_OBJECT
+                        AbstractQuery::HYDRATE_OBJECT
                     )
                 );
                 $this->entityManager->persist($entity);
@@ -186,7 +186,7 @@ class SchedulesService extends AbstractService
                     $listing['time'],
                     $this->entityManager->getProgrammeRepo()->getByID(
                         $listing['programme'],
-                        Query::HYDRATE_OBJECT
+                        AbstractQuery::HYDRATE_OBJECT
                     )
                 );
                 $entity->internalNote = $listing['internalNote'];

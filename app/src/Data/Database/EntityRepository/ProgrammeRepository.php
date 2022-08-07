@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Data\Database\EntityRepository;
 
 use App\Data\Database\Entity\NormalListing;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Ramsey\Uuid\UuidInterface;
 
@@ -15,7 +15,7 @@ class ProgrammeRepository extends AbstractEntityRepository
      */
     public function getByIDWithPeople(
         UuidInterface $uuid,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'people', 'image')
@@ -31,7 +31,7 @@ class ProgrammeRepository extends AbstractEntityRepository
      */
     public function getByIdWithImage(
         UuidInterface $uuid,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
@@ -42,7 +42,7 @@ class ProgrammeRepository extends AbstractEntityRepository
     }
 
     public function findAll(
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -51,7 +51,7 @@ class ProgrammeRepository extends AbstractEntityRepository
     }
 
     public function findAllActive(
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -66,7 +66,7 @@ class ProgrammeRepository extends AbstractEntityRepository
      */
     public function findByLegacyId(
         int $id,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ) {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
@@ -78,7 +78,7 @@ class ProgrammeRepository extends AbstractEntityRepository
 
     public function findByTypes(
         array $typeIds,
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
@@ -90,7 +90,7 @@ class ProgrammeRepository extends AbstractEntityRepository
     }
 
     public function getProgrammesWithPeople(
-        int $resultType = Query::HYDRATE_ARRAY
+        int $resultType = AbstractQuery::HYDRATE_ARRAY
     ): array {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'people')
