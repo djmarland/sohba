@@ -185,7 +185,7 @@ class Container extends React.Component {
         <div className="unit">
           <input
             className="form__input"
-            type="text"
+            type="search"
             value={this.state.filter}
             onChange={ev => {
               this.setState({

@@ -11,7 +11,7 @@ const settings = {
   output: {
     path: path.resolve(__dirname, "../app/public/static"),
     publicPath: "/static/",
-    filename: "[chunkhash:10].[name].js"
+    filename: "[contenthash:10].[name].js"
   },
   resolve: {
     extensions: [".js", ".jsx", ".json"]
@@ -30,7 +30,7 @@ const settings = {
         test: /\.(png|svg|ico)$/,
         loader: "file-loader",
         options: {
-          name: "[hash:10].[name].[ext]",
+          name: "[contenthash:10].[name].[ext]",
           sourceMap: true
         }
       },
@@ -68,7 +68,7 @@ const settings = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[hash:10].[name].css"
+      filename: "[contenthash:10].[name].css"
     }),
     new WebpackManifestPlugin({
       fileName: path.resolve(
