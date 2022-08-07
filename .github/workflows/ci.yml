@@ -31,17 +31,17 @@ jobs:
         with:
           php-version: 8.0
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --dev
-
-      - name: Run test suite
-        run: composer run test
-
-      - name: PHPStan
-        run: composer run stan
-
-      - name: CodeStyle
-        run: composer run cs
+    #  - name: Install Composer dependencies
+    #    run: composer install --prefer-dist --no-interaction --dev
+#
+    #  - name: Run test suite
+    #    run: composer run test
+#
+    #  - name: PHPStan
+    #    run: composer run stan
+#
+    #  - name: CodeStyle
+    #    run: composer run cs
 
       - name: Install Prod  dependencies
         run: composer install --prefer-dist --no-interaction --no-dev --optimize-autoloader

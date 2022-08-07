@@ -11,8 +11,7 @@ class PersonRepository extends AbstractEntityRepository
     public function getByIdWithImage(
         UuidInterface $uuid,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ): mixed
-    {
+    ): mixed {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
             ->leftJoin('tbl.image', 'image')

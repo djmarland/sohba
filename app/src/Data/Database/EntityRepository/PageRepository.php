@@ -12,8 +12,7 @@ class PageRepository extends AbstractEntityRepository
     public function getByIdWithCategory(
         UuidInterface $uuid,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ): mixed
-    {
+    ): mixed {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'category')
             ->leftJoin('tbl.category', 'category')

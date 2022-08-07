@@ -51,8 +51,7 @@ class SpecialListingRepository extends AbstractEntityRepository
         Programme $programme,
         DateTimeImmutable $now,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ): mixed
-    {
+    ): mixed {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.dateUk >= :after')
