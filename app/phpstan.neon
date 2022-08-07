@@ -7,7 +7,5 @@ parameters:
     doctrine:
         repositoryClass: App\Data\Database\EntityRepository\AbstractEntityRepository
     ignoreErrors:
-        # I need to allow my entity manager decorator to override the default one
-        - '#Property Doctrine\\ORM\\EntityRepository<mixed>::\$_em \(Doctrine\\ORM\\EntityManager\) does not accept Doctrine\\ORM\\EntityManagerInterface#'
-        # getXRepo() methods are *designed* to make the return type more specific so will not match ObjectRepository
-        - '#but returns App\\Data\\Database\\EntityRepository\\AbstractEntityRepository#'
+         # Doctrine Types use @psalm-param string|AbstractQuery::HYDRATE_*|null $hydrationMode which we can't replicate with native type
+        - '#1\|2\|3\|4\|5\|6#'

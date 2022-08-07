@@ -11,9 +11,7 @@ jobs:
       APP_ENV: prod
       APP_SECRET: na
       DATABASE_URL: na
-      MAILER_HOST: na
-      MAILER_USERNAME: na
-      MAILER_PASSWORD: na
+      MAILER_DSN: na
       DB_WRITE_HOST: na
       DB_PORT: na
       DB_NAME: na
@@ -31,7 +29,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.0
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction

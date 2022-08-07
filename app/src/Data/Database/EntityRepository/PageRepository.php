@@ -9,13 +9,11 @@ use Ramsey\Uuid\UuidInterface;
 
 class PageRepository extends AbstractEntityRepository
 {
-    /**
-     * @return mixed
-     */
     public function getByIdWithCategory(
         UuidInterface $uuid,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ) {
+    ): mixed
+    {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'category')
             ->leftJoin('tbl.category', 'category')
@@ -35,10 +33,7 @@ class PageRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    /**
-     * @return mixed
-     */
-    public function findByUrlPath(string $urlPath, int $resultType = AbstractQuery::HYDRATE_ARRAY)
+    public function findByUrlPath(string $urlPath, int $resultType = AbstractQuery::HYDRATE_ARRAY): mixed
     {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')

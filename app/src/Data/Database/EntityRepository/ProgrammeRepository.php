@@ -10,13 +10,11 @@ use Ramsey\Uuid\UuidInterface;
 
 class ProgrammeRepository extends AbstractEntityRepository
 {
-    /**
-     * @return mixed
-     */
     public function getByIDWithPeople(
         UuidInterface $uuid,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ) {
+    ): mixed
+    {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'people', 'image')
             ->leftJoin('tbl.people', 'people')
@@ -26,13 +24,11 @@ class ProgrammeRepository extends AbstractEntityRepository
         return $qb->getQuery()->getOneOrNullResult($resultType);
     }
 
-    /**
-     * @return mixed
-     */
     public function getByIdWithImage(
         UuidInterface $uuid,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ) {
+    ): mixed
+    {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
             ->leftJoin('tbl.image', 'image')
@@ -61,13 +57,11 @@ class ProgrammeRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    /**
-     * @return mixed
-     */
     public function findByLegacyId(
         int $id,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ) {
+    ): mixed
+    {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
             ->leftJoin('tbl.image', 'image')

@@ -49,7 +49,7 @@ class ImagesService extends AbstractService
         $image = $this->entityManager->getImageRepo()
             ->getByID($imageId, AbstractQuery::HYDRATE_OBJECT);
 
-        /** @var \App\Data\Database\Entity\Image $image */
+        /** @var DbImage $image */
         $image->title = $newTitle;
         $this->entityManager->persist($image);
         $this->entityManager->flush();
@@ -57,7 +57,7 @@ class ImagesService extends AbstractService
 
     public function deleteImage(UuidInterface $imageId): void
     {
-        /** @var \App\Data\Database\Entity\Image $image */
+        /** @var DbImage $image */
         $image = $this->entityManager->getImageRepo()
             ->getByID($imageId, AbstractQuery::HYDRATE_OBJECT);
 
@@ -66,17 +66,6 @@ class ImagesService extends AbstractService
         $this->entityManager->flush();
         if (file_exists($fileName)) {
             unlink($fileName);
-        }
-    }
-
-    private function imageTypeToExtension(string $type): string
-    {
-        switch ($type) {
-            case 'image/png':
-                return 'png';
-            case 'image/jpeg':
-            default:
-                return 'jpg';
         }
     }
 }

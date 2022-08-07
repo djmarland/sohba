@@ -28,8 +28,6 @@ class ID
         KeyValue::class => 'c0c0',
     ];
 
-    private const NAMESPACE = '00000000-0000-0000-0000-000000000000';
-
     public static function makeNewID(string $entityClass): UuidInterface
     {
         if (!isset(self::ENTITY_MAPPINGS[$entityClass])) {
@@ -37,22 +35,6 @@ class ID
         }
 
         return self::markUuid(Uuid::uuid4(), $entityClass);
-    }
-
-    public static function makeIDFromKey(string $entityClass, string $key): UuidInterface
-    {
-        $uuid = Uuid::uuid5(self::NAMESPACE, sha1($key));
-        return self::markUuid($uuid, $entityClass);
-    }
-
-    public static function getIDType(UuidInterface $id): string
-    {
-        $part = (string)substr((string)$id, 9, 4);
-        $map = array_flip(self::ENTITY_MAPPINGS);
-        if ($map[$part]) {
-            return $map[$part];
-        }
-        throw new InvalidArgumentException('Id not recognised');
     }
 
     private static function markUuid(UuidInterface $uuid, string $entityClass): UuidInterface

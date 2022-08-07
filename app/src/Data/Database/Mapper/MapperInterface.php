@@ -5,8 +5,5 @@ namespace App\Data\Database\Mapper;
 
 interface MapperInterface
 {
-    /**
-     * @return mixed
-     */
-    public function map(array $item);
+    public function map(array $item): mixed;
 }

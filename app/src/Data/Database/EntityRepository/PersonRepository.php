@@ -8,13 +8,11 @@ use Ramsey\Uuid\UuidInterface;
 
 class PersonRepository extends AbstractEntityRepository
 {
-    /**
-     * @return mixed
-     */
     public function getByIdWithImage(
         UuidInterface $uuid,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ) {
+    ): mixed
+    {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl', 'image')
             ->leftJoin('tbl.image', 'image')

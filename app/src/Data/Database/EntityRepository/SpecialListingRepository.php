@@ -47,14 +47,12 @@ class SpecialListingRepository extends AbstractEntityRepository
         return $qb->getQuery()->getResult($resultType);
     }
 
-    /**
-     * @return mixed
-     */
     public function findNextForProgramme(
         Programme $programme,
         DateTimeImmutable $now,
         int $resultType = AbstractQuery::HYDRATE_ARRAY
-    ) {
+    ): mixed
+    {
         $qb = $this->createQueryBuilder('tbl')
             ->select('tbl')
             ->where('tbl.dateUk >= :after')
