@@ -22,7 +22,7 @@
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.6.1",
     "node-sass": "^7.0.3",
-    "postcss-loader": "^7.0.1",
+    "postcss-loader": "^7.2.4",
     "prettier": "^2.2.1",
     "sass-loader": "^13.0.2",
     "webpack": "^5.76.0",
