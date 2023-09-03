@@ -4,19 +4,19 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
 
   open() {
     this.setState({
-      isOpen: true
+      isOpen: true,
     });
   }
 
   close() {
     this.setState({
-      isOpen: false
+      isOpen: false,
     });
   }
 

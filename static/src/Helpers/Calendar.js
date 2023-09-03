@@ -18,7 +18,7 @@ import addYears from "date-fns/addYears";
 
 const weekOpts = { weekStartsOn: 1 };
 
-const makeWeeks = month => {
+const makeWeeks = (month) => {
   const firstOfMonthWeek = startOfWeek(startOfMonth(month), weekOpts);
   const endOfMonthWeek = endOfWeek(endOfMonth(month), weekOpts);
 
@@ -83,7 +83,7 @@ export const makeCalendar = (from, to) => {
   return years;
 };
 
-export const findDayInMonth = month => {
+export const findDayInMonth = (month) => {
   let dayOfMonth = null;
   let count = 0;
   while (dayOfMonth === null) {
@@ -92,6 +92,6 @@ export const findDayInMonth = month => {
   return dayOfMonth;
 };
 
-export const findDayInLastMonthOfYear = year => {
+export const findDayInLastMonthOfYear = (year) => {
   return findDayInMonth(year[year.length - 1]);
 };

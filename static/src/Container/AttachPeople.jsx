@@ -6,32 +6,32 @@ class Container extends React.Component {
   state = {
     filter: "",
     people: [],
-    selectedPeople: []
+    selectedPeople: [],
   };
 
   componentDidMount() {
     this.setState({
       people: window.HBAContent.people || [],
-      selectedPeople: window.HBAContent.selectedPeople || []
+      selectedPeople: window.HBAContent.selectedPeople || [],
     });
   }
 
   removeItem(personId) {
     this.setState({
       selectedPeople: this.state.selectedPeople.filter(
-        person => person.id !== personId
-      )
+        (person) => person.id !== personId
+      ),
     });
   }
 
   addItem(personId) {
-    const newPerson = this.state.people.find(p => p.id === personId);
+    const newPerson = this.state.people.find((p) => p.id === personId);
     let people = this.state.selectedPeople;
     people.push(newPerson);
     people = Array.from(new Set(people)); // remove duplicates
 
     this.setState({
-      selectedPeople: people
+      selectedPeople: people,
     });
   }
 
@@ -40,16 +40,16 @@ class Container extends React.Component {
       return null;
     }
 
-    const selectedIds = this.state.selectedPeople.map(person => person.id);
+    const selectedIds = this.state.selectedPeople.map((person) => person.id);
 
-    const selectedPeople = this.state.selectedPeople.map(person => {
+    const selectedPeople = this.state.selectedPeople.map((person) => {
       return (
         <li className="selector__item" key={`selected-${person.id}`}>
           <span className="selector__item-title">{person.name}</span>
           <span className="selector__action">
             <button
               className="button button--icon button--danger"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 this.removeItem(person.id);
               }}
@@ -64,17 +64,17 @@ class Container extends React.Component {
     let allPeople = this.state.people;
     if (this.state.filter.length > 0) {
       allPeople = allPeople.filter(
-        p => ~p.name.toLowerCase().indexOf(this.state.filter.toLowerCase())
+        (p) => ~p.name.toLowerCase().indexOf(this.state.filter.toLowerCase())
       );
     }
-    allPeople = allPeople.map(person => {
+    allPeople = allPeople.map((person) => {
       return (
         <li className="selector__item" key={`all-${person.id}`}>
           <span className="selector__item-title">{person.name}</span>
           <span className="selector__action">
             <button
               className="button button--icon"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 this.addItem(person.id);
               }}
@@ -98,9 +98,9 @@ class Container extends React.Component {
                 className="form__input"
                 type="search"
                 value={this.state.filter}
-                onChange={ev => {
+                onChange={(ev) => {
                   this.setState({
-                    filter: ev.target.value
+                    filter: ev.target.value,
                   });
                 }}
                 placeholder="Filter..."

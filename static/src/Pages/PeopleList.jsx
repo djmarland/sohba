@@ -19,7 +19,7 @@ class Container extends React.Component {
     }
 
     this.setState({
-      people: window.HBAContent.people
+      people: window.HBAContent.people,
     });
   }
 
@@ -28,7 +28,7 @@ class Container extends React.Component {
       return null;
     }
 
-    const people = this.state.people.map(person => {
+    const people = this.state.people.map((person) => {
       const isOnCommittee = person.isOnCommittee ? (
         <div className="icon icon--indicator">
           <TickIcon />
@@ -53,7 +53,7 @@ class Container extends React.Component {
           <td>
             <form
               method="post"
-              onSubmit={e => {
+              onSubmit={(e) => {
                 if (!window.confirm(`Are you sure?`)) {
                   e.preventDefault();
                 }

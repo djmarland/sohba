@@ -40,34 +40,34 @@ class NormalListings extends React.Component {
 
     this.setState({
       listings: window.HBAContent.dayListings,
-      allShows: window.HBAContent.programmes
+      allShows: window.HBAContent.programmes,
     });
   }
 
   removeItem(broadcastId) {
     this.setState({
       listings: this.state.listings.filter(
-        broadcast => broadcast.id !== broadcastId
-      )
+        (broadcast) => broadcast.id !== broadcastId
+      ),
     });
   }
 
   addItem(showId) {
-    const newShow = this.state.allShows.find(s => s.id === showId);
+    const newShow = this.state.allShows.find((s) => s.id === showId);
     let shows = this.state.listings;
     shows.push({
       id: Date.now(), // temporary in-page ID
       time: "00:00", // place it at midnight
-      programme: newShow
+      programme: newShow,
     });
 
     this.setState({
-      listings: shows
+      listings: shows,
     });
   }
 
   updateTime(broadcastId, newTime) {
-    const listings = this.state.listings.map(listing => {
+    const listings = this.state.listings.map((listing) => {
       if (listing.id === broadcastId) {
         listing.time = newTime;
       }
@@ -84,7 +84,7 @@ class NormalListings extends React.Component {
     let listings = this.state.listings;
     listings.sort(compareTime);
 
-    listings = listings.map(broadcast => {
+    listings = listings.map((broadcast) => {
       return (
         <li key={broadcast.id} className="selector__item">
           <input
@@ -92,7 +92,7 @@ class NormalListings extends React.Component {
             className="form__input form__input--inline form__input--compact"
             value={broadcast.time}
             required
-            onChange={e => {
+            onChange={(e) => {
               this.updateTime(broadcast.id, e.target.value);
             }}
           />
@@ -102,7 +102,7 @@ class NormalListings extends React.Component {
           <span className="selector__action">
             <button
               className="button button--danger button--icon"
-              onClick={e => {
+              onClick={(e) => {
                 this.removeItem(broadcast.id);
               }}
             >
@@ -113,10 +113,10 @@ class NormalListings extends React.Component {
       );
     });
 
-    const listingData = this.state.listings.map(broadcast => {
+    const listingData = this.state.listings.map((broadcast) => {
       return {
         time: broadcast.time,
-        programmeId: broadcast.programme.id
+        programmeId: broadcast.programme.id,
       };
     });
 
@@ -133,10 +133,10 @@ class NormalListings extends React.Component {
           <div className="selector__source">
             <ShowPicker
               shows={this.state.allShows}
-              onSelect={showId => {
+              onSelect={(showId) => {
                 this.addItem(showId);
               }}
-              onUpdateShows={allShows => {
+              onUpdateShows={(allShows) => {
                 this.setState({ allShows });
               }}
             />

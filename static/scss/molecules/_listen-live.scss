@@ -1,20 +1,20 @@
 .listen-live {
-  &__link {
-    font-weight: bold;
-    font-size: 1.8rem;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover, &:active, &:focus {
-      color: #fff;
+  &__external {
+    font-size: 1rem;
+    color: #fff;
+    display: inline-block;
+    vertical-align: top;
+    svg {
+      display: inline-block;
+      height: 24px;
+      width: 24px;
+      path {
+        fill: #fff;
+      }
     }
   }
-  &__icon {
-    margin-top: 2px;
-    display: block;
-    height: 32px;
-    width: 32px;
-    margin-right: $grid-unit / 2;
+  &__audio {
+    margin: $grid-unit 0;
+    width: 100%;
   }
 }

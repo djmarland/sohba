@@ -17,7 +17,7 @@ class KeyValue extends React.Component {
     }
 
     this.setState({
-      content: window.HBAContent.content
+      content: window.HBAContent.content,
     });
   }
 

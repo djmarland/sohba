@@ -3,7 +3,7 @@ import UpIcon from "../Icons/UpIcon";
 import DownIcon from "../Icons/DownIcon";
 import DeleteIcon from "../Icons/DeleteIcon";
 
-export default props => {
+export default (props) => {
   let moveUpButton = null;
   let moveDownButton = null;
   if (props.onMoveUp) {
@@ -39,7 +39,7 @@ export default props => {
       <td className="pages__button-field">
         <form
           method="post"
-          onSubmit={e => {
+          onSubmit={(e) => {
             if (!window.confirm(`Are you sure?`)) {
               e.preventDefault();
             }

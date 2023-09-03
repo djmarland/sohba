@@ -22,7 +22,7 @@ class ShowDetail extends React.Component {
     this.setState({
       show: window.HBAContent.show,
       types: window.HBAContent.types,
-      image: window.HBAContent.show.image || null
+      image: window.HBAContent.show.image || null,
     });
   }
 
@@ -30,8 +30,8 @@ class ShowDetail extends React.Component {
     this.setState({
       image: {
         src: image.src,
-        id: image.id
-      }
+        id: image.id,
+      },
     });
     this.refs.pickerModal.close();
   }
@@ -48,10 +48,10 @@ class ShowDetail extends React.Component {
       detach = (
         <button
           className="button button--danger"
-          onClick={ev => {
+          onClick={(ev) => {
             ev.preventDefault();
             this.setState({
-              image: null
+              image: null,
             });
           }}
         >
@@ -66,7 +66,7 @@ class ShowDetail extends React.Component {
       </Modal>
     );
 
-    const typeButtons = this.state.types.map(type => (
+    const typeButtons = this.state.types.map((type) => (
       <label
         className={`form__checkbox-box broadcast--event-${type.id}`}
         key={`type-${type.id}`}
@@ -131,7 +131,7 @@ class ShowDetail extends React.Component {
               <div className="t-person-edit__image-actions">
                 <button
                   className="button"
-                  onClick={ev => {
+                  onClick={(ev) => {
                     ev.preventDefault();
                     this.refs.pickerModal.open();
                   }}

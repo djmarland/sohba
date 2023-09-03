@@ -5,7 +5,7 @@ import DeleteIcon from "../Icons/DeleteIcon";
 import TickIcon from "../Icons/TickIcon";
 import Page from "./Page";
 
-export default props => {
+export default (props) => {
   let moveUpButton = null;
   let moveDownButton = null;
   if (props.onMoveUp) {
@@ -31,7 +31,7 @@ export default props => {
     );
   }
 
-  const pages = props.category.pagesInCategory.map(page => (
+  const pages = props.category.pagesInCategory.map((page) => (
     <Page key={page.id} page={page} />
   ));
 
@@ -74,7 +74,7 @@ export default props => {
         <td className="pages__button-field pages__button-field--delete">
           <form
             method="post"
-            onSubmit={e => {
+            onSubmit={(e) => {
               if (
                 !window.confirm(`
             All pages in this category will be moved to "Uncategorised."

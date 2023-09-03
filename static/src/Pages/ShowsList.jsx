@@ -2,7 +2,7 @@ import * as React from "react";
 import DeleteIcon from "../Components/Icons/DeleteIcon";
 import Message from "../Components/Message";
 
-const confirm = e => {
+const confirm = (e) => {
   e.stopPropagation();
   e.nativeEvent.stopImmediatePropagation();
   if (!window.confirm(`Are you sure?`)) {
@@ -27,7 +27,7 @@ class ShowsList extends React.Component {
 
     this.setState({
       regular: window.HBAContent.regular,
-      events: window.HBAContent.events
+      events: window.HBAContent.events,
     });
   }
 
@@ -36,7 +36,7 @@ class ShowsList extends React.Component {
       return null;
     }
 
-    const regularShows = this.state.regular.map(show => {
+    const regularShows = this.state.regular.map((show) => {
       const href = `/admin/shows/${show.id}`;
 
       return (
@@ -61,7 +61,7 @@ class ShowsList extends React.Component {
       );
     });
 
-    const events = this.state.events.map(show => {
+    const events = this.state.events.map((show) => {
       const href = `/admin/shows/${show.id}`;
 
       return (

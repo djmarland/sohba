@@ -20,7 +20,7 @@ class PersonDetail extends React.Component {
     this.setState({
       person: window.HBAContent.person,
       showExec: !!window.HBAContent.person.isOnCommittee,
-      image: window.HBAContent.person.image || null
+      image: window.HBAContent.person.image || null,
     });
   }
 
@@ -28,8 +28,8 @@ class PersonDetail extends React.Component {
     this.setState({
       image: {
         src: image.src,
-        id: image.id
-      }
+        id: image.id,
+      },
     });
     this.refs.pickerModal.close();
   }
@@ -61,7 +61,7 @@ class PersonDetail extends React.Component {
               required
               defaultValue={this.state.person.committeeOrder}
             >
-              {[...Array(10).keys()].map(k => (
+              {[...Array(10).keys()].map((k) => (
                 <option value={k + 1} key={`order-${k + 1}`}>
                   {k + 1}
                 </option>
@@ -79,10 +79,10 @@ class PersonDetail extends React.Component {
       detach = (
         <button
           className="button button--danger"
-          onClick={ev => {
+          onClick={(ev) => {
             ev.preventDefault();
             this.setState({
-              image: null
+              image: null,
             });
           }}
         >
@@ -125,7 +125,7 @@ class PersonDetail extends React.Component {
                   value="1"
                   onChange={() => {
                     this.setState({
-                      showExec: !this.state.showExec
+                      showExec: !this.state.showExec,
                     });
                   }}
                 />{" "}
@@ -145,7 +145,7 @@ class PersonDetail extends React.Component {
               <div className="t-person-edit__image-actions">
                 <button
                   className="button"
-                  onClick={ev => {
+                  onClick={(ev) => {
                     ev.preventDefault();
                     this.refs.pickerModal.open();
                   }}

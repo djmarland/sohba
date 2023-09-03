@@ -4,20 +4,20 @@ import Message from "../Components/Message";
 import TickIcon from "../Components/Icons/TickIcon";
 import DeleteIcon from "../Components/Icons/DeleteIcon";
 
-const isCorrectFileType = file => /^(jpg|jpeg|png)$/i.test(file);
+const isCorrectFileType = (file) => /^(jpg|jpeg|png)$/i.test(file);
 
 class Container extends React.Component {
   state = {
     message: null,
     loading: false,
     filter: "",
-    images: []
+    images: [],
   };
 
   componentDidMount() {
     this.setState({
       message: window.HBAContent.message || null,
-      images: window.HBAContent.images || []
+      images: window.HBAContent.images || [],
     });
   }
 
@@ -25,19 +25,16 @@ class Container extends React.Component {
     let reader = new FileReader();
 
     this.setState({ loading: true, message: null });
-    reader.onload = e => {
+    reader.onload = (e) => {
       const res = e.currentTarget.result;
-      const fileType = res
-        .split(":")[1]
-        .split("/")[1]
-        .split(";")[0];
+      const fileType = res.split(":")[1].split("/")[1].split(";")[0];
       if (!isCorrectFileType(fileType)) {
         this.setState({
           loading: false,
           message: {
             message: "That was not a valid image type (jpg/png)",
-            type: Message.TYPE_ERROR
-          }
+            type: Message.TYPE_ERROR,
+          },
         });
         return;
       }
@@ -45,28 +42,28 @@ class Container extends React.Component {
       fetch("/admin/images", {
         method: "post",
         body: res,
-        credentials: "same-origin"
+        credentials: "same-origin",
       })
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           this.setState({
             loading: false,
             message: {
               message: data.message.message,
-              type: data.message.type
+              type: data.message.type,
             },
-            images: data.images
+            images: data.images,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.setState({
             loading: false,
             message: {
               message: "An error occurred",
-              type: Message.TYPE_ERROR
-            }
+              type: Message.TYPE_ERROR,
+            },
           });
         });
     };
@@ -112,7 +109,7 @@ class Container extends React.Component {
           </form>
           <form
             method="post"
-            onSubmit={e => {
+            onSubmit={(e) => {
               if (
                 !window.confirm(`Are you sure you want to delete this image?`)
               ) {
@@ -173,7 +170,7 @@ class Container extends React.Component {
     let images = this.state.images;
     if (this.state.filter.length > 0) {
       images = images.filter(
-        i => ~i.title.toLowerCase().indexOf(this.state.filter.toLowerCase())
+        (i) => ~i.title.toLowerCase().indexOf(this.state.filter.toLowerCase())
       );
     }
     images = images.map(this.renderImage.bind(this));
@@ -187,9 +184,9 @@ class Container extends React.Component {
             className="form__input"
             type="search"
             value={this.state.filter}
-            onChange={ev => {
+            onChange={(ev) => {
               this.setState({
-                filter: ev.target.value
+                filter: ev.target.value,
               });
             }}
             placeholder="Filter..."

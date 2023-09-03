@@ -9,22 +9,22 @@ import RichTextImagePicker from "./RichTextImagePicker";
 const toolbarOptions = {
   options: ["inline", "blockType", "list", "textAlign", "link", "history"],
   inline: {
-    options: ["bold", "italic", "underline", "strikethrough"]
+    options: ["bold", "italic", "underline", "strikethrough"],
   },
   blockType: {
     inDropdown: true,
-    options: ["Normal", "H2", "H3", "H4", "H5", "H6", "Blockquote"]
+    options: ["Normal", "H2", "H3", "H4", "H5", "H6", "Blockquote"],
   },
   textAlign: {
     inDropdown: false,
-    options: ["left", "center", "right"]
+    options: ["left", "center", "right"],
   },
   list: {
-    options: ["unordered", "ordered"]
-  }
+    options: ["unordered", "ordered"],
+  },
 };
 
-const getRaw = content => {
+const getRaw = (content) => {
   let htmlContent = draftToHtml(convertToRaw(content));
   htmlContent = htmlContent.trim();
   if (htmlContent === "<p></p>") {
@@ -44,14 +44,14 @@ class RichTextEditor extends React.Component {
       );
       const editorState = EditorState.createWithContent(contentState);
       this.state = {
-        editorState
+        editorState,
       };
     }
   }
 
   onEditorStateChange(editorState) {
     this.setState({
-      editorState
+      editorState,
     });
   }
 

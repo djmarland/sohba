@@ -7,7 +7,7 @@ import dateFormat from "date-fns/format";
 import {
   findDayInLastMonthOfYear,
   findDayInMonth,
-  makeCalendar
+  makeCalendar,
 } from "../Helpers/Calendar";
 import PrintIcon from "../Components/Icons/PrintIcon";
 import DeleteIcon from "../Components/Icons/DeleteIcon";
@@ -15,7 +15,7 @@ import Message from "../Components/Message";
 
 const monthDisplayOptions = {
   month: "long",
-  year: "numeric"
+  year: "numeric",
 };
 
 class EditCalendar extends React.Component {
@@ -35,7 +35,7 @@ class EditCalendar extends React.Component {
 
     this.setState({
       earliestDate: startOfMonth(new Date(window.HBAContent.earliestDate)),
-      latestDate: startOfMonth(new Date(window.HBAContent.latestDate))
+      latestDate: startOfMonth(new Date(window.HBAContent.latestDate)),
     });
   }
 
@@ -50,7 +50,7 @@ class EditCalendar extends React.Component {
           <a
             href={`/admin/calendar/${dateFormatted}`}
             className={
-              this.highlightDates.find(d => d === dateFormatted)
+              this.highlightDates.find((d) => d === dateFormatted)
                 ? "calendar__day--highlight"
                 : ""
             }
@@ -72,7 +72,7 @@ class EditCalendar extends React.Component {
   }
 
   makeMonths(monthList, showGenerate) {
-    const list = monthList.map(month => {
+    const list = monthList.map((month) => {
       const monthDate = findDayInMonth(month);
       const monthkey = dateFormat(monthDate, "yyyy-MM");
 
@@ -93,7 +93,7 @@ class EditCalendar extends React.Component {
                 <span className="calendar__action calendar__action--after">
                   <form
                     method="post"
-                    onSubmit={e => {
+                    onSubmit={(e) => {
                       if (
                         !window.confirm(
                           `Are you sure? The data cannot be recovered`
@@ -183,13 +183,14 @@ class EditCalendar extends React.Component {
         >
           <button
             className="unit button button--box"
-            onClick={e => {
+            onClick={(e) => {
               this.setState({
-                latestDate: generateDate
+                latestDate: generateDate,
               });
             }}
           >
-            Generate<br />
+            Generate
+            <br />
             {date}
           </button>
         </li>
@@ -220,7 +221,7 @@ class EditCalendar extends React.Component {
     const firstYear = this.getPossibleFirstYear(years);
 
     let showMakeNew = firstYear ? 0 : 1;
-    const content = years.map(year => {
+    const content = years.map((year) => {
       const yearDate = findDayInLastMonthOfYear(year);
 
       let generateDate = null;

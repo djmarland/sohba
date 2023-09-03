@@ -3,35 +3,38 @@
 {% block body %}
     <h1 class="hidden--visually">{{ baseSiteTitle }}</h1>
 
-    {% if baseShowCricket %}
-        <a class="live-cricket" href="{{ baseShowCricket }}" target="_blank" rel="noopener">
-            <div class="live-cricket__icon">
-                <svg viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-                </svg>
-            </div>
-            <div class="live-cricket__text">
-                <h2 class="live-cricket__title">Listen Live</h2>
-                <p>Ball-by-ball commentary service on today's match: {{ baseNowAndNext[0].programme.title }}</p>
-            </div>
-            <div class="live-cricket__ball"></div>
-        </a>
-    {% endif %}
-
     <div class="t-home">
 
         <div class="t-home__intro">
 
             <div class="t-home__actions">
                 {% if baseListenLiveLink %}
-                    <a class="t-home__panel t-home__panel--live listen-live__link" href="{{ baseListenLiveLink }}" target="_blank" rel="noopener">
-                        <span class="listen-live__icon">
-                            <svg viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-                            </svg>
-                        </span>
-                        Listen live
-                    </a>
+                    <div class="t-home__panel t-home__panel--live listen-live">
+                    <h2 class="t-home__panel-header">Listen live <span class="listen-live__external"><a href="{{ baseListenLiveLink }}" target="_blank" title="Listen in external tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a></span></h2>
+                        <audio class="listen-live__audio" src="{{ baseListenLiveLink }}" controls="controls"></audio>
+                        <marquee id="now-playing"></marquee>
+                    </div>
+
+                    <script defer>
+                        function getNowPlaying() {
+                            const tag=document.createElement('script');
+                            tag.setAttribute("type","text/javascript");
+                            tag.setAttribute("src", 'https://streamcp.autopo.st/external/rpc.php?callback=showNowPlaying&m=streaminfo.get&username=shrinternet&rid=shrinternet');
+                            document.getElementsByTagName("body")[0].appendChild(tag);
+                        }
+                        function showNowPlaying(data) {
+                            const nowPlaying = data?.data?.[0]?.rawmeta;
+                            console.log(nowPlaying,data);
+                            if (nowPlaying) {
+                                document.getElementById('now-playing').innerHTML = nowPlaying;
+                            }
+                        }
+                        
+                        setInterval(getNowPlaying, 60 * 1000);
+                        getNowPlaying();
+                           
+                    </script>
+                    <script defer src=""></script>
                 {% endif %}
 
                 <div class="t-home__panel t-home__panel--requestline">

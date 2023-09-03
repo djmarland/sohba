@@ -8,7 +8,7 @@ export default class FileDrop extends React.Component {
     this.state = {
       isDragActive: false,
       messageType: null,
-      messageText: null
+      messageText: null,
     };
   }
 
@@ -37,14 +37,14 @@ export default class FileDrop extends React.Component {
       isDragActive: false,
       isDragReject: false,
       messageType: null,
-      messageText: null
+      messageText: null,
     });
 
     const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
     if (droppedFiles.length > 1) {
       this.setState({
         messageType: Message.TYPE_ERROR,
-        messageText: "Only upload one file at a time"
+        messageText: "Only upload one file at a time",
       });
       return;
     }
@@ -61,7 +61,7 @@ export default class FileDrop extends React.Component {
     this.setState({
       isDragActive: true,
       messageType: null,
-      messageText: null
+      messageText: null,
     });
   }
 
@@ -74,7 +74,7 @@ export default class FileDrop extends React.Component {
     }
 
     this.setState({
-      isDragActive: false
+      isDragActive: false,
     });
   }
 

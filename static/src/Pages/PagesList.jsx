@@ -20,7 +20,7 @@ class Container extends React.Component {
   componentDidMount() {
     this.setState({
       categories: window.HBAContent.categories,
-      uncategorised: window.HBAContent.uncategorised
+      uncategorised: window.HBAContent.uncategorised,
     });
   }
 
@@ -28,13 +28,13 @@ class Container extends React.Component {
     let categories = this.state.categories;
     arrayMove(categories, categoryIndex, categoryIndex + moveBy);
     this.setState({
-      categories
+      categories,
     });
 
     let categoryNumbers = 1;
     let categoryPositions = {};
 
-    categories.forEach(category => {
+    categories.forEach((category) => {
       categoryPositions[category.id] = categoryNumbers;
       categoryNumbers++;
     });
@@ -44,8 +44,8 @@ class Container extends React.Component {
       credentials: "include",
       body: JSON.stringify(categoryPositions),
       headers: {
-        "content-type": "application/json"
-      }
+        "content-type": "application/json",
+      },
     });
   }
 
@@ -81,7 +81,7 @@ class Container extends React.Component {
       );
     });
 
-    const uncategorised = this.state.uncategorised.map(page => (
+    const uncategorised = this.state.uncategorised.map((page) => (
       <Page key={page.id} page={page} />
     ));
 

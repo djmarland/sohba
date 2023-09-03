@@ -9,7 +9,7 @@ class RichTextImagePicker extends React.Component {
     const entityData = {
       src: image.src,
       height: "auto",
-      width: "auto"
+      width: "auto",
     };
 
     const entityKey = editorState

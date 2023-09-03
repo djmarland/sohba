@@ -26,13 +26,13 @@ class PageDetail extends React.Component {
     this.setState({
       page: window.HBAContent.page,
       specialType: window.HBAContent.specialType || "",
-      showNavigation: !!window.HBAContent.page.category
+      showNavigation: !!window.HBAContent.page.category,
     });
   }
 
   changeType(event) {
     this.setState({
-      specialType: event.target.value
+      specialType: event.target.value,
     });
   }
 
@@ -58,13 +58,13 @@ class PageDetail extends React.Component {
       );
     }
 
-    const categories = this.categories.map(category => (
+    const categories = this.categories.map((category) => (
       <option key={category.id} value={category.id}>
         {category.title}
       </option>
     ));
 
-    const specialPages = this.specialPages.map(page => (
+    const specialPages = this.specialPages.map((page) => (
       <option key={page.value} value={page.value}>
         {page.title}
       </option>
@@ -164,7 +164,7 @@ class PageDetail extends React.Component {
                   checked={this.state.showNavigation}
                   onChange={() => {
                     this.setState({
-                      showNavigation: !this.state.showNavigation
+                      showNavigation: !this.state.showNavigation,
                     });
                   }}
                 />{" "}
