@@ -1,3 +1,12 @@
+@keyframes marquee {
+  0%   { 
+  transform: translateX(100%); 		
+  }
+  100% { 
+  transform: translateX(-110%); 
+  }
+ }
+
 .listen-live {
   &__external {
     font-size: 1rem;
@@ -16,5 +25,15 @@
   &__audio {
     margin: $grid-unit 0;
     width: 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &__now {
+      overflow: hidden;
+      white-space: nowrap;
+      > p {
+        will-change: transform;
+        animation: marquee 9s linear infinite;
+      }
+    }
   }
 }
