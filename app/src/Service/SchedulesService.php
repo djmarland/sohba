@@ -74,7 +74,7 @@ class SchedulesService extends AbstractService
         }, $this->entityManager->getSpecialListingRepo()->findDates($fromInclusive, $toExclusive));
     }
 
-    public function getNowAndNext(DateTimeImmutable $dateTime): array
+    public function getNowAndNext(DateTimeImmutable $dateTime, $checkNext = true): array
     {
         if ($this->isSpecialDay($dateTime)) {
             $broadcasts = $this->getShowsForSpecialDate($dateTime);
@@ -97,10 +97,10 @@ class SchedulesService extends AbstractService
             }
         }
 
-        if (!$next) {
+        if (!$next && $checkNext) {
             $tomorrow = $dateTime->add(new DateInterval('P1D'));
             $tomorrow = $tomorrow->setTime(0, 0, 0);
-            $broadcasts = $this->getNowAndNext($tomorrow);
+            $broadcasts = $this->getNowAndNext($tomorrow, false);
             if (isset($broadcasts[0])) {
                 $next = $broadcasts[0];
             }
