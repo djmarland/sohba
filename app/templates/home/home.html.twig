@@ -12,7 +12,10 @@
                     <div class="t-home__panel t-home__panel--live listen-live">
                     <h2 class="t-home__panel-header">Listen live <span class="listen-live__external"><a href="{{ baseListenLiveLink }}" target="_blank" title="Listen in external tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a></span></h2>
                         <audio class="listen-live__audio" src="{{ baseListenLiveLink }}" controls="controls"></audio>
-                        <div class="listen-live__now"><p id="now-playing"></p></div>
+                        <div class="listen-live__meta">
+                            <img id="cover-image" class="listen-live__cover" onerror='this.style.display = "none"' onload='this.style.display = "block"' />
+                            <div class="listen-live__now"><p id="now-playing"></p></div>
+                        </div>
                     </div>
 
                     <script defer>
@@ -24,8 +27,15 @@
                         }
                         function showNowPlaying(data) {
                             const nowPlaying = data?.data?.[0]?.rawmeta;
+                            const artist = data?.data?.[0]?.track?.artist?.replaceAll(' ', '_');
+                            const title = data?.data?.[0]?.track?.title.replaceAll(' ', '_');
                             if (nowPlaying) {
                                 document.getElementById('now-playing').innerHTML = nowPlaying;
+                            }
+                            if (artist && title) {
+                                const firstLetter = artist.charAt(0).toLowerCase();
+                                const url = `https://cdn.autopo.st/images/coverart/${firstLetter}/${artist}_-_${title}.jpg`;
+                                document.getElementById('cover-image').src = url;
                             }
                         }
                         

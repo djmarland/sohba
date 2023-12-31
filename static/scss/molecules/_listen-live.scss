@@ -8,6 +8,14 @@
  }
 
 .listen-live {
+  &__meta {
+    display: flex;
+    gap: $grid-unit;
+    align-items: center;
+  }
+  &__cover {
+    width: 30%;
+  }
   &__external {
     font-size: 1rem;
     color: #fff;
@@ -28,6 +36,7 @@
   }
   @media (prefers-reduced-motion: no-preference) {
     &__now {
+      flex: 1;
       overflow: hidden;
       white-space: nowrap;
       > p {
