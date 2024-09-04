@@ -1,35 +1,37 @@
 <?php
 
-use App\Kernel;
-use Symfony\Component\ErrorHandler\Debug;
-use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\HttpFoundation\Request;
+phpinfo();die;
 
-require __DIR__.'/../vendor/autoload.php';
+// use App\Kernel;
+// use Symfony\Component\ErrorHandler\Debug;
+// use Symfony\Component\Dotenv\Dotenv;
+// use Symfony\Component\HttpFoundation\Request;
 
-date_default_timezone_set('Europe/London');
+// require __DIR__.'/../vendor/autoload.php';
 
-(new Dotenv())->load(__DIR__.'/../../.env');
+// date_default_timezone_set('Europe/London');
 
-$env = $_SERVER['APP_ENV'] ?? 'prod';
-$debug = (bool) ($_SERVER['APP_DEBUG'] ?? ('prod' !== $env));
+// (new Dotenv())->load(__DIR__.'/../../.env');
 
-if ($debug) {
-    umask(0000);
+// $env = $_SERVER['APP_ENV'] ?? 'prod';
+// $debug = (bool) ($_SERVER['APP_DEBUG'] ?? ('prod' !== $env));
 
-    Debug::enable();
-}
+// if ($debug) {
+//     umask(0000);
 
-if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
-}
+//     Debug::enable();
+// }
 
-if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
-    Request::setTrustedHosts(explode(',', $trustedHosts));
-}
+// if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
+//     Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+// }
 
-$kernel = new Kernel($env, $debug);
-$request = Request::createFromGlobals();
-$response = $kernel->handle($request);
-$response->send();
-$kernel->terminate($request, $response);
+// if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
+//     Request::setTrustedHosts(explode(',', $trustedHosts));
+// }
+
+// $kernel = new Kernel($env, $debug);
+// $request = Request::createFromGlobals();
+// $response = $kernel->handle($request);
+// $response->send();
+// $kernel->terminate($request, $response);
